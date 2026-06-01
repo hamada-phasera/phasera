@@ -1,0 +1,27 @@
+# Archive / legacy files
+_archive/
+
+# Blender source assets — large, not needed at runtime
+anatomical-garden-handoff/.claude/
+anatomical-garden-handoff/.DS_Store
+anatomical-garden-handoff/CLAUDE.md
+anatomical-garden-handoff/QUICKSTART.md
+anatomical-garden-handoff/docs/
+anatomical-garden-handoff/scripts/
+anatomical-garden-handoff/assets/
+anatomical-garden-handoff/outputs/.DS_Store
+anatomical-garden-handoff/outputs/garden_v3.glb
+anatomical-garden-handoff/outputs/garden_v3_uncompressed.glb
+anatomical-garden-handoff/outputs/garden_viewer.html
+anatomical-garden-handoff/outputs/web-bg/garden_pre_vessel_rebuild.glb
+anatomical-garden-handoff/outputs/web-bg/index-embedded.html
+anatomical-garden-handoff/outputs/web-bg/index.html
+anatomical-garden-handoff/outputs/web-bg/example.html
+anatomical-garden-handoff/outputs/web-bg/README.md
+
+# Empty placeholder dir
+assets/3d/diagnose/
+
+# Misc
+.DS_Store
+DEPLOYMENT.md

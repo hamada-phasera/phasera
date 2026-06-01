@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anatomical Garden — Background Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; min-height: 100vh; background: #0a0a0f; color: #e8e6df; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+      "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    line-height: 1.7;
+  }
+
+  /* The background fills the viewport, fixed behind everything */
+  anatomical-garden-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 12vh 2rem 8rem;
+  }
+
+  header { margin-bottom: 6rem; }
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    color: #c8a96a;
+  }
+
+  section { margin-bottom: 4rem; }
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+    color: #c8a96a;
+  }
+  p { margin-bottom: 1rem; opacity: 0.85; }
+
+  pre {
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(232,230,223,0.08);
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  code { color: #c8a96a; }
+
+  a {
+    color: #c8a96a;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(200,169,106,0.3);
+    transition: border-color 0.2s;
+  }
+  a:hover { border-color: #c8a96a; }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 2rem;
+    text-align: center;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    border-top: 1px solid rgba(232,230,223,0.05);
+  }
+</style>
+</head>
+<body>
+
+<!-- The background. pointer-events:none is set internally, so all clicks go through to content. -->
+<anatomical-garden-bg
+  src="./garden.glb"
+  rotate-speed="0.15"
+  exposure="1.05"
+  vignette="0.55"
+  overlay-opacity="0.40"
+  paused-when-hidden>
+</anatomical-garden-bg>
+
+<main>
+  <header>
+    <div class="subtitle">Anatomical Garden</div>
+    <h1>解剖学的な庭<br><span style="opacity:0.5">— 廃墟侵食のスケッチ</span></h1>
+  </header>
+
+  <section>
+    <h2>About</h2>
+    <p>
+      患者由来CTスキャンの脊椎に、Polyhaven写真品質の植物が芽吹き、
+      proceduralな毛細血管が骨を這う。3DシーンをWebサイトの背景として埋め込めるWeb Componentです。
+    </p>
+    <p>
+      このページの背景には <code>&lt;anatomical-garden-bg&gt;</code> が動いています。
+      ドラッグやスクロールでテキスト側を操作できる(背景はクリック貫通)。
+    </p>
+  </section>
+
+  <section>
+    <h2>Embed</h2>
+    <pre><code>&lt;script type="module" src="./anatomical-garden-bg.js"&gt;&lt;/script&gt;
+
+&lt;anatomical-garden-bg
+  src="./garden.glb"
+  rotate-speed="0.15"
+  vignette="0.55"
+  overlay-opacity="0.40"
+  paused-when-hidden&gt;
+&lt;/anatomical-garden-bg&gt;</code></pre>
+  </section>
+
+  <section>
+    <h2>Attributes</h2>
+    <p>
+      <code>rotate-speed</code> 自動回転速度 (0で停止)<br>
+      <code>exposure</code> トーンマッピング露出 (デフォルト 1.05)<br>
+      <code>vignette</code> ビネット強度 0..1 (デフォルト 0.55)<br>
+      <code>overlay-color</code> / <code>overlay-opacity</code> 前景テキスト可読性のためのオーバーレイ<br>
+      <code>fog-near</code> / <code>fog-far</code> フォグ範囲<br>
+      <code>camera-distance</code> / <code>camera-height</code> / <code>target-height</code> カメラ初期位置<br>
+      <code>paused-when-hidden</code> オフスクリーン時に描画停止 (省電力)
+    </p>
+  </section>
+
+  <section>
+    <h2>Lorem ipsum</h2>
+    <p>
+      下にスクロールしても背景は固定。<code>prefers-reduced-motion</code> を有効にしているユーザーには自動回転が止まります。
+    </p>
+    <p style="opacity:0.5; font-size:0.85rem;">
+      The spine is from APIL CT scan (Sketchfab, CC-BY-4.0).
+      Plant assets are from Polyhaven (CC0).
+    </p>
+  </section>
+</main>
+
+<footer>
+  v4 · Web Background Edition · <a href="./README.md">README</a>
+</footer>
+
+<script type="module" src="./anatomical-garden-bg.js"></script>
+</body>
+</html>

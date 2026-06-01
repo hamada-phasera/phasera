@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Heavy assets — allow but indicate not for indexing as content
+# (search engines won't try to parse GLB/JS as documents)
+
+Sitemap: https://phasera.jp/sitemap.xml

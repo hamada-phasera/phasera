@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="解剖学的な庭 — patient-derived spine, procedural capillaries, photogrammetric flora.">
+<title>Anatomical Garden — 解剖学的な庭</title>
+<style>
+  /* ========================================================
+     scroll-3d-bg | dark-gothic mood | production mode
+     architecture: fixed canvas + window scroll listener
+     ======================================================== */
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Cyber-fantasy jewel palette */
+    --bg: #050216;                /* deep nightshade */
+    --text: #f4f0fa;
+    --amethyst: #9d5cff;          /* deep amethyst — primary magic */
+    --emerald: #4dffb8;           /* enchanted emerald */
+    --rose: #ff5e94;              /* dragon rose */
+    --gold: #ffd28f;              /* champagne gold */
+    --cyan: #4ddbff;              /* spirit cyan */
+    --accent: var(--amethyst);
+    --accent-2: var(--emerald);
+    --caption: rgba(244, 240, 250, 0.55);
+    --hairline: rgba(157, 92, 255, 0.20);
+  }
+
+  html, body {
+    background: transparent;
+    color: var(--text);
+    font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", "MS Mincho", serif;
+    font-weight: 400;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometryPrecision;
+  }
+  html { background: var(--bg); }
+  body { overflow-x: hidden; }
+  ::selection { background: var(--rose); color: var(--bg); }
+
+  /* ---- Canvas — behind content but in front of html bg ---- */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;  /* in normal flow back, content uses z-index 1 */
+    pointer-events: none;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  /* ---- Vignette overlay (ensures text legibility) ---- */
+  .vignette {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(0,0,0,0) 30%,
+      rgba(5,3,8,0.55) 80%,
+      rgba(5,3,8,0.85) 100%
+    );
+  }
+
+  /* ---- Content ---- */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  section {
+    min-height: 100vh;
+    padding: clamp(48px, 8vw, 96px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    will-change: opacity, transform;
+    transition: none;  /* JS drives per-frame */
+  }
+  /* Sections start invisible; render loop fades them in based on scroll position */
+  section.hero { opacity: 1; transform: none; }  /* hero always visible at top */
+
+  /* Section: hero ------------------------------------------- */
+  .hero {
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+  .hero-eyebrow {
+    font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-shadow: 0 0 12px rgba(244, 210, 124, 0.7), 0 0 28px rgba(157, 92, 255, 0.35);
+    margin-bottom: 2rem;
+  }
+  .hero-eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 48px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amethyst), var(--gold));
+    box-shadow: 0 0 10px var(--amethyst);
+    vertical-align: middle;
+    margin-right: 1rem;
+    transform: translateY(-2px);
+  }
+  .hero-title {
+    font-size: clamp(2.6rem, 8vw, 6rem);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 2rem;
+    max-width: 14ch;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--amethyst);
+    font-weight: 500;
+    text-shadow:
+      0 0 16px rgba(157, 92, 255, 0.9),
+      0 0 38px rgba(157, 92, 255, 0.55),
+      0 0 80px rgba(255, 42, 109, 0.35);
+  }
+  .hero-sub {
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    line-height: 1.85;
+    color: rgba(244, 238, 248, 0.78);
+    max-width: 42ch;
+    margin-bottom: 3rem;
+    border-left: 2px solid var(--amethyst);
+    box-shadow: -2px 0 18px rgba(157, 92, 255, 0.35);
+    padding-left: 1.2rem;
+  }
+  .hero-scroll {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(77, 219, 255, 0.6);
+    margin-top: auto;
+    padding-top: 4rem;
+  }
+  .hero-scroll::after {
+    content: " ▾";
+    display: inline-block;
+    animation: pulse-down 2.4s ease-in-out infinite;
+    color: var(--cyan);
+  }
+  @keyframes pulse-down {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(6px); opacity: 0.4; }
+  }
+
+  /* Section: chapter ---------------------------------------- */
+  .chapter {
+    align-items: flex-end;
+  }
+  .chapter-inner {
+    max-width: 48ch;
+  }
+  .chapter-num {
+    font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--rose);
+    text-shadow: 0 0 10px rgba(255, 94, 148, 0.6);
+    margin-bottom: 1.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid rgba(255, 94, 148, 0.5);
+    box-shadow: 0 0 14px rgba(255, 94, 148, 0.18) inset, 0 0 20px rgba(255, 94, 148, 0.18);
+    border-radius: 2px;
+  }
+  .chapter:nth-of-type(even) .chapter-num {
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(77, 219, 255, 0.6);
+    border-color: rgba(77, 219, 255, 0.5);
+    box-shadow: 0 0 14px rgba(77, 219, 255, 0.18) inset, 0 0 20px rgba(77, 219, 255, 0.18);
+  }
+  .chapter-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    margin-bottom: 2rem;
+  }
+  .chapter-title em {
+    font-style: italic;
+    color: var(--rose);
+    font-weight: 500;
+    text-shadow:
+      0 0 12px rgba(255, 94, 148, 0.7),
+      0 0 28px rgba(255, 94, 148, 0.4);
+  }
+  .chapter:nth-of-type(even) .chapter-title em {
+    color: var(--cyan);
+    text-shadow:
+      0 0 12px rgba(77, 219, 255, 0.7),
+      0 0 28px rgba(77, 219, 255, 0.4);
+  }
+  .chapter-body {
+    font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+    line-height: 1.85;
+    color: rgba(255, 255, 255, 0.74);
+    margin-bottom: 1.2rem;
+    max-width: 50ch;
+  }
+  .chapter-body + .chapter-body { margin-top: 0; }
+
+  .chapter:nth-of-type(odd) { align-items: flex-start; }
+
+  /* Section: credits ---------------------------------------- */
+  .credits {
+    align-items: center;
+    text-align: center;
+  }
+  .credits-eyebrow {
+    font-family: ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--rose), var(--cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+  }
+  .credits-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 3rem;
+  }
+  .credits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    max-width: 720px;
+    width: 100%;
+    margin-bottom: 4rem;
+  }
+  .credit-item {
+    text-align: left;
+    border-left: 2px solid var(--rose);
+    box-shadow: -2px 0 14px rgba(255, 94, 148, 0.25);
+    padding-left: 1.2rem;
+  }
+  .credit-item:nth-child(even) {
+    border-left-color: var(--cyan);
+    box-shadow: -2px 0 14px rgba(77, 219, 255, 0.25);
+  }
+  .credit-label {
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rose);
+    text-shadow: 0 0 8px rgba(255, 94, 148, 0.5);
+    margin-bottom: 0.4rem;
+  }
+  .credit-item:nth-child(even) .credit-label {
+    color: var(--cyan);
+    text-shadow: 0 0 8px rgba(77, 219, 255, 0.5);
+  }
+  .credit-value {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .credit-value small {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.72rem;
+    margin-top: 0.3rem;
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.9rem 1.6rem;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-shadow: 0 0 8px rgba(77, 219, 255, 0.5);
+    box-shadow: 0 0 14px rgba(77, 219, 255, 0.18) inset, 0 0 22px rgba(77, 219, 255, 0.18);
+    transition: gap 0.4s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s, color 0.3s;
+  }
+  .cta-link:hover {
+    gap: 18px;
+    background: var(--cyan);
+    color: var(--bg);
+    text-shadow: none;
+    box-shadow: 0 0 26px rgba(77, 219, 255, 0.6);
+  }
+
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 2rem 4rem;
+    text-align: center;
+    border-top: 1px solid var(--hairline);
+    font-family: ui-monospace, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--caption);
+  }
+  footer::before {
+    content: "";
+    display: block;
+    width: 80px; height: 1px;
+    margin: 0 auto 2rem;
+    background: linear-gradient(90deg, transparent, var(--rose), var(--cyan), transparent);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  }
+
+  /* ---- Error display (mandatory per anti-patterns) ---- */
+  .err {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #c45454;
+    background: rgba(20, 8, 8, 0.92);
+    padding: 14px 18px;
+    border: 1px solid rgba(196, 84, 84, 0.4);
+    border-radius: 6px;
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    z-index: 100;
+    max-width: 80%;
+    line-height: 1.6;
+  }
+
+  /* ---- Loading ---- */
+  .loading {
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+    background: var(--bg);
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  .loading.hidden { opacity: 0; visibility: hidden; }
+  .loading-mark {
+    width: 30px; height: 30px;
+    border: 1px solid var(--hairline);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1.4s linear infinite;
+    margin-bottom: 1.5rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text {
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--caption);
+  }
+
+  /* ---- Reduced motion ---- */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-scroll::after { animation: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 720px) {
+    section { padding: 60px 28px; }
+    .chapter, .chapter:nth-of-type(odd) { align-items: flex-start; }
+    .hero-title { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div id="debug" style="display:none;position:fixed;top:8px;right:8px;background:rgba(0,0,0,0.7);color:#c8a96a;font:11px ui-monospace,monospace;padding:6px 10px;border-radius:4px;z-index:60;white-space:pre;"></div>
+
+<div class="loading" id="loading">
+  <div class="loading-mark"></div>
+  <div class="loading-text">Loading specimen</div>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Anatomical Garden / Vol. IV</div>
+    <h1 class="hero-title">解剖学的な、<br><em>侵蝕の庭。</em></h1>
+    <p class="hero-sub">
+      患者由来CTスキャンの脊椎に、毛細血管が這い、植物が芽吹く。
+      生体と植生、骨と蔦。境界が曖昧になった、廃墟の標本。
+    </p>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- CHAPTER 1 -->
+  <section class="chapter">
+    <div class="chapter-inner">
+      <div class="chapter-num">Ⅰ — 標本</div>
+      <h2 class="chapter-title">朽ちる骨に、<em>芽吹くものたち</em>。</h2>
+      <p class="chapter-body">
+        実在する患者から採取された脊椎のCTスキャン。1.5mの高さに正規化され、159,000の三角形で構成された
+        この骨格は、もはや個体ではない — 標本である。
+      </p>
+      <p class="chapter-body">
+        その表面に、ProceduralなアルゴリズムでサンプリングされたN点に、葉が植え付けられる。
+        各々の葉は、その地点の法線ベクトルに沿って配向され、surface normalから僅かに押し出される。
+      </p>
+    </div>
+  </section>
+
+  <!-- CHAPTER 2 -->
+  <section class="chapter">
+    <div class="chapter-inner">
+      <div class="chapter-num">Ⅱ — 血管</div>
+      <h2 class="chapter-title">脊椎を抱く、<em>細い赤と青</em>。</h2>
+      <p class="chapter-body">
+        垂直に近いらせんを描いて、4本の毛細血管 — 動脈2本、静脈2本 — が骨を抱きしめる。
+        その半径は、各高さでの脊椎プロファイルに、わずかなオフセットを加えて算出される。
+      </p>
+      <p class="chapter-body">
+        わずかに発光するそれらは、屍肉ではない、まだ脈打つものの徴である。
+      </p>
+    </div>
+  </section>
+
+  <!-- CHAPTER 3 -->
+  <section class="chapter">
+    <div class="chapter-inner">
+      <div class="chapter-num">Ⅲ — 制作</div>
+      <h2 class="chapter-title">CTスキャン、<br>Procedural、<em>写真測量</em>。</h2>
+      <p class="chapter-body">
+        スキャンされた骨。アルゴリズムが描いた血管。Polyhavenから取得した写真品質のNettleとShrub。
+        三つの異なる起源を持つ要素が、Blenderの中で1つのGLBに合成される。
+      </p>
+      <p class="chapter-body">
+        WebPテクスチャ圧縮と1024pxへのダウンサンプリングを経て、最終的に13MBに収められた。
+        Three.js上ではESM経由でロードされ、PBRライティングと3点照明 — 暖色キー、寒色リム、深紅の燻り — のもとに置かれる。
+      </p>
+    </div>
+  </section>
+
+  <!-- CREDITS -->
+  <section class="credits">
+    <div class="credits-eyebrow">Specimen Card</div>
+    <h2 class="credits-title">クレジットと素材</h2>
+
+    <div class="credits-grid">
+      <div class="credit-item">
+        <div class="credit-label">Spine</div>
+        <div class="credit-value">
+          Patient-specific spine from CT
+          <small>APIL — Sketchfab — CC-BY-4.0</small>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-label">Plants</div>
+        <div class="credit-value">
+          Nettle, LOD2
+          <small>Polyhaven — CC0</small>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-label">Vessels</div>
+        <div class="credit-value">
+          Procedural helix curves
+          <small>Generated in Blender Python</small>
+        </div>
+      </div>
+      <div class="credit-item">
+        <div class="credit-label">Render</div>
+        <div class="credit-value">
+          Three.js r160 — WebGL2
+          <small>ACES Filmic Tonemapping</small>
+        </div>
+      </div>
+    </div>
+
+    <a class="cta-link" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+      Return to top
+      <span>→</span>
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  v4 · Anatomical Garden · 2026
+</footer>
+
+<script type="module">
+import * as THREE from 'https://esm.sh/three@0.160.0';
+import { GLTFLoader } from 'https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'https://esm.sh/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
+import { EffectComposer } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/OutputPass.js';
+import { ShaderPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'https://esm.sh/three@0.160.0/examples/jsm/shaders/FXAAShader.js';
+
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+try {
+  const canvas = document.getElementById('bg-canvas');
+  const loadingEl = document.getElementById('loading');
+
+  // Cache sections for scroll-driven choreography (skip hero — always visible)
+  window.__sections = Array.from(document.querySelectorAll('main > section:not(.hero)'));
+
+  // ===== Renderer (dark-gothic mood) =====
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
+  // antialias: false on the canvas because EffectComposer uses MSAA on its render target instead
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 0.70;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.setClearColor(0x020106, 1);  // near-black
+  // Shadows — PCFSoft is more reliable than VSM across drivers
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  // ===== Scene + fog =====
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x020108, 0.020);  // very thin atmospheric haze only
+
+  // PMREM environment — minimal, lights do the work
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = 0.12;  // barely there — let key light dominate
+
+  // ===== Camera =====
+  const camera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.05, 100);
+  camera.position.set(2.0, 0.4, 2.8);
+  camera.lookAt(0, -0.05, 0);
+
+  // ===== Lighting (chiaroscuro — single dramatic key + restrained accent) =====
+  // Warm museum-LED on specimen: wider cone, much lower intensity, gentler decay
+  const key = new THREE.SpotLight(0xfff4e0, 1.4, 14, Math.PI * 0.32, 0.6, 1.0);
+  key.position.set(2.5, 5, 3.5);
+  key.target.position.set(0, 0.2, 0);
+  scene.add(key);
+  scene.add(key.target);
+  key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.near = 0.5;
+  key.shadow.camera.far = 12;
+  key.shadow.camera.left = -2.5;
+  key.shadow.camera.right = 2.5;
+  key.shadow.camera.top = 2.5;
+  key.shadow.camera.bottom = -2.5;
+  key.shadow.bias = -0.0005;
+  key.shadow.normalBias = 0.02;
+  key.shadow.radius = 4;
+  key.shadow.blurSamples = 16;
+  scene.add(key);
+
+  // AMETHYST rim — back-left, just enough to carve silhouette
+  const rim = new THREE.DirectionalLight(0x9d5cff, 0.55);
+  rim.position.set(-3.5, 1.5, -3);
+  scene.add(rim);
+
+  // CYAN edge — opposite, very subtle
+  const rimGreen = new THREE.DirectionalLight(0x4ddbff, 0.30);
+  rimGreen.position.set(3.5, 1.0, -2.5);
+  scene.add(rimGreen);
+
+  // Tiny amethyst accent point — adds depth without flooding
+  const redPoint = new THREE.PointLight(0xff5e94, 0.18, 2.5);
+  redPoint.position.set(-0.5, -0.6, 0.4);
+  scene.add(redPoint);
+
+  const bluePoint = new THREE.PointLight(0x4ddbff, 0.14, 2.5);
+  bluePoint.position.set(0.6, 0.5, 0.4);
+  scene.add(bluePoint);
+
+  // Aliases for pulsing animation
+  const ember = redPoint;
+  const inner = bluePoint;
+
+  scene.add(new THREE.AmbientLight(0x0a0612, 0.10));  // near-zero ambient — chiaroscuro requires darkness
+
+  // ===== Root group (will be transformed by scroll) =====
+  const root = new THREE.Group();
+  scene.add(root);
+
+  // ===== Floating motes (sparse dust caught in the spotlight) =====
+  const MOTE_COUNT = 50;
+  const motePositions = new Float32Array(MOTE_COUNT * 3);
+  const moteColors = new Float32Array(MOTE_COUNT * 3);
+  const moteVelocities = new Float32Array(MOTE_COUNT * 3);
+  const motePalette = [
+    new THREE.Color(0x9d5cff),  // amethyst
+    new THREE.Color(0x4dffb8),  // emerald
+    new THREE.Color(0xff5e94),  // rose
+    new THREE.Color(0xffd28f),  // gold
+    new THREE.Color(0x4ddbff),  // cyan
+  ];
+  for (let i = 0; i < MOTE_COUNT; i++) {
+    motePositions[i*3+0] = (Math.random() - 0.5) * 6;
+    motePositions[i*3+1] = (Math.random() - 0.5) * 4;
+    motePositions[i*3+2] = (Math.random() - 0.5) * 6;
+    const c = motePalette[i % motePalette.length];
+    moteColors[i*3+0] = c.r;
+    moteColors[i*3+1] = c.g;
+    moteColors[i*3+2] = c.b;
+    moteVelocities[i*3+0] = (Math.random() - 0.5) * 0.04;
+    moteVelocities[i*3+1] = Math.random() * 0.05 + 0.01;  // gentle upward drift
+    moteVelocities[i*3+2] = (Math.random() - 0.5) * 0.04;
+  }
+  // Build a soft circular texture for sprite points
+  const moteCanvas = document.createElement('canvas');
+  moteCanvas.width = moteCanvas.height = 64;
+  const mctx = moteCanvas.getContext('2d');
+  const grad = mctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.4, 'rgba(255,255,255,0.4)');
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  mctx.fillStyle = grad;
+  mctx.fillRect(0, 0, 64, 64);
+  const moteTex = new THREE.CanvasTexture(moteCanvas);
+
+  const moteGeo = new THREE.BufferGeometry();
+  moteGeo.setAttribute('position', new THREE.BufferAttribute(motePositions, 3));
+  moteGeo.setAttribute('color', new THREE.BufferAttribute(moteColors, 3));
+  const moteMat = new THREE.PointsMaterial({
+    size: 0.018,
+    map: moteTex,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.55,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending,
+    sizeAttenuation: true,
+  });
+  const motes = new THREE.Points(moteGeo, moteMat);
+  scene.add(motes);
+
+
+  // Ground — matte black, no reflection (eliminates the bright disc under spine)
+  const groundGeo = new THREE.CircleGeometry(3.5, 64);
+  const groundMat = new THREE.MeshStandardMaterial({
+    color: 0x020106, roughness: 0.95, metalness: 0.0,
+  });
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -0.78;
+  ground.receiveShadow = true;
+  root.add(ground);
+
+  // ===== Load GLB and adjust per Hamada feedback =====
+  // Resolve relative URL safely. Some sandboxed contexts (preview panels, about:srcdoc)
+  // can't parse './garden.glb' — fall back to a base href.
+  let glbUrl = 'garden.glb';
+  try {
+    const base = (document.baseURI && /^https?:|^file:/i.test(document.baseURI))
+      ? document.baseURI
+      : (location.href && /^https?:|^file:/i.test(location.href))
+        ? location.href
+        : null;
+    glbUrl = base ? new URL('garden.glb', base).href : 'garden.glb';
+  } catch (e) {
+    glbUrl = 'garden.glb';
+  }
+
+  const loader = new GLTFLoader();
+  loader.load(glbUrl, (gltf) => {
+    const sceneGroup = gltf.scene;
+    root.add(sceneGroup);
+
+    // ---- Auto-frame using SPINE only (not whole scene which may include stray vessels) ----
+    let spineMesh = null;
+    let maxVerts = 0;
+    sceneGroup.traverse((obj) => {
+      if (obj.isMesh && obj.geometry) {
+        const v = obj.geometry.attributes.position?.count || 0;
+        if (v > maxVerts) { maxVerts = v; spineMesh = obj; }
+      }
+    });
+
+    let center = new THREE.Vector3(), size = new THREE.Vector3();
+    let maxDim = 1.5;
+    if (spineMesh) {
+      spineMesh.geometry.computeBoundingBox();
+      const localBox = spineMesh.geometry.boundingBox.clone();
+      const worldBox = localBox.applyMatrix4(spineMesh.matrixWorld);
+      worldBox.getCenter(center);
+      worldBox.getSize(size);
+      maxDim = Math.max(size.x, size.y, size.z);
+    } else {
+      const bbox = new THREE.Box3().setFromObject(sceneGroup);
+      bbox.getCenter(center);
+      bbox.getSize(size);
+      maxDim = Math.max(size.x, size.y, size.z);
+    }
+    const dbg = document.getElementById('debug');
+    if (dbg) dbg.textContent =
+      `spine verts: ${maxVerts}\n` +
+      `bbox c: ${center.x.toFixed(2)}, ${center.y.toFixed(2)}, ${center.z.toFixed(2)}\n` +
+      `bbox s: ${size.x.toFixed(2)} × ${size.y.toFixed(2)} × ${size.z.toFixed(2)}\n` +
+      `maxDim: ${maxDim.toFixed(2)}m`;
+    console.log(`[spine bbox] center=(${center.x.toFixed(2)},${center.y.toFixed(2)},${center.z.toFixed(2)}) size=(${size.x.toFixed(2)},${size.y.toFixed(2)},${size.z.toFixed(2)}) maxDim=${maxDim.toFixed(2)} verts=${maxVerts}`);
+
+    // Translate scene so spine bbox center is at origin
+    sceneGroup.position.sub(center);
+
+    // Reframe camera CLOSER — show spine partially (cropped, monumental)
+    // Save base values for scroll-driven dolly
+    window.__camBaseDist = maxDim * 0.65;  // ~half-spine in frame
+    window.__camHalfHeight = size.y * 0.5; // for vertical pan range
+    const dist = window.__camBaseDist;
+    camera.position.set(dist * 0.55, dist * 0.20, dist * 0.78);
+    camera.lookAt(0, 0, 0);
+    camera.updateProjectionMatrix();
+
+    // Reposition ground beneath spine bbox bottom
+    ground.position.y = -size.y * 0.5 - 0.02;
+    ember.position.y = -size.y * 0.5 - 0.5;
+    // Move key light closer/larger frustum based on spine size
+    key.shadow.camera.left   = -maxDim * 0.7;
+    key.shadow.camera.right  =  maxDim * 0.7;
+    key.shadow.camera.top    =  maxDim * 0.7;
+    key.shadow.camera.bottom = -maxDim * 0.7;
+    key.shadow.camera.far    =  maxDim * 5;
+    key.shadow.camera.updateProjectionMatrix();
+
+    // ---- Adjust mesh content per feedback ----
+    // "血管多すぎ" → hide capillary fragments (keep only 4 main vessels)
+    // "草花大きすぎ" → scale leaves down to ~0.40 around their centers
+    let hiddenCapillaries = 0;
+    let scaledLeaves = 0;
+    let totalMeshes = 0;
+
+    sceneGroup.traverse((obj) => {
+      if (!obj.isMesh) return;
+      totalMeshes++;
+      const name = (obj.name || '').toLowerCase();
+
+      // Identify spine vs vessels vs leaves
+      // New realistic vessels: artery_anterior_*, vein_posterior_*, vessel_branch_*
+      const vertCount = obj.geometry?.attributes?.position?.count || 0;
+      const isVessel = name.startsWith('artery_') || name.startsWith('vein_') || name.startsWith('vessel_branch');
+      const isLargeMesh = vertCount > 800;  // spine ≈ 159K verts, leaves <500
+
+      // Material setup — global quality boosts
+      if (obj.material) {
+        const maxAniso = renderer.capabilities.getMaxAnisotropy() || 16;
+        // Apply anisotropy to ALL textures on this material
+        for (const key of ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'aoMap', 'emissiveMap']) {
+          const tex = obj.material[key];
+          if (tex) {
+            tex.anisotropy = maxAniso;
+            tex.generateMipmaps = true;
+            tex.minFilter = THREE.LinearMipmapLinearFilter;
+            tex.magFilter = THREE.LinearFilter;
+          }
+        }
+
+        // Plants: alpha cutout + double sided + subsurface-like emissive
+        if (obj.material.map) {
+          obj.material.alphaTest = 0.5;
+          obj.material.transparent = false;
+          obj.material.side = THREE.DoubleSide;
+          obj.material.needsUpdate = true;
+        }
+        // Strengthen normal maps if present (more surface detail)
+        if (obj.material.normalMap && obj.material.normalScale) {
+          obj.material.normalScale.set(1.4, 1.4);
+        }
+        // Vessels: jewel-tone emissive — rose-pink (artery) / amethyst-cyan (vein)
+        if (isVessel) {
+          obj.material.metalness = 0.0;
+          obj.material.roughness = 0.32;
+          obj.material.emissiveIntensity = 1.2;
+          if (name.includes('artery') || name.startsWith('vessel_branch_art')) {
+            obj.material.emissive = new THREE.Color(0xff5e94);  // rose
+            obj.material.color = new THREE.Color(0x2a0a16);
+          } else if (name.includes('vein') || name.startsWith('vessel_branch_vein')) {
+            obj.material.emissive = new THREE.Color(0x9d5cff);  // amethyst
+            obj.material.color = new THREE.Color(0x180a2a);
+          }
+        }
+        // Spine: matte raw bone — diffuses the spotlight evenly, no hot specular spot
+        if (isLargeMesh && !isVessel) {
+          obj.material.color = new THREE.Color(0xddd2bc);
+          obj.material.metalness = 0.0;
+          obj.material.roughness = 0.78;
+          obj.material.envMapIntensity = 0.30;
+          obj.material.emissive = new THREE.Color(0x000000);
+          obj.material.emissiveIntensity = 0.0;
+        }
+      }
+
+      // Shadow casting/receiving
+      obj.castShadow = true;
+      obj.receiveShadow = isLargeMesh; // only spine receives — leaves/vessels are too thin
+
+      // 3. Leaf shrinking: leaves are small meshes, not vessels, not spine
+      if (!isVessel && !isLargeMesh && vertCount > 0) {
+        // Re-pivot to bbox center, then scale 0.4× — accent only
+        obj.geometry.computeBoundingBox();
+        const bbox = obj.geometry.boundingBox;
+        const center = new THREE.Vector3();
+        bbox.getCenter(center);
+        // Translate vertices so leaf center is at origin
+        obj.geometry.translate(-center.x, -center.y, -center.z);
+        // Place the object at where the leaf was
+        obj.position.copy(center);
+        // Scale 0.4 around the leaf's own center
+        obj.scale.setScalar(0.4);
+        scaledLeaves++;
+      }
+    });
+
+    console.log(`[anatomical-garden] meshes=${totalMeshes} hiddenVessels=${hiddenCapillaries} shrunkLeaves=${scaledLeaves}`);
+
+    loadingEl.classList.add('hidden');
+  }, (xhr) => {
+    if (xhr.total > 0) {
+      const pct = Math.round((xhr.loaded / xhr.total) * 100);
+      loadingEl.querySelector('.loading-text').textContent = `loading specimen · ${pct}%`;
+    }
+  }, (err) => {
+    showError('GLB load failed: ' + (err?.message || err));
+  });
+
+  // ===== Post-processing pipeline (conservative LDR — no HDR blow-out) =====
+  const composer = new EffectComposer(renderer);
+  composer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  composer.addPass(new RenderPass(scene, camera));
+
+  // Bloom — barely there, only catches absolute peaks
+  const bloomPass = new UnrealBloomPass(
+    new THREE.Vector2(innerWidth, innerHeight),
+    0.10,
+    0.35,
+    0.95
+  );
+  composer.addPass(bloomPass);
+
+  // FXAA — handle aliasing on emissive thin vessels post-bloom
+  const fxaaPass = new ShaderPass(FXAAShader);
+  composer.addPass(fxaaPass);
+
+  // Custom final pass: chromatic aberration + film grain + vignette + color grade
+  const finalShader = {
+    uniforms: {
+      tDiffuse:  { value: null },
+      uTime:     { value: 0 },
+      uGrain:    { value: 0.018 },
+      uVignette: { value: 0.55 },           // strong vignette — chiaroscuro frame
+      uCA:       { value: 0.0010 },          // subtle
+      uLift:     { value: new THREE.Vector3(0.000, 0.000, 0.006) },  // crushed cool blacks
+      uGain:     { value: new THREE.Vector3(1.04, 1.00, 0.96) },     // warm spotlight highlights
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform sampler2D tDiffuse;
+      uniform float uTime, uGrain, uVignette, uCA;
+      uniform vec3 uLift, uGain;
+      varying vec2 vUv;
+
+      float rand(vec2 co) {
+        return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
+      }
+
+      void main() {
+        vec2 uv = vUv;
+        vec2 c = uv - 0.5;
+        float dist = length(c);
+
+        // ---- Chromatic aberration (radial, scaled by distance from center) ----
+        vec2 dir = c * dist;
+        float r = texture2D(tDiffuse, uv - dir * uCA).r;
+        float g = texture2D(tDiffuse, uv).g;
+        float b = texture2D(tDiffuse, uv + dir * uCA).b;
+        float a = texture2D(tDiffuse, uv).a;
+        vec3 color = vec3(r, g, b);
+
+        // ---- Color grade: lift shadows (cool blue), gain highlights (warm) ----
+        // Standard ASC CDL-like operation
+        color = color * uGain + uLift * (1.0 - color);
+
+        // ---- Subtle filmic curve toe (deepen blacks just a touch) ----
+        color = color / (color + vec3(0.04));
+        color = color * vec3(1.04);
+
+        // ---- Vignette ----
+        float vig = smoothstep(0.95, 0.20, dist);
+        color *= mix(1.0 - uVignette, 1.0, vig);
+
+        // ---- Animated film grain (two octaves, color-aware) ----
+        float n1 = rand(uv * 1024.0 + uTime * 23.0);
+        float n2 = rand(uv * 512.0 + uTime * 11.0);
+        float grain = (n1 * 0.6 + n2 * 0.4 - 0.5) * uGrain;
+        color += grain;
+
+        gl_FragColor = vec4(color, a);
+      }
+    `,
+  };
+  const finalPass = new ShaderPass(finalShader);
+  composer.addPass(finalPass);
+
+  // Output pass — final tonemap + colorspace
+  composer.addPass(new OutputPass());
+
+  // ===== Sizing (ResizeObserver pattern) =====
+  function resize() {
+    const w = innerWidth || 800;
+    const h = innerHeight || 600;
+    const dpr = Math.min(devicePixelRatio, 2);
+    renderer.setSize(w, h, false);
+    composer.setSize(w, h);
+    composer.setPixelRatio(dpr);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    bloomPass.setSize(w, h);
+    fxaaPass.material.uniforms['resolution'].value.set(1 / (w * dpr), 1 / (h * dpr));
+  }
+  resize();
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(resize).observe(document.documentElement);
+  }
+  window.addEventListener('resize', resize);
+
+  // ===== Scroll listener (production: window) =====
+  let scrollProgress = 0;
+  let smoothScroll = 0;
+  window.addEventListener('scroll', () => {
+    const max = document.body.scrollHeight - innerHeight;
+    scrollProgress = max > 0 ? scrollY / max : 0;
+  }, { passive: true });
+
+  // ===== Mouse parallax (secondary lane) =====
+  let mx = 0, my = 0;
+  let mxTarget = 0, myTarget = 0;
+  window.addEventListener('pointermove', (e) => {
+    mxTarget = (e.clientX / innerWidth - 0.5) * 2;
+    myTarget = (e.clientY / innerHeight - 0.5) * 2;
+  });
+
+  // ===== Render loop =====
+  const clock = new THREE.Clock();
+
+  // Toggle to debug: USE_COMPOSER=false renders directly without post-processing
+  const USE_COMPOSER = true;
+
+  function tick() {
+    requestAnimationFrame(tick);
+
+    if (reduceMotion) {
+      if (USE_COMPOSER) composer.render(); else renderer.render(scene, camera);
+      return;
+    }
+
+    const dt = Math.min(clock.getDelta(), 0.05);
+    const lerpFactor = 1 - Math.exp(-dt * 6.0);
+
+    smoothScroll += (scrollProgress - smoothScroll) * lerpFactor;
+    mx += (mxTarget - mx) * lerpFactor * 0.5;
+    my += (myTarget - my) * lerpFactor * 0.5;
+
+    const t = clock.elapsedTime;
+
+    root.rotation.y = smoothScroll * Math.PI * 1.8 + t * 0.025 + mx * 0.4;
+    root.rotation.x = (smoothScroll - 0.5) * 0.18 + my * 0.15 + Math.sin(t * 0.15) * 0.03;
+    root.rotation.z = 0;
+    root.scale.setScalar(1.0);
+
+    // Scroll-driven camera pan along spine + subtle dolly
+    if (window.__camBaseDist) {
+      const dist = window.__camBaseDist;
+      const halfH = window.__camHalfHeight || 0.7;
+      // Vertical focus shifts from spine top → bottom across page
+      const focusY = (0.5 - smoothScroll) * halfH * 1.4; // top of spine when scroll=0, bottom near scroll=1
+      // Mild dolly: zoom in mid-page, out at ends
+      const dolly = 1.0 - Math.sin(smoothScroll * Math.PI) * 0.15;
+      camera.position.x = dist * 0.55 * dolly;
+      camera.position.y = focusY + dist * 0.18 * dolly;
+      camera.position.z = dist * 0.78 * dolly;
+      camera.lookAt(0, focusY, 0);
+    }
+
+    // Scroll-driven section fade/slide — each section animates as it crosses viewport center
+    if (window.__sections) {
+      for (const sec of window.__sections) {
+        const rect = sec.getBoundingClientRect();
+        const sectionMid = rect.top + rect.height * 0.5;
+        const dist = (sectionMid - innerHeight * 0.5) / innerHeight;
+        // bell curve centered on viewport mid
+        const v = Math.max(0, 1 - Math.abs(dist) * 1.6);
+        const eased = v * v * (3 - 2 * v);  // smoothstep
+        sec.style.opacity = eased.toFixed(3);
+        sec.style.transform = `translateY(${((1 - eased) * 32 * Math.sign(dist || 1)).toFixed(1)}px)`;
+      }
+    }
+
+    ember.intensity = 0.9 + Math.sin(t * 0.8) * 0.2;
+    inner.intensity = 0.7 + Math.sin(t * 1.3 + 0.5) * 0.15;
+
+    // Animate floating motes — gentle upward drift with sinusoidal sway, wrap around
+    const mPos = motes.geometry.attributes.position.array;
+    for (let i = 0; i < MOTE_COUNT; i++) {
+      const ix = i * 3;
+      mPos[ix + 0] += moteVelocities[ix + 0] * dt + Math.sin(t * 0.5 + i) * 0.0006;
+      mPos[ix + 1] += moteVelocities[ix + 1] * dt;
+      mPos[ix + 2] += moteVelocities[ix + 2] * dt + Math.cos(t * 0.4 + i * 0.7) * 0.0006;
+      // Wrap when too high or far
+      if (mPos[ix + 1] > 2.5) { mPos[ix + 1] = -2.0; mPos[ix + 0] = (Math.random()-0.5)*6; mPos[ix + 2] = (Math.random()-0.5)*6; }
+      if (Math.abs(mPos[ix + 0]) > 4) mPos[ix + 0] *= -0.95;
+      if (Math.abs(mPos[ix + 2]) > 4) mPos[ix + 2] *= -0.95;
+    }
+    motes.geometry.attributes.position.needsUpdate = true;
+    motes.rotation.y = t * 0.02;  // entire field slowly rotates
+
+    if (USE_COMPOSER) {
+      finalPass.uniforms.uTime.value = t;
+      composer.render();
+    } else {
+      renderer.render(scene, camera);
+    }
+
+    // Diagnostic panel
+    if (Math.floor(t * 4) !== Math.floor((t - dt) * 4)) {  // 4Hz update
+      const dbg = document.getElementById('debug');
+      if (dbg) {
+        const sz = renderer.getSize(new THREE.Vector2());
+        dbg.textContent =
+          `canvas: ${sz.x.toFixed(0)}×${sz.y.toFixed(0)} dpr=${renderer.getPixelRatio().toFixed(1)}\n` +
+          `scene children: ${scene.children.length}, root children: ${root.children.length}\n` +
+          `camera pos: ${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)}\n` +
+          `scrollProgress: ${smoothScroll.toFixed(2)}\n` +
+          `rotation: ${root.rotation.x.toFixed(2)}, ${root.rotation.y.toFixed(2)}, ${root.rotation.z.toFixed(2)}`;
+      }
+    }
+  }
+  tick();
+
+  // Failsafe: if GLB doesn't fire onLoad in 12s, hide the loader anyway so the scene shows
+  setTimeout(() => loadingEl.classList.add('hidden'), 12000);
+
+  // Reduced motion: hide loading immediately and render single frame
+  if (reduceMotion) {
+    setTimeout(() => loadingEl.classList.add('hidden'), 600);
+  }
+
+} catch (err) {
+  showError('Render error: ' + (err?.message || err));
+  console.error(err);
+}
+
+function showError(msg) {
+  const errBox = document.createElement('div');
+  errBox.className = 'err';
+  errBox.textContent = msg;
+  document.body.appendChild(errBox);
+  document.getElementById('loading')?.classList.add('hidden');
+}
+</script>
+</body>
+</html>

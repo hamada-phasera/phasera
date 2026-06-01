@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Applications/Blender.app/Contents/MacOS/Blender --version)",
+      "Bash(python3 -m http.server 8765)",
+      "Bash(curl -sI http://localhost:8765/example.html)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(brew --version)",
+      "Bash(brew search *)",
+      "Bash(brew install *)",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r160/examples/textures/equirectangular/moonless_golf_1k.hdr\")",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r160/examples/textures/equirectangular/royal_esplanade_1k.hdr\")",
+      "Bash(curl -sI \"https://cdn.jsdelivr.net/gh/mrdoob/three.js@r160/examples/textures/equirectangular/venice_sunset_1k.hdr\")",
+      "Bash(/usr/bin/curl -sL \"https://esm.sh/three@0.160.0/examples/jsm/postprocessing/SSAOPass.js\" -o /tmp/ssao.js)",
+      "Bash(/usr/bin/curl -sL \"https://esm.sh/three@0.160.0/es2022/examples/jsm/postprocessing/SSAOPass.mjs\" -o /tmp/ssao2.js)",
+      "Bash(/usr/bin/curl -sI http://localhost:8765/)",
+      "Bash(/usr/bin/curl -sI http://localhost:8765/garden.glb)",
+      "Bash(/usr/bin/curl -sI http://localhost:8765/index.html)",
+      "Bash(/usr/bin/sed -n '438,455p;3150,3175p' /Users/hamadahiromu/Desktop/anatomical-garden-handoff/outputs/web-bg/index-embedded.html)",
+      "Bash(/usr/bin/grep -v \"^[A-Za-z0-9+/]\\\\{200,\\\\}\")",
+      "Bash(/Applications/Blender.app/Contents/MacOS/Blender --background --python scripts/rebuild_vessels.py)",
+      "Bash(python3 -c ' *)",
+      "Bash(/usr/bin/grep -n \"Post-processing pipeline\\\\|MSAA render target\\\\|UnrealBloomPass\\\\|threshold\" /Users/hamadahiromu/Desktop/anatomical-garden-handoff/outputs/web-bg/index.html)",
+      "Bash(/usr/bin/grep -n \"UnrealBloomPass\\\\|^  const bloomPass\\\\|threshold\" /Users/hamadahiromu/Desktop/anatomical-garden-handoff/outputs/web-bg/index.html)",
+      "Bash(unzip -l /Users/hamadahiromu/Downloads/files.zip)",
+      "Bash(mkdir -p /tmp/garden-skill)",
+      "Bash(unzip -o /Users/hamadahiromu/Downloads/files.zip)",
+      "Bash(tar -tzf narrative-lp.tar.gz)"
+    ]
+  }
+}

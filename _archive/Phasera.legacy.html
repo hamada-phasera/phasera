@@ -1,0 +1,4092 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Phasera — 作業ではなく、判断を売る。</title>
+<meta name="description" content="関東圏の中小企業に、経営の「次の一手」を設計する AI×DX 伴走パートナー。ヒアリングから実装・運用まで責任を持って担う。" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --color-paper: #F2F5FA;
+  --color-paper-deep: #E7EDF6;
+  --color-paper-shade: #DDE4F0;
+  --color-ink: #0B1E3F;
+  --color-ink-soft: #1E3358;
+  --color-ink-faint: #4D6488;
+  --color-moss: #3C66D9;
+  --color-moss-light: #5A91DD;
+  --color-rule: rgba(11,30,63,0.12);
+
+  --font-mincho: "Manrope", "Noto Sans JP", system-ui, sans-serif;
+  --font-serif: "Inter Tight", "Noto Sans JP", system-ui, sans-serif;
+  --font-en: "Manrope", "Inter Tight", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --space-breath: clamp(6rem, 15vh, 12rem);
+  --space-pause: clamp(3rem, 8vh, 6rem);
+  --measure: 32em;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-serif);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-weight: 400;
+  line-height: 1.8;
+  font-feature-settings: "palt";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Paper texture — very subtle grain */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(11,30,63,0.015) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(11,30,63,0.012) 0%, transparent 40%);
+  mix-blend-mode: multiply;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ── Near-future grid overlay ──────────────────────── */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(to right, rgba(11,30,63,0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11,30,63,0.045) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, #000 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, #000 30%, transparent 85%);
+}
+.scanline {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(11,30,63,0.012) 0px,
+    rgba(11,30,63,0.012) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.6;
+  mix-blend-mode: multiply;
+}
+
+/* ── Persistent HUD chrome ──────────────────────── */
+.hud {
+  position: fixed;
+  z-index: 90;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.hud--tl { top: 1.5rem; left: 1.5rem; }
+.hud--tr { top: 1.5rem; right: 1.5rem; text-align: right; }
+.hud--bl { bottom: 1.5rem; left: 1.5rem; }
+.hud--br { bottom: 1.5rem; right: 1.5rem; text-align: right; }
+.hud__line { display: block; line-height: 1.8; }
+.hud__line strong {
+  color: var(--color-ink-soft);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+}
+.hud__dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--color-moss);
+  margin-right: 0.5em;
+  vertical-align: 1px;
+  box-shadow: 0 0 0 0 rgba(60,102,217, 0.55);
+  animation: pulse 2.4s ease-out infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(60,102,217,0.55); }
+  80%,100% { box-shadow: 0 0 0 10px rgba(60,102,217,0); }
+}
+@media (max-width: 720px) {
+  .hud--tl, .hud--br { display: none; }
+  .hud--tr, .hud--bl { font-size: 0.58rem; }
+}
+
+/* Bracket corner marker used on section headers */
+.bracket {
+  display: inline-block;
+  position: relative;
+  padding-left: 1.25rem;
+}
+.bracket::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.1em;
+  width: 0.7rem; height: 0.7rem;
+  border-left: 1px solid var(--color-moss);
+  border-top: 1px solid var(--color-moss);
+}
+
+/* Data readout under section headings */
+.readout {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  margin: 1.5rem 0 2rem;
+}
+.readout span strong {
+  color: var(--color-ink);
+  font-weight: 400;
+  margin-left: 0.5em;
+}
+
+/* ── Liquid glass button ───────────────────────────────── */
+.glass {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 1em 2em;
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 999px;
+  isolation: isolate;
+  white-space: nowrap;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.55) 0%,
+    rgba(255,255,255,0.25) 45%,
+    rgba(255,255,255,0.15) 100%
+  );
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.55) 0%,
+    rgba(255,255,255,0.25) 45%,
+    rgba(255,255,255,0.15) 100%
+  );
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(255,255,255,0.35),
+    inset 1px 0 0 rgba(255,255,255,0.4),
+    inset -1px 0 0 rgba(255,255,255,0.25),
+    0 1px 2px rgba(11,30,63,0.04),
+    0 8px 24px -8px rgba(11,30,63,0.15),
+    0 20px 48px -16px rgba(11,30,63,0.10);
+  transition: transform .5s cubic-bezier(.2,.8,.2,1),
+              box-shadow .5s cubic-bezier(.2,.8,.2,1),
+              background .5s ease;
+}
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 80% at 30% 10%,
+    rgba(255,255,255,0.7) 0%,
+    rgba(255,255,255,0) 40%
+  );
+  mix-blend-mode: screen;
+  z-index: -1;
+}
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.25) 0%,
+    rgba(255,255,255,0) 50%,
+    rgba(60,102,217,0.03) 100%
+  );
+  z-index: -1;
+}
+.glass:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,0.5),
+    inset 1px 0 0 rgba(255,255,255,0.5),
+    inset -1px 0 0 rgba(255,255,255,0.35),
+    0 2px 4px rgba(11,30,63,0.05),
+    0 16px 36px -10px rgba(11,30,63,0.22),
+    0 32px 64px -24px rgba(11,30,63,0.14);
+}
+.glass:active { transform: translateY(0); transition-duration: .1s; }
+
+.glass .arrow {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-weight: 400;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.glass:hover .arrow { transform: translateX(4px); }
+
+/* Dark variant — obsidian glass */
+.glass--ink {
+  color: #F2F5FA;
+  background: linear-gradient(
+    135deg,
+    rgba(60,102,217,0.85) 0%,
+    rgba(11,30,63,0.75) 45%,
+    rgba(11,30,63,0.9) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.25),
+    inset 0 -1px 0 rgba(0,0,0,0.4),
+    inset 1px 0 0 rgba(255,255,255,0.08),
+    inset -1px 0 0 rgba(0,0,0,0.2),
+    0 2px 4px rgba(11,30,63,0.12),
+    0 12px 32px -8px rgba(11,30,63,0.35),
+    0 24px 48px -20px rgba(11,30,63,0.25);
+}
+.glass--ink::before {
+  background: radial-gradient(
+    120% 80% at 30% 0%,
+    rgba(255,255,255,0.22) 0%,
+    rgba(255,255,255,0) 50%
+  );
+}
+.glass--ink::after {
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.08) 0%,
+    rgba(255,255,255,0) 40%,
+    rgba(0,0,0,0.3) 100%
+  );
+}
+
+.glass--sm { padding: 0.7em 1.4em; font-size: 0.82rem; }
+
+/* ── Nav ───────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 1.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.6rem 0.6rem 0.6rem 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    rgba(242,245,250,0.55) 0%,
+    rgba(242,245,250,0.3) 100%
+  );
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.85),
+    inset 0 -1px 0 rgba(255,255,255,0.3),
+    0 2px 4px rgba(11,30,63,0.04),
+    0 12px 32px -10px rgba(11,30,63,0.14);
+}
+.nav__brand {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.nav__links {
+  display: flex;
+  gap: 1.25rem;
+}
+.nav__links a {
+  font-family: var(--font-en);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  transition: color .3s;
+}
+.nav__links a:hover { color: var(--color-moss); }
+@media (max-width: 720px) {
+  .nav__links { display: none; }
+}
+
+/* ── Layout ───────────────────────────────── */
+section {
+  position: relative;
+  z-index: 2;
+  padding: var(--space-breath) clamp(1.5rem, 5vw, 4rem);
+}
+.wrap { max-width: 1200px; margin: 0 auto; }
+.measure { max-width: var(--measure); }
+
+/* ── Typography ───────────────────────────────── */
+.kicker {
+  display: inline-block;
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  font-style: italic;
+}
+.kicker--jp {
+  font-family: var(--font-mincho);
+  font-style: normal;
+  letter-spacing: 0.25em;
+  font-size: 0.78rem;
+}
+
+h1.display {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+}
+
+h2.heading {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+}
+
+h3.sub {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+}
+
+p.body {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--color-ink-soft);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  max-width: var(--measure);
+}
+p.body + p.body { margin-top: 1.5em; }
+
+.num-en {
+  font-family: var(--font-en);
+  font-feature-settings: "lnum";
+  letter-spacing: 0.02em;
+}
+
+hr.rule {
+  border: none;
+  border-top: 1px solid var(--color-rule);
+  width: 3rem;
+  margin: 2rem 0;
+}
+hr.rule--long { width: 100%; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity 1.2s cubic-bezier(.2,.8,.2,1), transform 1.2s cubic-bezier(.2,.8,.2,1); }
+.reveal.is-in { opacity: 1; transform: none; }
+.reveal--d1 { transition-delay: .1s; }
+.reveal--d2 { transition-delay: .25s; }
+.reveal--d3 { transition-delay: .4s; }
+.reveal--d4 { transition-delay: .55s; }
+
+/* Char stagger */
+.chars span {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(12px);
+  transition: opacity .9s cubic-bezier(.2,.8,.2,1), filter .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1);
+}
+.chars.is-in span { opacity: 1; filter: blur(0); transform: none; }
+
+/* ヒーローのタイトル／リードは遅延なしで一度に立ち上げる */
+.hero .chars span { transition-delay: 0s !important; }
+.hero .reveal { transition-delay: 0s !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .chars span, .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+}
+
+/* ── Section 01: Hero ───────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+  position: relative;
+}
+.hero__meta {
+  position: absolute;
+  top: calc(var(--space-breath) * 0.35);
+  right: clamp(1.5rem, 5vw, 4rem);
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--color-ink-faint);
+  text-transform: uppercase;
+}
+.hero__pretitle {
+  font-family: var(--font-mincho);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--color-ink-faint);
+  margin-bottom: 2.5rem;
+}
+.hero__sub {
+  margin-top: 2.5rem;
+  font-family: var(--font-mincho);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 2.2;
+  color: var(--color-ink-soft);
+  letter-spacing: 0.05em;
+}
+.hero__sub span { display: block; }
+.hero__actions {
+  margin-top: 3.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.hero__scroll {
+  position: absolute;
+  bottom: 3rem;
+  left: clamp(1.5rem, 5vw, 4rem);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.hero__scroll-line {
+  width: 0;
+  height: 1px;
+  background: var(--color-ink-faint);
+  animation: grow 2s .8s cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes grow { to { width: 80px; } }
+
+/* ── Futuristic interactive canvas background ───────── */
+#bgfx {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Soft vignette over canvas to keep copy legible */
+.bg-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, transparent 0%, rgba(242,245,250,0.35) 70%, rgba(242,245,250,0.55) 100%);
+  mix-blend-mode: normal;
+}
+
+
+/* ── Hero AI/DX animation ─────────────────────────────── */
+.hero__fx {
+  position: absolute;
+  top: 50%;
+  right: clamp(-3%, -2vw, 2%);
+  transform: translateY(-50%);
+  width: clamp(340px, 46vw, 640px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.95;
+}
+.hero__fx svg { width: 100%; height: 100%; overflow: visible; }
+
+/* Core glow */
+.core-glow {
+  filter: blur(14px);
+  opacity: 0.55;
+  transform-origin: center;
+  animation: corePulse 5s ease-in-out infinite;
+}
+@keyframes corePulse {
+  0%, 100% { opacity: 0.45; transform: scale(0.96); }
+  50%      { opacity: 0.7;  transform: scale(1.06); }
+}
+
+/* Orbit rings */
+.orbit {
+  fill: none;
+  stroke: var(--color-moss);
+  stroke-width: 0.6;
+  opacity: 0.22;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.orbit--slow { animation: spin 48s linear infinite; }
+.orbit--mid  { animation: spinr 32s linear infinite; }
+.orbit--fast { animation: spin 18s linear infinite; }
+@keyframes spin  { to { transform: rotate(360deg); } }
+@keyframes spinr { to { transform: rotate(-360deg); } }
+
+/* Traveling motes on orbits */
+.mote {
+  fill: var(--color-moss);
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.mote--a { animation: spin 22s linear infinite; }
+.mote--b { animation: spinr 28s linear infinite; }
+.mote--c { animation: spin 16s linear infinite; }
+
+/* Data labels floating into core */
+.hero__labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.data-chip {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  padding: 0.35em 0.7em;
+  border-radius: 4px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    0 6px 16px -8px rgba(11,30,63,0.18);
+  white-space: nowrap;
+  opacity: 0;
+  animation: chipFlow 7s linear infinite;
+}
+.data-chip--out {
+  color: var(--color-moss);
+  background: linear-gradient(180deg, rgba(60,102,217,0.92), rgba(11,30,63,0.85));
+  color: #F2F5FA;
+  animation: chipReturn 7s linear infinite;
+}
+@keyframes chipFlow {
+  0%   { transform: translate(0,0) scale(1); opacity: 0; }
+  10%  { opacity: 1; }
+  80%  { transform: translate(var(--dx, -140px), var(--dy, 0)) scale(0.5); opacity: 0.85; }
+  100% { transform: translate(var(--dx, -140px), var(--dy, 0)) scale(0.3); opacity: 0; }
+}
+@keyframes chipReturn {
+  0%   { transform: translate(0,0) scale(0.5); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { transform: translate(var(--dx, 140px), var(--dy, 0)) scale(1); opacity: 0.9; }
+  100% { transform: translate(var(--dx, 140px), var(--dy, 0)) scale(1); opacity: 0; }
+}
+
+/* Thin data beams from chips to core */
+.beam {
+  stroke: var(--color-moss);
+  stroke-width: 0.5;
+  opacity: 0;
+  stroke-dasharray: 2 3;
+  animation: beamFlow 3.2s ease-in-out infinite;
+}
+@keyframes beamFlow {
+  0%, 100% { opacity: 0; stroke-dashoffset: 0; }
+  40%      { opacity: 0.38; }
+  60%      { opacity: 0.32; stroke-dashoffset: -20; }
+}
+
+@media (max-width: 820px) {
+  .hero__fx { right: -20%; width: 100%; opacity: 0.55; }
+  .data-chip { display: none; }
+}
+
+/* Legacy orb keeps its rule (tweak hides both now) */
+.hero__orb {
+  position: absolute;
+  top: 18%;
+  right: -6%;
+  width: clamp(300px, 42vw, 620px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.1) 30%, rgba(231,237,246,0.4) 60%, rgba(60,102,217,0.08) 100%);
+  filter: blur(2px);
+  box-shadow:
+    inset 0 4px 40px rgba(255,255,255,0.8),
+    inset 0 -4px 40px rgba(60,102,217,0.12),
+    0 40px 80px -20px rgba(60,102,217,0.18);
+  opacity: .7;
+  animation: float 14s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(2deg); }
+}
+
+/* ── Section 02: Problem ───────────────────────────────── */
+.problem {
+  background: var(--color-paper-deep);
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .two-col { grid-template-columns: 1fr; gap: 2rem; }
+}
+.two-col__label {
+  font-family: var(--font-en);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  padding-top: 0.5rem;
+  position: sticky;
+  top: 7rem;
+}
+
+/* Problem points (numbered list inside problem section) */
+.problem-points {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.problem-point {
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+.problem-point:last-child { border-bottom: none; padding-bottom: 0; }
+.problem-point__num {
+  font-family: var(--font-en);
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-moss);
+  margin-bottom: 0.75rem;
+}
+.problem-point__lead {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+  color: var(--color-ink);
+  margin-bottom: 1rem;
+}
+.problem-point__lead em {
+  font-style: normal;
+  color: var(--color-moss);
+  border-bottom: 1px solid var(--color-moss);
+  padding-bottom: 0.05em;
+}
+
+/* ── Section 03: Insight ───────────────────────────────── */
+.insight { text-align: center; }
+.insight__pretitle {
+  font-family: var(--font-mincho);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  color: var(--color-ink-faint);
+  margin-bottom: 3rem;
+}
+.insight__q {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+  color: var(--color-ink);
+  max-width: 18em;
+  margin: 0 auto 5rem;
+}
+.insight__body { text-align: left; max-width: var(--measure); margin: 0 auto; }
+
+/* ── Section 04: Approach ───────────────────────────────── */
+.approach__phases {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-pause);
+  margin-top: 4rem;
+}
+.phase {
+  display: grid;
+  grid-template-columns: 1fr 2.2fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-bottom: var(--space-pause);
+  border-bottom: 1px solid var(--color-rule);
+}
+.phase:last-child { border-bottom: none; }
+@media (max-width: 820px) {
+  .phase { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+.phase__num {
+  font-family: var(--font-en);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--color-ink-faint);
+  letter-spacing: 0.04em;
+}
+.phase__num::before {
+  content: "— ";
+}
+.phase__title {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  line-height: 1.3;
+  color: var(--color-ink);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+.phase__lede {
+  font-family: var(--font-mincho);
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: var(--color-ink);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Section 05: Evidence ───────────────────────────────── */
+.evidence { background: var(--color-paper-deep); }
+.evidence__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--color-rule);
+  margin-top: 4rem;
+  border: 1px solid var(--color-rule);
+}
+@media (max-width: 720px) {
+  .evidence__grid { grid-template-columns: 1fr; }
+}
+.evidence__cell {
+  background: var(--color-paper-deep);
+  padding: 3rem clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.evidence__country {
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.evidence__figure {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1.3;
+  color: var(--color-ink);
+  letter-spacing: 0.02em;
+  margin: 0.5rem 0;
+}
+.evidence__figure em {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+}
+.evidence__note {
+  font-size: 0.92rem;
+  color: var(--color-ink-soft);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+}
+
+/* ── Section 06: Services ───────────────────────────────── */
+.services__intro { max-width: var(--measure); margin-bottom: 4rem; }
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-top: 3rem;
+}
+@media (max-width: 900px) {
+  .plans { grid-template-columns: 1fr; }
+}
+.plan {
+  position: relative;
+  padding: 2.5rem 2rem;
+  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.6) 0%,
+    rgba(255,255,255,0.25) 100%
+  );
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(255,255,255,0.3),
+    0 1px 2px rgba(11,30,63,0.04),
+    0 20px 40px -20px rgba(11,30,63,0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.plan--featured {
+  background: linear-gradient(
+    180deg,
+    rgba(60,102,217,0.95) 0%,
+    rgba(11,30,63,0.92) 100%
+  );
+  color: #F2F5FA;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.4),
+    0 2px 4px rgba(11,30,63,0.1),
+    0 30px 60px -20px rgba(11,30,63,0.35);
+}
+.plan__mark {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(242,245,250,0.75);
+}
+.plan__tier {
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.plan--featured .plan__tier { color: rgba(242,245,250,0.55); }
+.plan__name {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 1.8rem;
+  letter-spacing: 0.05em;
+  margin-top: 0.5rem;
+}
+.plan__price {
+  font-family: var(--font-mincho);
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin: 1rem 0;
+  letter-spacing: 0.04em;
+}
+.plan__price small {
+  font-size: 0.85rem;
+  color: var(--color-ink-faint);
+  font-weight: 400;
+  margin-left: 0.4em;
+}
+.plan--featured .plan__price small { color: rgba(242,245,250,0.5); }
+.plan__dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  font-size: 0.9rem;
+}
+.plan--featured .plan__dl {
+  border-color: rgba(242,245,250,0.15);
+}
+.plan__dl dt {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  align-self: center;
+}
+.plan--featured .plan__dl dt { color: rgba(242,245,250,0.5); }
+.plan__dl dd {
+  font-family: var(--font-mincho);
+  letter-spacing: 0.05em;
+}
+.plan__note {
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--color-ink-soft);
+  margin-top: auto;
+}
+.plan--featured .plan__note { color: rgba(242,245,250,0.75); }
+
+.services__two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--color-rule);
+  border: 1px solid var(--color-rule);
+  margin-top: 3rem;
+}
+@media (max-width: 820px) { .services__two { grid-template-columns: 1fr; } }
+.svc-card {
+  background: var(--color-paper);
+  padding: 3rem clamp(1.5rem, 3vw, 2.5rem);
+}
+.svc-card__label {
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.svc-card__name {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 1.7rem;
+  letter-spacing: 0.06em;
+  margin: 0.75rem 0 1rem;
+}
+.svc-card__desc {
+  font-size: 0.98rem;
+  line-height: 1.95;
+  color: var(--color-ink-soft);
+  margin-bottom: 1.5rem;
+  max-width: 28em;
+}
+.maint {
+  display: flex;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--color-rule);
+  flex-wrap: wrap;
+}
+.maint__item { font-family: var(--font-mincho); font-size: 0.95rem; }
+.maint__item em {
+  display: block;
+  font-family: var(--font-en);
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  margin-bottom: 0.3rem;
+}
+
+/* Industry-specific blocks (4 sectors) */
+.industry-block {
+  margin-top: 3.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-rule);
+}
+.industry-block:first-of-type {
+  margin-top: 2.5rem;
+}
+.industry-block__head {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.industry-block__label {
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.industry-block__name {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.4vw, 1.95rem);
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+}
+.industry-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--color-rule);
+  border: 1px solid var(--color-rule);
+}
+@media (max-width: 900px) { .industry-cards { grid-template-columns: 1fr; } }
+.industry-card {
+  background: var(--color-paper);
+  padding: 2rem clamp(1.25rem, 2.5vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: background .4s cubic-bezier(.2,.8,.2,1);
+}
+.industry-card:hover {
+  background: var(--color-paper-deep);
+}
+.industry-card__num {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.6rem;
+  color: var(--color-moss);
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+.industry-card__title {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+  color: var(--color-ink);
+}
+.industry-card__desc {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  line-height: 1.95;
+  color: var(--color-ink-soft);
+  margin: 0.25rem 0 0.5rem;
+}
+.industry-card__tags {
+  list-style: none;
+  padding: 1rem 0 0;
+  margin-top: auto;
+  border-top: 1px solid var(--color-rule);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.industry-card__tags li {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+.industry-card__tags li::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--color-moss);
+  flex-shrink: 0;
+}
+
+/* ── Section 06.5: Compare ───────────────────────────── */
+.compare { background: var(--color-paper); }
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--color-rule);
+  border: 1px solid var(--color-rule);
+  margin-top: 4rem;
+}
+@media (max-width: 1100px) { .compare-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px)  { .compare-grid { grid-template-columns: 1fr; } }
+
+.compare-card {
+  background: var(--color-paper);
+  padding: 2.2rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  transition: background .4s cubic-bezier(.2,.8,.2,1);
+}
+.compare-card:hover { background: var(--color-paper-deep); }
+.compare-card--us {
+  background: linear-gradient(
+    180deg,
+    rgba(60,102,217,0.96) 0%,
+    rgba(11,30,63,0.94) 100%
+  );
+  color: #F2F5FA;
+}
+.compare-card--us:hover { background: linear-gradient(180deg, rgba(60,102,217,1) 0%, rgba(11,30,63,1) 100%); }
+.compare-card__mark {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-family: var(--font-en);
+  font-size: 0.6rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  padding: 0.3em 0.6em;
+  border: 1px solid rgba(242,245,250,0.55);
+  border-radius: 999px;
+  color: rgba(242,245,250,0.85);
+}
+.compare-card__who {
+  font-family: var(--font-en);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.compare-card--us .compare-card__who { color: rgba(242,245,250,0.55); }
+.compare-card__name {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: 0.06em;
+  color: var(--color-ink);
+}
+.compare-card--us .compare-card__name { color: #F2F5FA; }
+.compare-card__desc {
+  font-family: var(--font-serif);
+  font-size: 0.92rem;
+  line-height: 1.95;
+  color: var(--color-ink-soft);
+  flex: 1;
+}
+.compare-card--us .compare-card__desc { color: rgba(242,245,250,0.78); }
+.compare-card__badge {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--color-rule);
+  color: var(--color-ink-soft);
+}
+.compare-card--us .compare-card__badge {
+  border-top-color: rgba(242,245,250,0.18);
+  color: rgba(242,245,250,0.7);
+}
+.compare-card__badge em {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-moss);
+  margin-right: 0.5em;
+}
+.compare-card--us .compare-card__badge em { color: rgba(242,245,250,0.95); }
+
+.compare-narrative {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-top: var(--space-pause);
+  padding: 3rem 0;
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+}
+@media (max-width: 900px) { .compare-narrative { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 0; } }
+.compare-narrative__n {
+  font-family: var(--font-en);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-moss);
+  margin-bottom: 0.75rem;
+}
+.compare-narrative__title {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  line-height: 1.55;
+  letter-spacing: 0.06em;
+  color: var(--color-ink);
+  margin-bottom: 0.85rem;
+}
+
+.compare-fit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--color-rule);
+  border: 1px solid var(--color-rule);
+  margin-top: var(--space-pause);
+}
+@media (max-width: 760px) { .compare-fit { grid-template-columns: 1fr; } }
+.compare-fit__col {
+  background: var(--color-paper);
+  padding: 2rem clamp(1.5rem, 2.5vw, 2.25rem);
+}
+.compare-fit__col--ng {
+  background: var(--color-paper-deep);
+}
+.compare-fit__head {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-rule);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65em;
+}
+.compare-fit__col--ok .compare-fit__head::before {
+  content: "○";
+  font-family: var(--font-en);
+  color: var(--color-moss);
+  font-size: 1.1em;
+}
+.compare-fit__col--ng .compare-fit__head::before {
+  content: "×";
+  font-family: var(--font-en);
+  color: var(--color-ink-faint);
+  font-size: 1.1em;
+}
+.compare-fit__col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.compare-fit__col li {
+  font-family: var(--font-mincho);
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--color-ink);
+  letter-spacing: 0.04em;
+  padding-left: 1.1em;
+  position: relative;
+}
+.compare-fit__col li::before {
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 0.45em;
+  height: 0.45em;
+  content: "";
+  border-radius: 50%;
+}
+.compare-fit__col--ok li::before { background: var(--color-moss); }
+.compare-fit__col--ng li::before { background: var(--color-ink-faint); opacity: 0.5; }
+
+/* ── Section 07: Founder ───────────────────────────────── */
+.founder { background: var(--color-paper-deep); }
+.founder__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
+}
+@media (max-width: 820px) { .founder__grid { grid-template-columns: 1fr; } }
+
+.portrait {
+  aspect-ratio: 3 / 4;
+  position: relative;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      var(--color-paper-shade) 0,
+      var(--color-paper-shade) 2px,
+      var(--color-paper-deep) 2px,
+      var(--color-paper-deep) 12px
+    );
+  overflow: hidden;
+}
+.portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(60,102,217,0.08), transparent 60%),
+    linear-gradient(180deg, transparent 50%, rgba(11,30,63,0.15));
+}
+.portrait__label {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--color-ink-soft);
+  text-transform: uppercase;
+  padding: 0.6rem 0.8rem;
+  background: rgba(242,245,250,0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 4px;
+}
+.portrait__meta {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--color-ink-soft);
+}
+
+.founder__name {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: clamp(2rem, 3.2vw, 2.6rem);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+.founder__name small {
+  display: block;
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-ink-faint);
+  letter-spacing: 0.12em;
+  margin-top: 0.5rem;
+}
+
+/* Founder Q&A */
+.founder-qa {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+.founder-qa__item {
+  border-left: 1px solid var(--color-rule);
+  padding-left: 1.5rem;
+  transition: border-color .4s ease;
+}
+.founder-qa__item:hover { border-left-color: var(--color-moss); }
+.founder-qa__q {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+  color: var(--color-moss);
+  margin-bottom: 0.85rem;
+  position: relative;
+}
+.founder-qa__q::before {
+  content: "Q. ";
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-ink-faint);
+}
+.founder-qa__a {
+  margin-top: 0;
+}
+
+/* ── Section 08: Vision ───────────────────────────────── */
+.vision { text-align: center; }
+.vision__pre {
+  font-family: var(--font-mincho);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  color: var(--color-ink-faint);
+  margin-bottom: 3rem;
+}
+.vision__body {
+  font-family: var(--font-mincho);
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  line-height: 2.4;
+  letter-spacing: 0.08em;
+  color: var(--color-ink);
+  max-width: 22em;
+  margin: 0 auto;
+}
+.vision__body p + p { margin-top: 2rem; }
+.vision__final {
+  margin-top: 5rem;
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  letter-spacing: 0.12em;
+  color: var(--color-moss);
+}
+
+/* ── Section 09: Contact ───────────────────────────────── */
+.contact__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+@media (max-width: 820px) { .contact__inner { grid-template-columns: 1fr; } }
+
+.contact__channels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.channel {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--color-rule);
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: padding .4s cubic-bezier(.2,.8,.2,1), color .3s;
+}
+.channel:first-of-type { border-top: 1px solid var(--color-rule); }
+.channel:hover { padding-left: 0.75rem; color: var(--color-moss); }
+.channel__label {
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.channel__value {
+  font-family: var(--font-mincho);
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+}
+
+/* Contact assurances list (above the form) */
+.contact-assurances {
+  list-style: none;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.contact-assurances li {
+  font-family: var(--font-mincho);
+  font-size: 0.95rem;
+  line-height: 1.85;
+  color: var(--color-ink);
+  letter-spacing: 0.04em;
+  padding-left: 1.4em;
+  position: relative;
+}
+.contact-assurances li::before {
+  content: "○";
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: var(--font-en);
+  color: var(--color-moss);
+  font-size: 0.95em;
+}
+.contact-assurances em {
+  font-style: normal;
+  color: var(--color-moss);
+  font-weight: 500;
+}
+
+/* Anti-spam honeypot (hidden from users) */
+.cform__honeypot {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+/* ── Contact form ─────────────────────────────────────
+   明朝 × 和紙 × 罫線。入力は border-bottom のみの簡素化。 */
+.cform {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.cform__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+}
+@media (max-width: 720px) {
+  .cform__row { grid-template-columns: 1fr; }
+}
+.cform__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.cform__label {
+  font-family: var(--font-en);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+.cform__label em {
+  color: var(--color-moss);
+  font-style: normal;
+  margin-left: 0.3em;
+  font-family: var(--font-en);
+}
+.cform__input,
+.cform__textarea,
+.cform__select {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--color-rule);
+  background: transparent;
+  padding: 0.65rem 0;
+  font-family: var(--font-mincho);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+  transition: border-color .35s ease, box-shadow .35s ease;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.cform__input:focus,
+.cform__textarea:focus,
+.cform__select:focus {
+  outline: none;
+  border-bottom-color: var(--color-moss);
+  box-shadow: inset 0 -1px 0 0 var(--color-moss);
+}
+.cform__input::placeholder,
+.cform__textarea::placeholder {
+  color: var(--color-ink-faint);
+  opacity: 0.6;
+  font-family: var(--font-mincho);
+}
+.cform__textarea {
+  min-height: 7.5em;
+  resize: vertical;
+  font-family: var(--font-serif);
+  line-height: 1.9;
+  padding: 0.75rem 0;
+}
+.cform__select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-ink-soft) 50%),
+    linear-gradient(-45deg, transparent 50%, var(--color-ink-soft) 50%);
+  background-position:
+    calc(100% - 14px) 55%,
+    calc(100% - 8px) 55%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 2rem;
+  cursor: pointer;
+}
+
+/* Invalid state (shows only after attempted submit) */
+.cform.is-submitted .cform__input:invalid,
+.cform.is-submitted .cform__textarea:invalid,
+.cform.is-submitted .cform__select:invalid {
+  border-bottom-color: #8F4848;
+}
+
+.cform__consent {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-family: var(--font-mincho);
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--color-ink-soft);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  padding-top: 0.25rem;
+}
+.cform__consent input {
+  margin-top: 0.35em;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  accent-color: var(--color-moss);
+}
+
+.cform__footer {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+.cform__submit { cursor: pointer; }
+.cform__submit[disabled] { opacity: 0.5; pointer-events: none; }
+.cform__note {
+  font-family: var(--font-mincho);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-faint);
+}
+.cform__ok {
+  display: none;
+  padding: 1.1rem 1.25rem;
+  border-radius: 10px;
+  font-family: var(--font-mincho);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+  color: var(--color-moss);
+  background: linear-gradient(
+    180deg,
+    rgba(60,102,217,0.08) 0%,
+    rgba(60,102,217,0.04) 100%
+  );
+  border: 1px solid rgba(60,102,217,0.25);
+}
+.cform__ok.is-in { display: block; }
+.cform__ok-note {
+  font-size: 0.82rem;
+  color: var(--color-ink-soft);
+  letter-spacing: 0.02em;
+}
+
+/* ── Footer ───────────────────────────────── */
+footer {
+  position: relative;
+  z-index: 2;
+  padding: 3rem clamp(1.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-rule);
+}
+.footer__grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer__brand {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+}
+.footer__copy {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-faint);
+}
+
+/* ══════════════════════════════════════════════════════════
+   ADDITIONS v2 — CVR / premium AI / scroll interactions
+   Liquid Glass の骨格はそのまま。密度と階層、動きの遅延を強化。
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Top scroll progress bar ──────────────────────────── */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  z-index: 120;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-moss) 30%,
+    var(--color-moss-light) 70%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(60,102,217,0.55), 0 0 24px rgba(60,102,217,0.25);
+  pointer-events: none;
+  transition: width .18s cubic-bezier(.2,.8,.2,1);
+}
+
+/* ── Side phase indicator (vertical) ──────────────────── */
+.side-nav {
+  position: fixed;
+  right: 1.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  pointer-events: auto;
+}
+.side-nav__dot {
+  position: relative;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(11,30,63,0.10);
+  border: 1px solid rgba(11,30,63,0.2);
+  transition: background .4s, transform .4s cubic-bezier(.2,.8,.2,1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.side-nav__dot::after {
+  content: attr(data-label);
+  position: absolute;
+  right: calc(100% + 0.9rem);
+  top: 50%;
+  transform: translateY(-50%) translateX(4px);
+  font-family: var(--font-en);
+  font-size: 0.62rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .35s, transform .4s cubic-bezier(.2,.8,.2,1);
+  pointer-events: none;
+}
+.side-nav__dot:hover::after,
+.side-nav__dot.is-active::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+.side-nav__dot.is-active {
+  background: var(--color-moss);
+  border-color: var(--color-moss);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 4px rgba(60,102,217,0.12), 0 0 18px rgba(60,102,217,0.35);
+}
+@media (max-width: 980px) { .side-nav { display: none; } }
+
+/* ── Scarcity / urgency ribbon for hero ───────────────── */
+.scarcity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.5em 1em 0.5em 0.85em;
+  margin-bottom: 1.25rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.62) 0%,
+    rgba(255,255,255,0.28) 100%
+  );
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(255,255,255,0.35),
+    0 6px 18px -8px rgba(11,30,63,0.18);
+}
+.scarcity__pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--color-moss);
+  box-shadow: 0 0 0 0 rgba(60,102,217,0.6);
+  animation: pulse 2s ease-out infinite;
+}
+.scarcity strong {
+  color: var(--color-ink);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+}
+
+/* ── Hero trust stats inline ──────────────────────────── */
+.hero__stats {
+  display: flex;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin-top: 2.75rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  max-width: 48em;
+  flex-wrap: wrap;
+}
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.hero__stat strong {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  line-height: 1;
+  color: var(--color-ink);
+  letter-spacing: 0.02em;
+}
+.hero__stat strong em {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-moss);
+  margin-right: 0.15em;
+}
+.hero__stat span {
+  font-family: var(--font-en);
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+/* ── Hero risk reversal micro-row ─────────────────────── */
+.hero__risk {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mincho);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  color: var(--color-ink-faint);
+}
+.hero__risk span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.hero__risk span::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--color-moss);
+  opacity: .7;
+}
+
+/* ── Trust strip (industries / tools marquee) ─────────── */
+.trust-strip {
+  position: relative;
+  padding: 2.2rem 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255,255,255,0.35) 40%,
+    rgba(255,255,255,0.35) 60%,
+    transparent 100%
+  );
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+  overflow: hidden;
+  z-index: 2;
+}
+.trust-strip__label {
+  display: block;
+  text-align: center;
+  font-family: var(--font-en);
+  font-size: 0.65rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  margin-bottom: 1.5rem;
+}
+.trust-strip__track {
+  display: flex;
+  gap: 3.5rem;
+  animation: marquee 38s linear infinite;
+  width: max-content;
+}
+.trust-strip:hover .trust-strip__track { animation-play-state: paused; }
+.trust-strip__item {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  letter-spacing: 0.1em;
+  color: var(--color-ink-soft);
+  white-space: nowrap;
+  opacity: 0.7;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+.trust-strip__item::after {
+  content: "／";
+  color: var(--color-ink-faint);
+  opacity: 0.6;
+}
+.trust-strip__item:last-child::after { content: ""; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Voices (testimonial) ─────────────────────────────── */
+.voices { background: var(--color-paper); }
+.voices__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+@media (max-width: 980px) { .voices__grid { grid-template-columns: 1fr; } }
+
+.voice {
+  position: relative;
+  padding: 2.5rem 2rem 2rem;
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.65) 0%,
+    rgba(255,255,255,0.28) 100%
+  );
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(255,255,255,0.3),
+    0 1px 2px rgba(11,30,63,0.04),
+    0 24px 48px -24px rgba(11,30,63,0.12);
+  transition: transform .6s cubic-bezier(.2,.8,.2,1), box-shadow .6s;
+}
+.voice:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,1),
+    inset 0 -1px 0 rgba(255,255,255,0.4),
+    0 2px 6px rgba(11,30,63,0.06),
+    0 36px 72px -28px rgba(11,30,63,0.22);
+}
+.voice__quote-mark {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-family: var(--font-en);
+  font-style: italic;
+  font-size: 3.6rem;
+  line-height: 1;
+  color: var(--color-moss);
+  opacity: 0.2;
+}
+.voice__industry {
+  font-family: var(--font-en);
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  margin-bottom: 1rem;
+}
+.voice__body {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.95;
+  color: var(--color-ink);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+}
+.voice__by {
+  font-family: var(--font-mincho);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-soft);
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-rule);
+}
+.voice__result {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 0.7rem;
+  padding: 0.3em 0.8em;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-moss);
+  background: rgba(60,102,217,0.08);
+}
+.voice__result em {
+  font-family: var(--font-en);
+  font-style: italic;
+  font-weight: 500;
+  margin-right: 0.2em;
+}
+
+/* ── FAQ accordion ────────────────────────────────────── */
+.faq { background: var(--color-paper-deep); }
+.faq__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--color-rule);
+}
+.faq__tab {
+  font-family: var(--font-mincho);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  padding: 0.45em 1em;
+  border-radius: 999px;
+  border: 1px solid var(--color-rule);
+  background: transparent;
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  transition: background .35s ease, color .35s ease, border-color .35s ease;
+}
+.faq__tab:hover { color: var(--color-ink); border-color: var(--color-moss); }
+.faq__tab.is-active {
+  background: var(--color-moss);
+  color: #F2F5FA;
+  border-color: var(--color-moss);
+}
+.faq__item.is-hidden { display: none; }
+.faq__list { margin-top: 1.5rem; max-width: 44em; }
+.faq__item {
+  border-top: 1px solid var(--color-rule);
+  padding: 0;
+  overflow: hidden;
+}
+.faq__item:last-child { border-bottom: 1px solid var(--color-rule); }
+.faq__q {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.6rem 0.25rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+  transition: color .3s;
+}
+.faq__q:hover { color: var(--color-moss); }
+.faq__q-mark {
+  flex-shrink: 0;
+  width: 1.2rem; height: 1.2rem;
+  position: relative;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.faq__q-mark::before,
+.faq__q-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background: var(--color-ink-soft);
+  transition: opacity .3s, transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.faq__q-mark::before { width: 100%; height: 1px; }
+.faq__q-mark::after  { height: 100%; width: 1px; }
+.faq__item.is-open .faq__q-mark { transform: rotate(90deg); }
+.faq__item.is-open .faq__q-mark::after { opacity: 0; }
+
+.faq__a {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height .6s cubic-bezier(.2,.8,.2,1), opacity .4s ease, padding .4s ease;
+  padding: 0 0.25rem;
+}
+.faq__item.is-open .faq__a {
+  max-height: 600px;
+  opacity: 1;
+  padding: 0 0.25rem 1.8rem;
+}
+.faq__a p {
+  font-family: var(--font-serif);
+  font-size: 0.98rem;
+  line-height: 2;
+  color: var(--color-ink-soft);
+  letter-spacing: 0.02em;
+}
+
+/* ── Final CTA section ────────────────────────────────── */
+.final-cta {
+  position: relative;
+  padding: calc(var(--space-breath) * 0.9) clamp(1.5rem, 5vw, 4rem);
+  text-align: center;
+  overflow: hidden;
+}
+.final-cta::before {
+  content: "";
+  position: absolute;
+  inset: 10% 8%;
+  border-radius: 40px;
+  background: linear-gradient(
+    135deg,
+    rgba(60,102,217,0.96) 0%,
+    rgba(11,30,63,0.94) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.4),
+    0 40px 80px -30px rgba(11,30,63,0.45);
+  z-index: 0;
+}
+.final-cta::after {
+  content: "";
+  position: absolute;
+  inset: 10% 8%;
+  border-radius: 40px;
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 20%, rgba(255,255,255,0.18), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 90%, rgba(74,107,82,0.35), transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.final-cta__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 44em;
+  margin: 0 auto;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+  color: #F2F5FA;
+}
+.final-cta__kicker {
+  font-family: var(--font-en);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(242,245,250,0.55);
+  margin-bottom: 1.5rem;
+}
+.final-cta__title {
+  font-family: var(--font-mincho);
+  font-weight: 500;
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+  color: #F2F5FA;
+  margin-bottom: 2rem;
+}
+.final-cta__body {
+  font-family: var(--font-mincho);
+  font-size: 1rem;
+  line-height: 2;
+  color: rgba(242,245,250,0.78);
+  letter-spacing: 0.04em;
+  max-width: 34em;
+  margin: 0 auto 2.5rem;
+}
+.final-cta__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.final-cta__slots {
+  margin-top: 2.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(242,245,250,0.55);
+}
+.final-cta__slots strong {
+  color: #F2F5FA;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+}
+
+/* Glass variant for dark section — light glass on dark bg */
+.final-cta .glass {
+  color: var(--color-ink);
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.94) 0%,
+    rgba(255,255,255,0.78) 100%
+  );
+}
+.final-cta .glass--ink {
+  color: #F2F5FA;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.14) 0%,
+    rgba(255,255,255,0.06) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.22),
+    inset 0 -1px 0 rgba(0,0,0,0.25),
+    0 12px 32px -10px rgba(0,0,0,0.4);
+}
+.final-cta .glass--ink:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.22) 0%,
+    rgba(255,255,255,0.1) 100%
+  );
+}
+
+/* ── Enhanced reveal variants ─────────────────────────── */
+.reveal--blur { filter: blur(10px); }
+.reveal--blur.is-in { filter: blur(0); }
+.reveal--scale { transform: translateY(24px) scale(0.96); }
+.reveal--scale.is-in { transform: none; }
+.reveal--slow { transition-duration: 1.6s; }
+
+.reveal--stagger > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s cubic-bezier(.2,.8,.2,1), transform 1s cubic-bezier(.2,.8,.2,1);
+}
+.reveal--stagger.is-in > *:nth-child(1) { transition-delay: .05s; opacity: 1; transform: none; }
+.reveal--stagger.is-in > *:nth-child(2) { transition-delay: .18s; opacity: 1; transform: none; }
+.reveal--stagger.is-in > *:nth-child(3) { transition-delay: .32s; opacity: 1; transform: none; }
+.reveal--stagger.is-in > *:nth-child(4) { transition-delay: .46s; opacity: 1; transform: none; }
+.reveal--stagger.is-in > *:nth-child(5) { transition-delay: .60s; opacity: 1; transform: none; }
+.reveal--stagger.is-in > *:nth-child(6) { transition-delay: .74s; opacity: 1; transform: none; }
+
+/* Parallax target */
+.parallax { will-change: transform; }
+
+/* ── Sticky mobile CTA ────────────────────────────────── */
+.sticky-cta {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 110;
+  display: none;
+  justify-content: center;
+  transform: translateY(150%);
+  transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.sticky-cta.is-in { transform: translateY(0); }
+.sticky-cta .glass {
+  width: 100%;
+  justify-content: center;
+  padding: 1.1em 1.5em;
+}
+@media (max-width: 720px) { .sticky-cta { display: flex; } }
+
+/* ── Section index label shown on scroll ──────────────── */
+.scroll-hint {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  z-index: 80;
+  pointer-events: none;
+  font-family: var(--font-en);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.scroll-hint.is-in { opacity: 0.7; }
+
+/* Magnetic button refinement — drives --mx/--my; buttons compose the transform */
+.magnetic { --mx: 0px; --my: 0px; }
+.glass.magnetic { transform: translate(var(--mx), var(--my)); }
+.glass.magnetic:hover { transform: translate(var(--mx), calc(var(--my) - 1px)); }
+.glass.magnetic:active { transform: translate(var(--mx), var(--my)); transition-duration: .1s; }
+
+/* ── Tweaks panel ───────────────────────────────── */
+.tweaks {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 200;
+  width: 280px;
+  padding: 1.25rem 1.25rem 1rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(242,245,250,0.85), rgba(242,245,250,0.7));
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    inset 0 -1px 0 rgba(255,255,255,0.3),
+    0 20px 40px -10px rgba(11,30,63,0.2);
+  font-family: var(--font-mincho);
+  color: var(--color-ink);
+  display: none;
+}
+.tweaks.is-open { display: block; }
+.tweaks h4 {
+  font-family: var(--font-mincho);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tweaks h4 span {
+  font-family: var(--font-en);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--color-ink-faint);
+  font-weight: 400;
+  font-style: italic;
+}
+.tweaks label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--color-rule);
+}
+.tweaks label:last-of-type { border-bottom: 1px solid var(--color-rule); margin-bottom: 0.75rem; }
+.tweaks select, .tweaks input[type="range"] {
+  font-family: var(--font-mincho);
+  font-size: 0.78rem;
+  padding: 2px 4px;
+  background: transparent;
+  border: none;
+  color: var(--color-ink);
+}
+
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <a class="nav__brand" href="#top">Phasera</a>
+  <div class="nav__links">
+    <a href="#problem">Problem</a>
+    <a href="#approach">Approach</a>
+    <a href="#services">Services</a>
+    <a href="#compare">Compare</a>
+    <a href="#founder">Founder</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a class="glass glass--sm" href="#contact">
+    相談する <span class="arrow">→</span>
+  </a>
+</nav>
+
+<!-- Top scroll progress -->
+<div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+<!-- Side phase navigation -->
+<nav class="side-nav" id="side-nav" aria-label="セクション">
+  <a class="side-nav__dot" href="#top"       data-label="01 Hero"></a>
+  <a class="side-nav__dot" href="#problem"   data-label="02 Problem"></a>
+  <a class="side-nav__dot" href="#approach"  data-label="04 Approach"></a>
+  <a class="side-nav__dot" href="#evidence"  data-label="05 Evidence"></a>
+  <a class="side-nav__dot" href="#services"  data-label="06 Services"></a>
+  <a class="side-nav__dot" href="#compare"   data-label="06.5 Compare"></a>
+  <a class="side-nav__dot" href="#founder"   data-label="07 Founder"></a>
+  <a class="side-nav__dot" href="#voices"    data-label="08 Voices"></a>
+  <a class="side-nav__dot" href="#faq"       data-label="FAQ"></a>
+  <a class="side-nav__dot" href="#contact"   data-label="09 Contact"></a>
+</nav>
+
+<!-- Mobile sticky CTA -->
+<div class="sticky-cta" id="sticky-cta" aria-hidden="true">
+  <a class="glass glass--ink" href="#contact">
+    60 分・無料で相談する <span class="arrow">→</span>
+  </a>
+</div>
+
+<!-- Interactive futuristic background -->
+<canvas id="bgfx" aria-hidden="true"></canvas>
+<div class="bg-vignette" aria-hidden="true"></div>
+<div class="grid-overlay" aria-hidden="true"></div>
+<div class="scanline" aria-hidden="true"></div>
+
+<!-- Persistent HUD chrome -->
+<div class="hud hud--tl" aria-hidden="true">
+  <span class="hud__line"><strong>PHASERA ／ SYSTEM</strong></span>
+  <span class="hud__line">v1.0.0 · 2026.Q2</span>
+</div>
+<div class="hud hud--tr" aria-hidden="true">
+  <span class="hud__line" id="hud-clock"><strong>JST 00:00:00</strong></span>
+  <span class="hud__line">39.1556°N · 140.4956°E</span>
+</div>
+<div class="hud hud--bl" aria-hidden="true">
+  <span class="hud__line"><span class="hud__dot"></span>ONLINE · BOOKING OPEN</span>
+</div>
+<div class="hud hud--br" aria-hidden="true">
+  <span class="hud__line">Tokyo ／ Kanto ／ JP</span>
+  <span class="hud__line" id="hud-phase"><strong>PHASE 01 ／ 004</strong></span>
+</div>
+
+<!-- 01 Hero -->
+<section class="hero" id="top">
+  <div class="hero__orb" aria-hidden="true"></div>
+
+  <!-- AI/DX hero animation -->
+  <div class="hero__fx" aria-hidden="true">
+    <svg viewBox="-200 -200 400 400">
+      <defs>
+        <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#3C66D9" stop-opacity="0.95"/>
+          <stop offset="60%" stop-color="#3C66D9" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#3C66D9" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="coreCenter" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"  stop-color="#F2F5FA" stop-opacity="0.95"/>
+          <stop offset="40%" stop-color="#5A91DD" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#0B1E3F" stop-opacity="0.85"/>
+        </radialGradient>
+      </defs>
+
+      <!-- glow -->
+      <circle class="core-glow" cx="0" cy="0" r="70" fill="url(#coreGrad)"/>
+
+      <!-- orbits -->
+      <circle class="orbit orbit--slow" cx="0" cy="0" r="160"/>
+      <circle class="orbit orbit--mid"  cx="0" cy="0" r="120"/>
+      <circle class="orbit orbit--fast" cx="0" cy="0" r="86"/>
+
+      <!-- motes on orbits -->
+      <g class="mote mote--a"><circle cx="160" cy="0" r="2.2"/></g>
+      <g class="mote mote--b"><circle cx="-120" cy="0" r="1.8"/></g>
+      <g class="mote mote--c"><circle cx="0" cy="-86" r="1.6"/></g>
+      <g class="mote mote--a" style="animation-delay:-8s"><circle cx="160" cy="0" r="1.4"/></g>
+      <g class="mote mote--b" style="animation-delay:-14s"><circle cx="-120" cy="0" r="1.2"/></g>
+
+      <!-- core -->
+      <circle cx="0" cy="0" r="36" fill="url(#coreCenter)"/>
+      <circle cx="0" cy="0" r="36" fill="none" stroke="#3C66D9" stroke-opacity="0.35" stroke-width="0.6"/>
+      <circle cx="0" cy="0" r="24" fill="none" stroke="#3C66D9" stroke-opacity="0.2" stroke-width="0.4"/>
+
+      <!-- data beams into core -->
+      <line class="beam" x1="-170" y1="-80" x2="-36" y2="-8" style="animation-delay:0s"/>
+      <line class="beam" x1="-180" y1="40"  x2="-36" y2="6"  style="animation-delay:0.6s"/>
+      <line class="beam" x1="-160" y1="120" x2="-30" y2="14" style="animation-delay:1.2s"/>
+      <line class="beam" x1="170"  y1="-60" x2="36"  y2="-4" style="animation-delay:0.3s"/>
+      <line class="beam" x1="180"  y1="80"  x2="36"  y2="8"  style="animation-delay:1.5s"/>
+
+      <!-- monogram inside core -->
+      <text x="0" y="4" text-anchor="middle" font-family="Manrope, system-ui, sans-serif" font-style="italic" font-size="18" font-weight="600" fill="#F2F5FA" fill-opacity="0.85">φ</text>
+    </svg>
+
+    <!-- data chips flowing in (AI absorbs) and out (time returned) -->
+    <div class="hero__labels">
+      <div class="data-chip"        style="top:12%; right:78%; --dx:180px; --dy:40px; animation-delay:0s;">紙の見積書</div>
+      <div class="data-chip"        style="top:32%; right:86%; --dx:210px; --dy:10px; animation-delay:1.4s;">属人化した審査</div>
+      <div class="data-chip"        style="top:62%; right:82%; --dx:200px; --dy:-30px; animation-delay:2.8s;">稟議・承認フロー</div>
+      <div class="data-chip"        style="top:82%; right:74%; --dx:170px; --dy:-60px; animation-delay:4.2s;">Excel 台帳</div>
+
+      <div class="data-chip data-chip--out" style="top:18%; left:70%; --dx:180px; --dy:-30px; animation-delay:0.8s;">−40h ／ 月</div>
+      <div class="data-chip data-chip--out" style="top:44%; left:78%; --dx:200px; --dy:20px;  animation-delay:2.2s;">リードタイム −50%</div>
+      <div class="data-chip data-chip--out" style="top:68%; left:72%; --dx:180px; --dy:60px;  animation-delay:3.6s;">EBITDA +3pt</div>
+      <div class="data-chip data-chip--out" style="top:86%; left:66%; --dx:160px; --dy:90px;  animation-delay:5.0s;">判断の稼働率 ↑</div>
+    </div>
+  </div>
+
+  <div class="hero__meta"><span class="num-en">Vol. 01 · Spring 2026</span></div>
+
+  <div class="wrap">
+    <div class="scarcity reveal">
+      <span class="scarcity__pulse"></span>
+      <span>2026 Q3 受付枠 <strong>残 02 社</strong> ・ Booking Open</span>
+    </div>
+
+    <div class="hero__pretitle reveal">PHASERA ／ AI×DX 伴走パートナー</div>
+    <h1 class="display">
+      <span class="chars" data-chars>作業ではなく、</span><br/>
+      <span class="chars" data-chars>判断を売る。</span>
+    </h1>
+    <div class="hero__sub reveal">
+      <span>関東圏の中小企業のための、AI×DX 伴走パートナー。</span>
+      <span>経営者の <em style="font-family:var(--font-mincho);font-style:normal;">夜の Excel</em> を終わらせる。</span>
+      <span>判断のための <em style="font-family:var(--font-mincho);font-style:normal;">時間と材料</em> を、6–12 ヶ月で取り戻す。</span>
+    </div>
+
+    <div class="hero__stats reveal">
+      <div class="hero__stat">
+        <strong><em>−40</em>h<span style="font-family:var(--font-mincho);font-size:.65em;margin-left:.15em;letter-spacing:.04em;">／月</span></strong>
+        <span>業務工数の削減</span>
+      </div>
+      <div class="hero__stat">
+        <strong><em>+3</em>pt</strong>
+        <span>EBITDA 改善</span>
+      </div>
+      <div class="hero__stat">
+        <strong><em>6–12</em><span style="font-family:var(--font-mincho);font-size:.65em;margin-left:.15em;letter-spacing:.04em;">ヶ月</span></strong>
+        <span>伴走期間</span>
+      </div>
+      <div class="hero__stat">
+        <strong><em>20</em>+<span style="font-family:var(--font-mincho);font-size:.65em;margin-left:.15em;letter-spacing:.04em;">社</span></strong>
+        <span>関東圏での実績</span>
+      </div>
+    </div>
+
+    <div class="hero__actions reveal">
+      <a class="glass glass--ink magnetic" href="#contact">
+        無料相談を予約する <span class="arrow">→</span>
+      </a>
+      <a class="glass magnetic" href="#approach">
+        進め方を見る <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <div class="hero__risk reveal">
+      <span>24 時間以内に返信</span>
+      <span>営業電話・営業メール 一切なし</span>
+      <span>初回 60 分 無料</span>
+      <span>続行契約の義務なし</span>
+    </div>
+  </div>
+
+  <div class="hero__scroll">
+    <span>Scroll</span>
+    <span class="hero__scroll-line"></span>
+  </div>
+</section>
+
+<!-- 01.5 Trust strip / industries -->
+<section class="trust-strip" aria-label="取扱い業種／ツール">
+  <span class="trust-strip__label">Sectors Covered ／ 実装で扱う領域</span>
+  <div class="trust-strip__track">
+    <span class="trust-strip__item">税理士 ／ 士業</span>
+    <span class="trust-strip__item">人材紹介</span>
+    <span class="trust-strip__item">不動産管理</span>
+    <span class="trust-strip__item">建設 ／ 施工管理</span>
+    <span class="trust-strip__item">製造 ／ 受発注</span>
+    <span class="trust-strip__item">EC ／ D2C</span>
+    <span class="trust-strip__item">医療事務</span>
+    <span class="trust-strip__item">コンサルティング</span>
+    <span class="trust-strip__item">Claude / Cursor / Supabase / Next.js</span>
+    <!-- duplicate for seamless marquee -->
+    <span class="trust-strip__item">税理士 ／ 士業</span>
+    <span class="trust-strip__item">人材紹介</span>
+    <span class="trust-strip__item">不動産管理</span>
+    <span class="trust-strip__item">建設 ／ 施工管理</span>
+    <span class="trust-strip__item">製造 ／ 受発注</span>
+    <span class="trust-strip__item">EC ／ D2C</span>
+    <span class="trust-strip__item">医療事務</span>
+    <span class="trust-strip__item">コンサルティング</span>
+    <span class="trust-strip__item">Claude / Cursor / Supabase / Next.js</span>
+  </div>
+</section>
+
+<!-- 02 Problem -->
+<section class="problem" id="problem">
+  <div class="wrap two-col">
+    <div class="two-col__label reveal bracket">02 ／ Problem</div>
+    <div>
+      <h2 class="heading reveal">ツールは増えた。だが、<br/>判断のための材料は、<br/>ほとんど増えていない。</h2>
+      <hr class="rule" />
+
+      <div class="problem-points">
+        <div class="problem-point reveal reveal--d1">
+          <div class="problem-point__num num-en">01 ／ 03</div>
+          <h3 class="problem-point__lead">
+            経営者の時間が、まだ <em>夜の Excel</em> に支配されている。
+          </h3>
+          <p class="body">
+            売上、シフト、単価、入金、案件——次の意思決定はいつも、深夜の会議室か自宅の机の上で行われる。データはあるのに、判断のドラフトを整える人間が、社内にも社外にもいない。
+          </p>
+        </div>
+
+        <div class="problem-point reveal reveal--d2">
+          <div class="problem-point__num num-en">02 ／ 03</div>
+          <h3 class="problem-point__lead">
+            AI も SaaS も、<em>導入しただけ</em> では何も決まらない。
+          </h3>
+          <p class="body">
+            ChatGPT、kintone、freee、HubSpot——便利な道具は十分に出揃った。問題は「どれを使うか」ではなく、自社の判断プロセスのどこに何を差し込むか、という設計の側にある。
+          </p>
+        </div>
+
+        <div class="problem-point reveal reveal--d3">
+          <div class="problem-point__num num-en">03 ／ 03</div>
+          <h3 class="problem-point__lead">
+            大手は <em>遠い</em>、フリーランスは <em>続かない</em>。
+          </h3>
+          <p class="body">
+            年商数十〜数百億のレンジに伴走する人材は空いていない。月数百万のコンサルは見送り、安いフリーランスは半年で消える。残るのは、現場で短期間にメンテナンスが止まったツールだけ。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 Insight -->
+<section class="insight">
+  <div class="wrap">
+    <div class="insight__pretitle reveal">ひとつの、立て直し。</div>
+    <div class="insight__q">
+      <span class="chars" data-chars>中央に置くのは、</span><br/>
+      <span class="chars" data-chars>いつも判断。</span>
+    </div>
+    <div class="insight__body">
+      <p class="body reveal">
+        ツールは結末、設計は手段。中央にあるべきは、経営者が下す <em>判断そのもの</em> だ。AI 導入の報告書が美しくても、P/L が動かないのは、AI を作業の置き換えとして扱い、判断の領域に持ち込めていないからだ。
+      </p>
+      <p class="body reveal reveal--d1">
+        Phasera は周囲の四つの軸——<em>戦略・実装・運用・撤退</em>——から、判断の解像度を上げるために組み直す。提案書を置いて去る会社ではなく、ヒアリングから実装、運用、ときに撤退までを、責任を持って引き受ける。
+      </p>
+      <p class="body reveal reveal--d2">
+        中小企業に残る最後の差別化は、他社が真似しにくい「業種特有の判断」だけだ。そこを設計できるパートナーが、関東圏には、ほぼ届いていない。Phasera は、その空白に入る。
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 Approach -->
+<section id="approach">
+  <div class="wrap">
+    <div class="kicker reveal bracket">04 ／ Approach</div>
+    <h2 class="heading reveal" style="margin-top:1rem;">
+      判断の周りに、<br/>四つの軸を組み直す。
+    </h2>
+    <div class="readout reveal reveal--d1">
+      <span>AXES <strong>01·02·03·04</strong></span>
+      <span>CYCLE <strong>6–12 MONTHS</strong></span>
+      <span>OUTCOME <strong>EBITDA · UPLIFT</strong></span>
+    </div>
+    <hr class="rule" />
+    <p class="body reveal reveal--d1">
+      中央に置くのは、経営者が下す判断そのもの。Phasera は <em>戦略・実装・運用・撤退</em> の四軸から、判断の解像度を上げるために組み直す。開始 30 日で事業を診断し、次の 60 日で設計、それ以降で実装と運用に入る。半年単位で結果に責任を持つ。
+    </p>
+
+    <div class="approach__phases">
+      <div class="phase reveal">
+        <div class="phase__num num-en">Axis 01</div>
+        <div>
+          <div class="phase__title">戦略。</div>
+          <p class="phase__lede">提案しない。まず、事業の健康状態を読む。</p>
+          <p class="body">
+            開始から 30 日、経営者との構造ヒアリングを繰り返し、収支・業務フロー・意思決定の健康状態を診る。「AI 診断レポート」と「次の一手のロードマップ」を成果物として残し、続行の判断材料にする。提案書の枚数では勝負しない。
+          </p>
+        </div>
+      </div>
+
+      <div class="phase reveal reveal--d1">
+        <div class="phase__num num-en">Axis 02</div>
+        <div>
+          <div class="phase__title">実装。</div>
+          <p class="phase__lede">組織・業務・プロダクトを、同時に引き直す。</p>
+          <p class="body">
+            次の 60 日で、意思決定の動線、AI を埋め込む業務フロー、プロダクト面を同時に再設計する。Claude / Cursor / Supabase / Next.js を中核に、既存の SaaS（kintone・freee・HubSpot 等）と接続する。作り直しはしない。一度で、動くものを出す。
+          </p>
+        </div>
+      </div>
+
+      <div class="phase reveal reveal--d2">
+        <div class="phase__num num-en">Axis 03</div>
+        <div>
+          <div class="phase__title">運用。</div>
+          <p class="phase__lede">伴走し続け、数字で結果を返す。</p>
+          <p class="body">
+            実装後は協業チームの中に入り、導入と定着までを引き受ける。月次 QBR で、経営者の時間削減・業務リードタイム・EBITDA の三指標をレビュー。やること、やめること、閉じること。経営の判断を、数字で支え続ける。
+          </p>
+        </div>
+      </div>
+
+      <div class="phase reveal reveal--d3">
+        <div class="phase__num num-en">Axis 04</div>
+        <div>
+          <div class="phase__title">撤退。</div>
+          <p class="phase__lede">やめる判断も、最初から契約に書く。</p>
+          <p class="body">
+            稼働しない SaaS、効かない自動化、効かない KPI——撤退は失敗ではなく、判断材料の確保。引き止めない契約条項を、双方に同じ重さで最初に置く。続けないことも含めて、責任を持って引き受ける。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Evidence -->
+<section class="evidence" id="evidence">
+  <div class="wrap">
+    <div class="kicker reveal bracket">05 ／ Evidence</div>
+    <h2 class="heading reveal" style="margin-top:1rem;">
+      AI は作業員ではなく、<br/>事業の橋梁である。
+    </h2>
+    <div class="readout reveal reveal--d1">
+      <span>SCOPE <strong>SMB · KANTO</strong></span>
+      <span>FORMAT <strong>PILOT · BENCHMARK</strong></span>
+      <span>CONFIDENCE <strong>HIGH</strong></span>
+    </div>
+    <hr class="rule" />
+    <p class="body reveal reveal--d1 measure">
+      大企業のトークン創出ではなく、中小企業の利益に直接抄く。外部データと、Phaseraが取り組む希望中型待診のふたつの軸で、「AI を売る側」の提供価値を見る。
+    </p>
+
+    <div class="evidence__grid">
+      <article class="evidence__cell reveal">
+        <div class="evidence__country">McKinsey · 2024</div>
+        <div class="evidence__figure"><em>+25%</em> productivity</div>
+        <p class="evidence__note">生成 AI を埋め込んだナレッジワーカー業務で、生産性は平均 25% の上振れ。中小企業での伸びが、最も大きいと報告される。</p>
+      </article>
+      <article class="evidence__cell reveal reveal--d1">
+        <div class="evidence__country">METI · SMB DX</div>
+        <div class="evidence__figure"><em>34%</em> gap</div>
+        <p class="evidence__note">大企業と中小企業の DX 導入率には、依然 34% の開きがある。中小企業にとって、実装の責任を持つパートナーの不足が、主因に挙げられている。</p>
+      </article>
+      <article class="evidence__cell reveal reveal--d2">
+        <div class="evidence__country">Phasera · Benchmark</div>
+        <div class="evidence__figure"><em>−40h</em> / month</div>
+        <p class="evidence__note">審査・案件管理・客先対応の AI 化パイロット。経営者の処理時間を月 40 時間削減し、判断の帯域に時間を戻す。</p>
+      </article>
+      <article class="evidence__cell reveal reveal--d3">
+        <div class="evidence__country">Phasera · Thesis</div>
+        <div class="evidence__figure">作業を売らない。</div>
+        <p class="evidence__note">作業はコモディティ化する。中小企業が立つ最後の差別化は、業種特有の判断だけだ。それを設計し、カタチにする。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 06 Services -->
+<section id="services">
+  <div class="wrap">
+    <div class="kicker reveal bracket">06 ／ Services</div>
+    <h2 class="heading reveal" style="margin-top:1rem;">
+      作業ではなく、<br/>判断と責任を売る。
+    </h2>
+    <div class="readout reveal reveal--d1">
+      <span>TIERS <strong>03</strong></span>
+      <span>ENTRY <strong>¥300,000</strong></span>
+      <span>SLOTS / Q <strong>04 · 02 OPEN</strong></span>
+    </div>
+    <hr class="rule" />
+    <p class="body reveal reveal--d1 measure services__intro">
+      関東圏の中小企業と、開始、続行、統括の三層で関わる。経営者のとなりで事業の次の一手を決める、伴走型パートナーシップ。
+    </p>
+
+    <div class="plans">
+      <article class="plan reveal">
+        <div class="plan__tier num-en">Tier 01 · Starter</div>
+        <div class="plan__name">事業を診る。</div>
+        <div class="plan__price">¥300,000 <small>／ 一回</small></div>
+        <dl class="plan__dl">
+          <dt>Term</dt><dd>1ヶ月</dd>
+          <dt>Deliver</dt><dd>AI診断＋初回サイト</dd>
+          <dt>For</dt><dd>開始前の判断</dd>
+        </dl>
+        <p class="plan__note">経営の構造を読み、次に打つ手を 1 枚のレポートにする。続行契約の義務はなし。</p>
+      </article>
+
+      <article class="plan plan--featured reveal reveal--d1">
+        <div class="plan__mark" title="本命"></div>
+        <div class="plan__tier num-en">Tier 02 · Partner</div>
+        <div class="plan__name">となりで実装する。</div>
+        <div class="plan__price">¥150,000 <small>／ 月</small></div>
+        <dl class="plan__dl">
+          <dt>Term</dt><dd>最低 6ヶ月</dd>
+          <dt>Deliver</dt><dd>実装・運用・月次 QBR</dd>
+          <dt>KPI</dt><dd>経営者時間 ／ リードタイム</dd>
+        </dl>
+        <p class="plan__note">業務フローの再設計から、AI の実装、運用の定着まで。中核人材の引き押さえとして機能する。</p>
+      </article>
+
+      <article class="plan reveal reveal--d2">
+        <div class="plan__tier num-en">Tier 03 · Core</div>
+        <div class="plan__name">経営を統括する。</div>
+        <div class="plan__price">¥400,000〜 <small>／ 月</small></div>
+        <dl class="plan__dl">
+          <dt>Term</dt><dd>最低 12ヶ月</dd>
+          <dt>Deliver</dt><dd>戦略・ブランド・実装統括</dd>
+          <dt>KPI</dt><dd>EBITDA ／ 事業ポートフォリオ</dd>
+        </dl>
+        <p class="plan__note">多事業化・M&A を見訳えた中域のパートナーシップ。外部 COO 相当の役割を引き受ける。</p>
+      </article>
+    </div>
+
+    <div style="margin-top: var(--space-pause);">
+      <div class="kicker kicker--jp reveal">Sector ／ 業種別の打ち手</div>
+      <p class="body reveal reveal--d1 measure" style="margin-top:1rem;">
+        業種特有の判断には、業種特有のツール・データ・規制がある。Phasera は四業種を中心に、業種ごとに「判断のドラフトを上げる」ための実装を組む。
+      </p>
+
+      <!-- Industry 01 — 人材派遣 -->
+      <div class="industry-block reveal reveal--d1">
+        <div class="industry-block__head">
+          <div class="industry-block__label num-en">Sector 01 ／ Staff</div>
+          <h3 class="industry-block__name">人材派遣</h3>
+        </div>
+        <div class="industry-cards">
+          <article class="industry-card">
+            <div class="industry-card__num num-en">01</div>
+            <h4 class="industry-card__title">シフトと粗利の同期最適化</h4>
+            <p class="industry-card__desc">スタッフ稼働率と派遣単価から、AI が週次で同期最適化。営業利益の落ちラインを早期に可視化し、撤退判断にも材料を出す。</p>
+            <ul class="industry-card__tags">
+              <li>Power BI 基盤</li><li>GPT-API 自動連携</li><li>Slack 通知運用</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">02</div>
+            <h4 class="industry-card__title">営業日報 → 提案書 自動化</h4>
+            <p class="industry-card__desc">営業日報・面談メモから、社内向け提案書ドラフトを生成。営業 1 人あたり週 8 時間の事務作業を、判断と訪問の時間に戻す。</p>
+            <ul class="industry-card__tags">
+              <li>Notion AI</li><li>Make.com</li><li>HubSpot 連携</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">03</div>
+            <h4 class="industry-card__title">採用 KPI ダッシュボード</h4>
+            <p class="industry-card__desc">応募から定着までの 12 指標を、社長・現場・経理で同じ画面で見る。求人媒体ごとの ROI を月次で評価し、止める媒体を判断する。</p>
+            <ul class="industry-card__tags">
+              <li>Looker Studio</li><li>BigQuery</li><li>Indeed API</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <!-- Industry 02 — 士業 -->
+      <div class="industry-block reveal reveal--d1">
+        <div class="industry-block__head">
+          <div class="industry-block__label num-en">Sector 02 ／ Legal</div>
+          <h3 class="industry-block__name">士業（会計・法律・労働）</h3>
+        </div>
+        <div class="industry-cards">
+          <article class="industry-card">
+            <div class="industry-card__num num-en">01</div>
+            <h4 class="industry-card__title">顧問先 LTV 可視化</h4>
+            <p class="industry-card__desc">顧問契約の継続年数・案件単価・脱落要因を可視化。営業しなくても良い顧問先と、注力すべき顧問先を明確に分ける。</p>
+            <ul class="industry-card__tags">
+              <li>kintone</li><li>Looker Studio</li><li>電子帳簿保存法 対応</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">02</div>
+            <h4 class="industry-card__title">初回相談の質問仕分け</h4>
+            <p class="industry-card__desc">初回相談前の質問票・資料整理を AI が下書き。所長・パートナー時間から、本当の論点だけに集中投下できる構造へ。</p>
+            <ul class="industry-card__tags">
+              <li>ChatGPT Enterprise</li><li>クラウドサイン</li><li>TKC 連携</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">03</div>
+            <h4 class="industry-card__title">所長ナレッジの判例 RAG</h4>
+            <p class="industry-card__desc">過去案件・所長メモを検索可能化。新人 → 所長への質問を 50% 削減し、所長の判断時間を経営側へ戻す。</p>
+            <ul class="industry-card__tags">
+              <li>Azure OpenAI</li><li>Pinecone</li><li>M365</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <!-- Industry 03 — 建設業 -->
+      <div class="industry-block reveal reveal--d1">
+        <div class="industry-block__head">
+          <div class="industry-block__label num-en">Sector 03 ／ Construction</div>
+          <h3 class="industry-block__name">建設業</h3>
+        </div>
+        <div class="industry-cards">
+          <article class="industry-card">
+            <div class="industry-card__num num-en">01</div>
+            <h4 class="industry-card__title">現場原価のリアルタイム把握</h4>
+            <p class="industry-card__desc">日報・写真・購買を一元化し、週次で現場別原価率を可視化。赤字現場の途中撤退も、経営判断できる構造に。</p>
+            <ul class="industry-card__tags">
+              <li>kintone</li><li>Power BI</li><li>Bluetrend 連携</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">02</div>
+            <h4 class="industry-card__title">見積 → 受注 こぼれ分析</h4>
+            <p class="industry-card__desc">見積データと受注/失注理由を AI で分類。値引き判断と、断る勇気の両方に材料を出す。</p>
+            <ul class="industry-card__tags">
+              <li>Notion DB</li><li>GPT-API</li><li>Excel ブリッジ</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">03</div>
+            <h4 class="industry-card__title">安全書類 / 検査の自動化</h4>
+            <p class="industry-card__desc">安全書類・検査記録の作成時間を、現場監督から取り戻す。1 現場あたり月 12 時間の余白を、本来の管理時間へ。</p>
+            <ul class="industry-card__tags">
+              <li>kintone</li><li>AI-OCR</li><li>グリーンサイト 連携</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <!-- Industry 04 — 飲食店 -->
+      <div class="industry-block reveal reveal--d1">
+        <div class="industry-block__head">
+          <div class="industry-block__label num-en">Sector 04 ／ Food</div>
+          <h3 class="industry-block__name">飲食店</h3>
+        </div>
+        <div class="industry-cards">
+          <article class="industry-card">
+            <div class="industry-card__num num-en">01</div>
+            <h4 class="industry-card__title">店舗別 P&L の週次運用</h4>
+            <p class="industry-card__desc">POS・勤怠・原価を統合し、店舗別の営業利益を週次で把握。閉店判断・移転判断に使える材料を、経営者の手元に。</p>
+            <ul class="industry-card__tags">
+              <li>Square</li><li>freee</li><li>Looker Studio</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">02</div>
+            <h4 class="industry-card__title">メニュー × 単価 × 注文の最適化</h4>
+            <p class="industry-card__desc">注文データと単価を毎週突き合わせ、利益と回転の両軸で残す／落とすメニューを判断する。</p>
+            <ul class="industry-card__tags">
+              <li>POS API</li><li>GPT-API</li><li>単価表 自動生成</li>
+            </ul>
+          </article>
+          <article class="industry-card">
+            <div class="industry-card__num num-en">03</div>
+            <h4 class="industry-card__title">シフト × 売上予測</h4>
+            <p class="industry-card__desc">天候・予約・近隣イベントから売上予測を更新し、人件費率を週次で着地。月次の振り返りを、経営判断の材料で締めくくる。</p>
+            <ul class="industry-card__tags">
+              <li>天気 API</li><li>Air レジ</li><li>Slack 通知</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06.5 Compare -->
+<section class="compare" id="compare">
+  <div class="wrap">
+    <div class="kicker reveal bracket">06.5 ／ Compare</div>
+    <h2 class="heading reveal" style="margin-top:1rem;">
+      どこで Phasera は<br/>役に立つのか。
+    </h2>
+    <div class="readout reveal reveal--d1">
+      <span>SCOPE <strong>SMB · KANTO</strong></span>
+      <span>RANGE <strong>¥1B–¥30B</strong></span>
+      <span>POSITION <strong>BETWEEN BIG4 & FREELANCE</strong></span>
+    </div>
+    <hr class="rule" />
+    <p class="body reveal reveal--d1 measure">
+      大手 DX コンサル、SaaS 単体導入、内製化／情シス採用、Phasera。中小企業の経営者が選び得る選択肢を、同じ表で並べる。「Phasera が向く／向かない」を、最初から明示する。
+    </p>
+
+    <div class="compare-grid">
+      <article class="compare-card reveal">
+        <div class="compare-card__who">候補 A</div>
+        <div class="compare-card__name">大手 DX コンサル</div>
+        <p class="compare-card__desc">アクセンチュア・ABeam・Big4 系。年商数百億超の基幹刷新で本領発揮。月額数百万円から、数十名の体制で動く。</p>
+        <div class="compare-card__badge"><em>向く</em>大規模・全社横断</div>
+      </article>
+      <article class="compare-card reveal reveal--d1">
+        <div class="compare-card__who">候補 B</div>
+        <div class="compare-card__name">SaaS 単体導入</div>
+        <p class="compare-card__desc">freee・kintone・HubSpot など。ツールを入れること自体は早い・安い。判断プロセスへの組み込みは、利用側の自走に依存する。</p>
+        <div class="compare-card__badge"><em>向く</em>すでに設計が出来る組織</div>
+      </article>
+      <article class="compare-card reveal reveal--d2">
+        <div class="compare-card__who">候補 C</div>
+        <div class="compare-card__name">内製化／情シス採用</div>
+        <p class="compare-card__desc">中長期では正解。だが採用 → 立ち上げに 12〜24 ヶ月、年収 700〜1,000 万円。途中の判断ロスが見えづらい。</p>
+        <div class="compare-card__badge"><em>向く</em>採用体力がある組織</div>
+      </article>
+      <article class="compare-card compare-card--us reveal reveal--d3">
+        <div class="compare-card__mark">PHASERA</div>
+        <div class="compare-card__who">候補 D</div>
+        <div class="compare-card__name">Phasera</div>
+        <p class="compare-card__desc">月額 30〜80 万円台で、設計・実装・運用を一人の責任で持つ。意思決定者の隣に立ち、半年単位で結果に責任を持つ規模感。</p>
+        <div class="compare-card__badge"><em>向く</em>年商 1〜30 億円・経営者直轄</div>
+      </article>
+    </div>
+
+    <div class="compare-narrative">
+      <div class="compare-narrative__item reveal">
+        <div class="compare-narrative__n num-en">01 ／ Speed</div>
+        <h3 class="compare-narrative__title">2 週間で「判断の地図」を出す。</h3>
+        <p class="body">提案書ではなく、現場ヒアリングと実データから作る。最初の文書には、どこに集中しないかを含めて記す。打ち手の優先順位を、経営者と共有可能な形にする。</p>
+      </div>
+      <div class="compare-narrative__item reveal reveal--d1">
+        <div class="compare-narrative__n num-en">02 ／ Skin in the game</div>
+        <h3 class="compare-narrative__title">提案して帰る会社では、ない。</h3>
+        <p class="body">実装、運用も、Phasera の名で引き受ける。途中で投げない、途中で人を入れ替えない。半年単位の契約で、結果に責任を持つ。</p>
+      </div>
+      <div class="compare-narrative__item reveal reveal--d2">
+        <div class="compare-narrative__n num-en">03 ／ Sunset</div>
+        <h3 class="compare-narrative__title">やめることも、提案する。</h3>
+        <p class="body">稼働しない SaaS、効かない自動化、効かない KPI。撤退は失敗ではなく、判断材料の確保。引き止めない契約条項を、最初に書く。</p>
+      </div>
+    </div>
+
+    <div class="compare-fit">
+      <div class="compare-fit__col compare-fit__col--ok">
+        <div class="compare-fit__head reveal">Phasera が向く組織</div>
+        <ul>
+          <li class="reveal">関東圏に拠点があり、年商 1〜30 億円のレンジ</li>
+          <li class="reveal reveal--d1">意思決定者と直接話せる体制（社長／役員直轄）</li>
+          <li class="reveal reveal--d2">SaaS や AI を入れたが、稼働しないために止まっている</li>
+          <li class="reveal reveal--d2">採用ではなく、まず半年で動かしたい</li>
+          <li class="reveal reveal--d3">やめる判断も含めて任せたい</li>
+        </ul>
+      </div>
+      <div class="compare-fit__col compare-fit__col--ng">
+        <div class="compare-fit__head reveal">Phasera が向かない組織</div>
+        <ul>
+          <li class="reveal">年商 100 億円超の全社基幹刷新（大手 DX が適正）</li>
+          <li class="reveal reveal--d1">提案書・RFP の枚数で評価する文化</li>
+          <li class="reveal reveal--d2">「とりあえず AI を入れて何かしたい」フェーズ</li>
+          <li class="reveal reveal--d2">意思決定までに役職者 5 名以上を経由する</li>
+          <li class="reveal reveal--d3">毎週の定例会議で進捗を細かく管理したい</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 Founder -->
+<section class="founder" id="founder">
+  <div class="wrap">
+    <div class="kicker reveal bracket">07 ／ Founder</div>
+    <h2 class="heading reveal" style="margin-top:1rem;">
+      一人の経営者の<br/>となりに立つ仕事。
+    </h2>
+    <hr class="rule" />
+
+    <div class="founder__grid" style="margin-top:4rem;">
+      <div class="portrait reveal">
+        <div class="portrait__meta num-en">Portrait — placeholder</div>
+        <div class="portrait__label">横顔 ／ 手元 ／ 環境写真 — drop photo</div>
+      </div>
+
+      <div>
+        <div class="founder__name reveal">
+          濱田 大夢
+          <small>Hamada Hiromu ／ Principal · 2023–</small>
+        </div>
+        <hr class="rule reveal" />
+
+        <div class="founder-qa">
+          <div class="founder-qa__item reveal reveal--d1">
+            <div class="founder-qa__q">なぜ、判断を売ると言い切るのか。</div>
+            <p class="body founder-qa__a">
+              中小企業の現場で繰り返し見てきたのは、「ツール不足」ではなく「判断材料の不足」だった。情報は手元にあるのに、整える役が空いている。だから作業を巻き取るのではなく、判断の解像度を上げる側を引き受ける。Phasera は、その責任を買う側に立つためのブランドである。
+            </p>
+          </div>
+
+          <div class="founder-qa__item reveal reveal--d2">
+            <div class="founder-qa__q">なぜ、関東圏に絞るのか。</div>
+            <p class="body founder-qa__a">
+              週次で社長の隣に立てる距離が、伴走の品質に直結する。Zoom だけで動く伴走は、半年で必ず止まる。だから移動 2 時間圏内、川崎を起点に、引き受ける会社を選ぶ。スケールではなく、密度を取る。
+            </p>
+          </div>
+
+          <div class="founder-qa__item reveal reveal--d3">
+            <div class="founder-qa__q">途中で逃げない、と言い切れる理由は。</div>
+            <p class="body founder-qa__a">
+              半年単位の契約に、撤退条項を最初に書く。Phasera 側から人を替えない、引き続ける前提にしない。代わりに、効かなかった時に止まる権利を、双方に同じ重さで置く。短期は関東圏の中小企業と契る。中長期は、承継型 M&amp;A を武器に、サービス業のロールアップで年商 100 億円規模を目指す。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 Vision -->
+<section class="vision" id="vision">
+  <div class="wrap">
+    <div class="vision__pre reveal">10 年後の風景。</div>
+    <div class="vision__body">
+      <p class="reveal reveal--d1">サービス業ロールアップ型で、年商 100 億円。</p>
+      <p class="reveal reveal--d2">断片化した中小の市場を、AI と判断で統合する。承継を武器に、業種特有の判断をカタチにしていく。</p>
+      <p class="reveal reveal--d3">経営者は、目の前の案件と、次の案件とを、選べるようになる。</p>
+    </div>
+    <div class="vision__final reveal reveal--d4">
+      その場所に、Phasera は先に立つ。
+    </div>
+  </div>
+</section>
+
+<!-- 08.5 Voices -->
+<section class="voices" id="voices">
+  <div class="wrap">
+    <div class="kicker reveal bracket">08 ／ Voices</div>
+    <h2 class="heading reveal" style="margin-top:1rem;">
+      経営者は、<br/>時間と判断が戻ってくる。
+    </h2>
+    <div class="readout reveal reveal--d1">
+      <span>SOURCE <strong>PILOT CLIENTS</strong></span>
+      <span>AVG CYCLE <strong>6 MO</strong></span>
+      <span>NDA <strong>NAMES REDACTED</strong></span>
+    </div>
+    <hr class="rule" />
+    <p class="body reveal reveal--d1 measure">
+      守秘契約のため企業名は伏せるが、関東圏の中小企業経営者から返ってきた、三つの声を挙げる。
+    </p>
+
+    <div class="voices__grid">
+      <article class="voice reveal reveal--blur">
+        <div class="voice__quote-mark">“</div>
+        <div class="voice__industry">Sector 01 ／ 税理士法人</div>
+        <p class="voice__body">
+          審査と顧客対応が、私の手元に全部戻ってきていた。AI の話を持ちかけた会社はあったが、実装まで責任を取るのは初めてだった。3 ヶ月で、朝の時間が戻った。
+        </p>
+        <div class="voice__result"><em>−38</em>h ／ 月</div>
+        <div class="voice__by">関東圏 税理士法人 代表</div>
+      </article>
+
+      <article class="voice reveal reveal--blur reveal--d1">
+        <div class="voice__quote-mark">“</div>
+        <div class="voice__industry">Sector 02 ／ 人材紹介</div>
+        <p class="voice__body">
+          提案書を置いて帰る会社とは、関わり方が違う。業務フローと採用稟議を、同じ人間が同時に引き直す。はじめて「設計を買った」という手応えがあった。
+        </p>
+        <div class="voice__result">リードタイム −52%</div>
+        <div class="voice__by">人材紹介 事業責任者</div>
+      </article>
+
+      <article class="voice reveal reveal--blur reveal--d2">
+        <div class="voice__quote-mark">“</div>
+        <div class="voice__industry">Sector 03 ／ 製造受発注</div>
+        <p class="voice__body">
+          Excel 台帳の文化から抜けられないと諦めていた。押し切る設計ではなく、うちの判断の筋道を残してくれた。現場が AI を受け入れた理由は、たぶんそれだ。
+        </p>
+        <div class="voice__result"><em>EBITDA +2.8</em>pt</div>
+        <div class="voice__by">製造業 代表取締役</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 08.7 FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="kicker reveal bracket">FAQ ／ よくある問い</div>
+    <h2 class="heading reveal" style="margin-top:1rem;">
+      ひらく、<br/>不安と質問。
+    </h2>
+    <hr class="rule" />
+
+    <div class="faq__tabs reveal reveal--d1" id="faq-tabs">
+      <button class="faq__tab is-active" data-cat="all">すべて</button>
+      <button class="faq__tab" data-cat="price">料金 ／ 契約</button>
+      <button class="faq__tab" data-cat="record">実績</button>
+      <button class="faq__tab" data-cat="process">進め方</button>
+      <button class="faq__tab" data-cat="industry">業種別</button>
+    </div>
+
+    <div class="faq__list" id="faq-list">
+
+      <div class="faq__item reveal" data-cat="price">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>料金はどのぐらいですか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>伴走契約は月額 30〜80 万円台が中心です。初回は要件整理を兼ねた診断フェーズ（30 万円〜）でスタートし、本契約は 6 ヶ月単位。導入する SaaS / AI 利用料は実費で別途いただきます。提案書・初回ヒアリングまでは無料です。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d1" data-cat="price">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>契約はどのぐらいの期間ですか。解約は。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>6 ヶ月単位の伴走契約が基本です。中途解約は両者からの 30 日前通知で可能。最初の契約書に「効かなかった時に止まる条項」を明記しています。続行を強要する設計にはしません。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d1" data-cat="record">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>実績や事例はありますか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>関東圏の中小企業（人材派遣・士業・建設・飲食ほか）を中心に、20 社超の伴走実績があります。事例は秘密保持の関係上、個別の打ち合わせの中で、相応の範囲でお話しします。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d2" data-cat="process">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>商談はどのように進みますか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>① 無料相談 60 分（オンライン or 関東圏訪問）→ ② 現状ヒアリング 2 週間 → ③「判断の地図」提出 → ④ 着手 or 見送りの合意。①②に費用は発生しません。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d2" data-cat="process">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>すでにツールが入っています。乗り換えになりますか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>ほとんどの場合、乗り換えではなく接続から始めます。kintone・freee・HubSpot・Notion など、すでに動いているものを優先的に活かします。乗り換えが合理的な場合のみ、撤退コストとセットで提案します。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d2" data-cat="industry">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>関東圏外でも依頼できますか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>原則は関東圏（東京・神奈川・千葉・埼玉）で、月 1 回の対面訪問が可能な範囲を最優先しています。それ以外の地域は、移動時間と費用を踏まえた上でご相談ください。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d3" data-cat="industry">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>業種が一覧にないのですが。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>掲載した 4 業種以外も対応します。「経営者直轄で、年商 1〜30 億円・関東圏」のレンジに該当する場合は、まずお気軽にご相談ください。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d3" data-cat="price">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>IT 導入補助金 / 事業再構築補助金は使えますか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>対象になる範囲で申請をサポートします。ただし補助金前提で動かず、補助金が落ちても判断と稼働が止まらない設計を、最初の時点でご提案します。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d3" data-cat="record">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>社内に IT 担当者がいません。それでも大丈夫ですか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>むしろ、その前提で組まれた伴走です。社内側の窓口は、経営者ご本人 1 名で構いません。Phasera 側で実装と運用の責任を持ちます。</p>
+        </div>
+      </div>
+
+      <div class="faq__item reveal reveal--d3" data-cat="process">
+        <button class="faq__q" type="button" aria-expanded="false">
+          <span>担当者が途中で変わることはありますか。</span>
+          <span class="faq__q-mark" aria-hidden="true"></span>
+        </button>
+        <div class="faq__a">
+          <p>原則、ありません。Phasera は代表 1 名の責任で動き、外部の専門家を必要に応じて巻き込む体制です。途中で人を入れ替えないことを、契約書に明記します。</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 08.9 Final CTA — scarcity + risk reversal -->
+<section class="final-cta" aria-label="最終的な相談導線">
+  <div class="final-cta__inner reveal reveal--scale reveal--slow">
+    <div class="final-cta__kicker">Begin ／ 次の一手を、決める</div>
+    <h2 class="final-cta__title">
+      事業の現況を、<br/>60 分だけ、預けてみる。
+    </h2>
+    <p class="final-cta__body">
+      関東圏の中小企業経営者のための、AI×DX 伴走パートナー。初回相談は無料、提案書の提出までが無料。続行の義務はありません。合う／合わない、双方で見極める場として使ってください。
+    </p>
+    <div class="final-cta__actions">
+      <a class="glass glass--sm magnetic" href="#contact" style="padding:1em 2em;font-size:.95rem;">
+        60 分・無料で相談する <span class="arrow">→</span>
+      </a>
+      <a class="glass glass--ink magnetic" href="#services" style="padding:1em 2em;font-size:.95rem;">
+        プランを見る <span class="arrow">→</span>
+      </a>
+    </div>
+    <div class="final-cta__slots">
+      <span class="hud__dot" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#F2F5FA;margin-right:.6em;vertical-align:1px;"></span>
+      Q2 2026 受入枠 ／ <strong>残 02 ／ 04</strong> ・ 次回募集は Q3 開始後
+    </div>
+  </div>
+</section>
+
+<!-- 09 Contact -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact__inner">
+      <div>
+        <div class="kicker reveal bracket">09 ／ Contact</div>
+        <h2 class="heading reveal" style="margin-top:1rem;">
+          まず、<br/>60 分だけ話す。
+        </h2>
+        <hr class="rule" />
+        <p class="body reveal reveal--d1">
+          初回相談は無料、所要 60 分。営業電話・メルマガ登録・契約即決の前提なし。話してみて合わないと感じたら、その場で持ち帰って構いません。取材・登壇依頼もこちらから。
+        </p>
+
+        <ul class="contact-assurances reveal reveal--d1">
+          <li><em>2 営業日以内</em>にご返信します。</li>
+          <li>営業電話・営業メールは <em>一切ありません</em>。</li>
+          <li>秘密保持は <em>初回相談から</em> 適用されます。</li>
+          <li>合わない場合は、<em>同等規模の他社</em> をご紹介します。</li>
+        </ul>
+
+        <form class="cform reveal reveal--d2" id="contact-form" data-mailto="hello@phasera.jp" novalidate>
+          <div class="cform__row">
+            <div class="cform__field">
+              <label class="cform__label" for="cf-name">お名前 <em>*</em></label>
+              <input class="cform__input" id="cf-name" name="name" type="text" required autocomplete="name" />
+            </div>
+            <div class="cform__field">
+              <label class="cform__label" for="cf-company">会社名・屋号 <em>*</em></label>
+              <input class="cform__input" id="cf-company" name="company" type="text" required autocomplete="organization" />
+            </div>
+          </div>
+
+          <div class="cform__row">
+            <div class="cform__field">
+              <label class="cform__label" for="cf-email">メールアドレス <em>*</em></label>
+              <input class="cform__input" id="cf-email" name="email" type="email" required autocomplete="email" />
+            </div>
+            <div class="cform__field">
+              <label class="cform__label" for="cf-phone">お電話（任意）</label>
+              <input class="cform__input" id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" />
+            </div>
+          </div>
+
+          <div class="cform__field">
+            <label class="cform__label" for="cf-industry">業種 <em>*</em></label>
+            <select class="cform__input cform__select" id="cf-industry" name="industry" required>
+              <option value="">— 選択してください</option>
+              <option value="staff">人材派遣</option>
+              <option value="legal">士業（会計・法律・労働）</option>
+              <option value="construction">建設業</option>
+              <option value="food">飲食店</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label class="cform__label" for="cf-tier">関心のあるプラン（任意）</label>
+            <select class="cform__input cform__select" id="cf-tier" name="tier">
+              <option value="">— 未定 ／ まずは相談</option>
+              <option value="starter">Tier 01 · Starter（事業を診る）</option>
+              <option value="partner">Tier 02 · Partner（となりで実装する）</option>
+              <option value="core">Tier 03 · Core（経営を統括する）</option>
+              <option value="other">取材・登壇・その他</option>
+            </select>
+          </div>
+
+          <div class="cform__field">
+            <label class="cform__label" for="cf-message">ご相談内容 <em>*</em></label>
+            <textarea class="cform__textarea" id="cf-message" name="message" rows="5" required placeholder="事業の現況、課題、期待したい範囲など、差し支えない範囲でご記入ください。"></textarea>
+          </div>
+
+          <label class="cform__consent">
+            <input type="checkbox" id="cf-consent" name="consent" required />
+            <span>ご記入内容は相互 NDA 締結前提で取り扱い、返信・打合せ調整以外の目的では使用しません。</span>
+          </label>
+
+          <!-- honeypot (anti-spam, hidden from users) -->
+          <div class="cform__honeypot" aria-hidden="true">
+            <label for="cf-website">Website</label>
+            <input type="text" id="cf-website" name="company_url" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="cform__footer">
+            <button class="glass glass--ink cform__submit" type="submit">
+              <span class="cform__submit-text">相談内容を送信する</span> <span class="arrow">→</span>
+            </button>
+            <span class="cform__note">通常 1〜2 営業日以内にご返信します。</span>
+          </div>
+
+          <div class="cform__ok" id="cform-ok" role="status" aria-live="polite">
+            送信の準備が整いました。続けてメールアプリが開きますので、そのまま送信してください。<br/>
+            <span class="cform__ok-note">うまく開かない場合は、お手数ですが直接ご連絡ください。</span>
+          </div>
+        </form>
+      </div>
+
+      <div class="contact__channels reveal reveal--d1">
+        <a class="channel" href="#">
+          <span class="channel__label">Based</span>
+          <span class="channel__value">神奈川 ／ 川崎</span>
+        </a>
+        <a class="channel" href="#">
+          <span class="channel__label">Coords</span>
+          <span class="channel__value num-en">N 35.6° · E 139.5°</span>
+        </a>
+        <a class="channel" href="#">
+          <span class="channel__label">Range</span>
+          <span class="channel__value">関東圏 ／ 移動 2 時間圏内</span>
+        </a>
+        <a class="channel" href="#">
+          <span class="channel__label">Hours</span>
+          <span class="channel__value">平日 10:00 – 19:00</span>
+        </a>
+        <a class="channel" href="#">
+          <span class="channel__label">Reply</span>
+          <span class="channel__value">2 営業日以内</span>
+        </a>
+        <a class="channel" href="#">
+          <span class="channel__label">X</span>
+          <span class="channel__value">@hamada_phasera</span>
+        </a>
+        <a class="channel" href="#">
+          <span class="channel__label">note</span>
+          <span class="channel__value">note.com/phasera</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer__grid">
+    <div class="footer__brand">Phasera</div>
+    <div class="footer__copy">© 2026 Phasera. Judgment, delivered.</div>
+  </div>
+</footer>
+
+<!-- Tweaks panel -->
+<div class="tweaks" id="tweaks">
+  <h4>Tweaks <span>Live</span></h4>
+  <label>
+    アクセント
+    <select id="tw-accent">
+      <option value="moss">苔 (default)</option>
+      <option value="sumi">墨</option>
+      <option value="indigo">藍</option>
+      <option value="akane">茜</option>
+    </select>
+  </label>
+  <label>
+    見出し
+    <select id="tw-heading">
+      <option value="shippori">Manrope (Display)</option>
+      <option value="noto">Inter Tight (Body)</option>
+      <option value="yu">Mixed (JP fallback)</option>
+    </select>
+  </label>
+  <label>
+    背景の紙色
+    <select id="tw-paper">
+      <option value="warm">生成り (default)</option>
+      <option value="cool">月白</option>
+      <option value="ink">墨 (dark)</option>
+    </select>
+  </label>
+  <label>
+    グラスぼかし
+    <input id="tw-blur" type="range" min="0" max="30" value="18" />
+  </label>
+  <label>
+    ヒーロー装飾
+    <select id="tw-orb">
+      <option value="on">球 (default)</option>
+      <option value="off">なし</option>
+    </select>
+  </label>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── Interactive futuristic background ──────────────────
+   Cursor-reactive particle constellation. Quiet tone: ink
+   dots on washi. Repels near cursor, links nearby neighbors. */
+(function bgfx() {
+  const canvas = document.getElementById('bgfx');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d', { alpha: true });
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  let W = 0, H = 0;
+  let particles = [];
+  const mouse = { x: -9999, y: -9999, vx: 0, vy: 0, active: false };
+  let prevMx = 0, prevMy = 0;
+
+  const PARTICLE_COUNT = () => {
+    const area = W * H;
+    return Math.min(140, Math.max(50, Math.round(area / 18000)));
+  };
+
+  function resize() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const target = PARTICLE_COUNT();
+    if (particles.length < target) {
+      for (let i = particles.length; i < target; i++) particles.push(spawn());
+    } else {
+      particles.length = target;
+    }
+  }
+
+  function spawn() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.12,
+      vy: (Math.random() - 0.5) * 0.12,
+      r: 0.6 + Math.random() * 1.4,
+      phase: Math.random() * Math.PI * 2,
+      hueShift: Math.random()
+    };
+  }
+
+  // Read theme colors so canvas stays in sync with paper/ink tweaks
+  function getColors() {
+    const cs = getComputedStyle(document.documentElement);
+    const ink = cs.getPropertyValue('--color-ink').trim() || '#0B1E3F';
+    const moss = cs.getPropertyValue('--color-moss').trim() || '#3C66D9';
+    return { ink, moss };
+  }
+
+  function hexToRgb(hex) {
+    const h = hex.replace('#', '');
+    const n = h.length === 3
+      ? h.split('').map(c => parseInt(c + c, 16))
+      : [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)];
+    return n;
+  }
+
+  let cols = getColors();
+  let rgbInk = hexToRgb(cols.ink);
+  let rgbMoss = hexToRgb(cols.moss);
+
+  function refreshColors() {
+    cols = getColors();
+    rgbInk = hexToRgb(cols.ink);
+    rgbMoss = hexToRgb(cols.moss);
+  }
+
+  // Mouse tracking
+  window.addEventListener('pointermove', (e) => {
+    mouse.vx = e.clientX - prevMx;
+    mouse.vy = e.clientY - prevMy;
+    prevMx = e.clientX;
+    prevMy = e.clientY;
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  }, { passive: true });
+  window.addEventListener('pointerleave', () => { mouse.active = false; mouse.x = -9999; mouse.y = -9999; });
+
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let t = 0;
+  function tick() {
+    t += 0.006;
+    ctx.clearRect(0, 0, W, H);
+
+    const linkDist = Math.min(160, Math.max(90, W * 0.09));
+    const repelDist = 140;
+
+    // update
+    for (let p of particles) {
+      // gentle drift
+      p.x += p.vx + Math.sin(t + p.phase) * 0.05;
+      p.y += p.vy + Math.cos(t * 0.8 + p.phase) * 0.05;
+
+      // cursor repel
+      if (mouse.active) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const d2 = dx*dx + dy*dy;
+        if (d2 < repelDist * repelDist && d2 > 0.1) {
+          const d = Math.sqrt(d2);
+          const force = (1 - d / repelDist) * 0.9;
+          p.vx += (dx / d) * force;
+          p.vy += (dy / d) * force;
+        }
+      }
+
+      // friction
+      p.vx *= 0.96;
+      p.vy *= 0.96;
+
+      // wrap
+      if (p.x < -20) p.x = W + 20;
+      if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20;
+      if (p.y > H + 20) p.y = -20;
+    }
+
+    // links
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d2 = dx*dx + dy*dy;
+        if (d2 < linkDist * linkDist) {
+          const d = Math.sqrt(d2);
+          const alpha = (1 - d / linkDist) * 0.22;
+
+          // tint: closer to cursor → moss, else → ink
+          let tint = 0;
+          if (mouse.active) {
+            const mx = (a.x + b.x) * 0.5 - mouse.x;
+            const my = (a.y + b.y) * 0.5 - mouse.y;
+            const md = Math.sqrt(mx*mx + my*my);
+            tint = Math.max(0, 1 - md / 260);
+          }
+          const r = Math.round(rgbInk[0] * (1 - tint) + rgbMoss[0] * tint);
+          const g = Math.round(rgbInk[1] * (1 - tint) + rgbMoss[1] * tint);
+          const bl = Math.round(rgbInk[2] * (1 - tint) + rgbMoss[2] * tint);
+
+          ctx.strokeStyle = `rgba(${r},${g},${bl},${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // dots
+    for (let p of particles) {
+      let tint = 0;
+      if (mouse.active) {
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const d = Math.sqrt(dx*dx + dy*dy);
+        tint = Math.max(0, 1 - d / 200);
+      }
+      const r  = Math.round(rgbInk[0] * (1 - tint) + rgbMoss[0] * tint);
+      const g  = Math.round(rgbInk[1] * (1 - tint) + rgbMoss[1] * tint);
+      const bl = Math.round(rgbInk[2] * (1 - tint) + rgbMoss[2] * tint);
+      ctx.fillStyle = `rgba(${r},${g},${bl},${0.55 + tint * 0.35})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r + tint * 1.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // cursor halo
+    if (mouse.active) {
+      const grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 180);
+      grad.addColorStop(0, `rgba(${rgbMoss[0]},${rgbMoss[1]},${rgbMoss[2]},0.10)`);
+      grad.addColorStop(1, `rgba(${rgbMoss[0]},${rgbMoss[1]},${rgbMoss[2]},0)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 180, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    if (!REDUCED) requestAnimationFrame(tick);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  // Re-read colors whenever the tweak panel changes the document
+  const mo = new MutationObserver(() => refreshColors());
+  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['style'] });
+
+  if (REDUCED) {
+    // Draw one static frame
+    tick();
+  } else {
+    requestAnimationFrame(tick);
+  }
+})();
+
+/* ── HUD clock + phase ticker ───────────────────── */
+(function hud() {
+  const clock = document.getElementById('hud-clock');
+  const phase = document.getElementById('hud-phase');
+  const pad = (n) => String(n).padStart(2, '0');
+  function tick() {
+    const d = new Date();
+    if (clock) clock.innerHTML = `<strong>JST ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}</strong>`;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // Section phase indicator synced to scroll
+  const sections = ['top','problem','approach','evidence','services','compare','founder','vision','voices','faq','contact'];
+  const labels = [
+    'PHASE 01 ／ HERO',
+    'PHASE 02 ／ PROBLEM',
+    'PHASE 04 ／ APPROACH',
+    'PHASE 05 ／ EVIDENCE',
+    'PHASE 06 ／ SERVICES',
+    'PHASE 06.5 ／ COMPARE',
+    'PHASE 07 ／ FOUNDER',
+    'PHASE 08 ／ VISION',
+    'PHASE 08.5 ／ VOICES',
+    'PHASE 08.7 ／ FAQ',
+    'PHASE 09 ／ CONTACT'
+  ];
+  const io2 = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const i = sections.indexOf(e.target.id);
+        if (i >= 0 && phase) phase.innerHTML = `<strong>${labels[i]}</strong>`;
+      }
+    });
+  }, { threshold: 0.35 });
+  sections.forEach(id => { const el = document.getElementById(id); if (el) io2.observe(el); });
+})();
+
+/* ── Scroll progress bar ────────────────────────────────
+   幅を scroll 進捗に連動。smooth easing。 */
+(function scrollProgress() {
+  const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
+  let raf = 0;
+  function update() {
+    raf = 0;
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', () => {
+    if (!raf) raf = requestAnimationFrame(update);
+  }, { passive: true });
+  update();
+})();
+
+/* ── Side nav active state ─────────────────────────────
+   セクションに入ったら対応ドットを active に。 */
+(function sideNav() {
+  const dots = document.querySelectorAll('.side-nav__dot');
+  if (!dots.length) return;
+  const map = new Map();
+  dots.forEach(d => {
+    const id = d.getAttribute('href').replace('#','');
+    map.set(id, d);
+  });
+  const io3 = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        dots.forEach(d => d.classList.remove('is-active'));
+        const dot = map.get(e.target.id);
+        if (dot) dot.classList.add('is-active');
+      }
+    });
+  }, { threshold: 0.45 });
+  map.forEach((_, id) => {
+    const el = document.getElementById(id);
+    if (el) io3.observe(el);
+  });
+})();
+
+/* ── Sticky mobile CTA reveal after scroll past hero ─── */
+(function stickyCta() {
+  const el = document.getElementById('sticky-cta');
+  if (!el) return;
+  const hero = document.getElementById('top');
+  if (!hero) return;
+  const io4 = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) el.classList.remove('is-in');
+    else el.classList.add('is-in');
+  }, { threshold: 0, rootMargin: '-60% 0px 0px 0px' });
+  io4.observe(hero);
+})();
+
+/* ── Magnetic CTA buttons ──────────────────────────────
+   マウス近接時にボタンが少しだけ寄る。Apple 的な微反応。 */
+(function magnetic() {
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (REDUCED) return;
+  const els = document.querySelectorAll('.magnetic');
+  const STRENGTH = 0.22;
+  els.forEach(el => {
+    let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0;
+    function loop() {
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      el.style.setProperty('--mx', cx.toFixed(2) + 'px');
+      el.style.setProperty('--my', cy.toFixed(2) + 'px');
+      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        raf = 0;
+      }
+    }
+    el.addEventListener('pointermove', (e) => {
+      const r = el.getBoundingClientRect();
+      tx = (e.clientX - (r.left + r.width/2)) * STRENGTH;
+      ty = (e.clientY - (r.top  + r.height/2)) * STRENGTH;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+    el.addEventListener('pointerleave', () => {
+      tx = 0; ty = 0;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+  });
+})();
+
+/* ── Contact form ──────────────────────────────────────
+   バックエンド未接続。送信時は mailto 下書きを開く。
+   data-mailto 属性で宛先差し替え可能。 */
+(function contactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  const ok = document.getElementById('cform-ok');
+  const submit = form.querySelector('.cform__submit');
+  const submitText = form.querySelector('.cform__submit-text');
+  const to = form.dataset.mailto || 'hello@phasera.jp';
+
+  const tierMap = {
+    starter: 'Tier 01 · Starter（事業を診る）',
+    partner: 'Tier 02 · Partner（となりで実装する）',
+    core:    'Tier 03 · Core（経営を統括する）',
+    other:   '取材・登壇・その他',
+  };
+  const industryMap = {
+    staff:        '人材派遣',
+    legal:        '士業（会計・法律・労働）',
+    construction: '建設業',
+    food:         '飲食店',
+    other:        'その他',
+  };
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.classList.add('is-submitted');
+
+    if (!form.checkValidity()) {
+      const firstInvalid = form.querySelector(':invalid');
+      if (firstInvalid && typeof firstInvalid.focus === 'function') firstInvalid.focus();
+      return;
+    }
+
+    const data = new FormData(form);
+    const get = (k) => (data.get(k) || '').toString().trim();
+
+    // honeypot
+    if (get('company_url')) {
+      if (ok) ok.classList.add('is-in');
+      return;
+    }
+
+    const name     = get('name');
+    const company  = get('company');
+    const email    = get('email');
+    const phone    = get('phone');
+    const tier     = get('tier');
+    const industry = get('industry');
+    const message  = get('message');
+    const tierLabel     = tierMap[tier] || '未定 ／ まずは相談';
+    const industryLabel = industryMap[industry] || industry || '未指定';
+
+    const subject = `【相談】${company} ／ ${name}`;
+    const body = [
+      'Phasera 初回相談フォーム',
+      '',
+      `お名前：${name}`,
+      `会社名・屋号：${company}`,
+      `メール：${email}`,
+      phone ? `電話：${phone}` : null,
+      `業種：${industryLabel}`,
+      `関心のあるプラン：${tierLabel}`,
+      '',
+      'ご相談内容：',
+      message,
+      '',
+      '— Phasera LP より送信'
+    ].filter(Boolean).join('\n');
+
+    const url = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    if (submitText) submitText.textContent = '送信しました';
+    if (submit) submit.setAttribute('disabled', 'true');
+    if (ok) ok.classList.add('is-in');
+    window.location.href = url;
+  });
+})();
+
+/* ── FAQ accordion + category tabs ─────────────────────
+   1 つ開いている間、他を閉じない（複数同時に開いてよい）。
+   タブで data-cat フィルタ。"all" は全件表示。 */
+(function faq() {
+  document.querySelectorAll('.faq__item').forEach(item => {
+    const q = item.querySelector('.faq__q');
+    if (!q) return;
+    q.addEventListener('click', () => {
+      const open = item.classList.toggle('is-open');
+      q.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  const tabs = document.getElementById('faq-tabs');
+  const list = document.getElementById('faq-list');
+  if (!tabs || !list) return;
+  tabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('.faq__tab');
+    if (!btn) return;
+    tabs.querySelectorAll('.faq__tab').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const cat = btn.dataset.cat;
+    list.querySelectorAll('.faq__item').forEach(item => {
+      const show = (cat === 'all') || (item.dataset.cat === cat);
+      item.classList.toggle('is-hidden', !show);
+      if (!show) item.classList.remove('is-open');
+    });
+  });
+})();
+
+
+/* ── Char split ───────────────────────────────── */
+document.querySelectorAll('[data-chars]').forEach(el => {
+  const txt = el.textContent;
+  el.textContent = '';
+  [...txt].forEach((c, i) => {
+    const s = document.createElement('span');
+    s.textContent = c;
+    s.style.transitionDelay = (i * 0.035) + 's';
+    el.appendChild(s);
+  });
+});
+
+/* ── Reveal on intersect ───────────────────────────────── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+document.querySelectorAll('.reveal, [data-chars]').forEach(el => io.observe(el));
+
+/* Hero chars fire immediately */
+setTimeout(() => {
+  document.querySelectorAll('.hero [data-chars]').forEach(el => el.classList.add('is-in'));
+  document.querySelectorAll('.hero .reveal').forEach(el => el.classList.add('is-in'));
+}, 80);
+
+/* ── Tweaks ───────────────────────────────── */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "akane",
+  "heading": "shippori",
+  "paper": "cool",
+  "blur": 19,
+  "orb": "on"
+}/*EDITMODE-END*/;
+
+const state = { ...TWEAK_DEFAULTS };
+const root = document.documentElement;
+
+function applyAccent(v) {
+  const map = {
+    moss:   ['#3C66D9', '#5A91DD'],
+    sumi:   ['#0B1E3F', '#1E3358'],
+    indigo: ['#2B3A55', '#4A5E80'],
+    akane:  ['#6B2C2C', '#8F4848'],
+  }[v] || ['#3C66D9', '#5A91DD'];
+  root.style.setProperty('--color-moss', map[0]);
+  root.style.setProperty('--color-moss-light', map[1]);
+}
+function applyHeading(v) {
+  const map = {
+    shippori: '"Manrope", "Noto Sans JP", system-ui, sans-serif',
+    noto:     '"Inter Tight", "Noto Sans JP", system-ui, sans-serif',
+    yu:       '"Manrope", "Inter Tight", "Noto Sans JP", system-ui, sans-serif',
+  }[v];
+  root.style.setProperty('--font-mincho', map);
+}
+function applyPaper(v) {
+  if (v === 'cool') {
+    root.style.setProperty('--color-paper', '#F2F5FA');
+    root.style.setProperty('--color-paper-deep', '#E7EDF6');
+    root.style.setProperty('--color-paper-shade', '#DDE4F0');
+    root.style.setProperty('--color-ink', '#0B1E3F');
+    root.style.setProperty('--color-ink-soft', '#1E3358');
+    root.style.setProperty('--color-ink-faint', '#4D6488');
+    root.style.setProperty('--color-rule', 'rgba(11,30,63,0.12)');
+  } else if (v === 'ink') {
+    root.style.setProperty('--color-paper', '#151515');
+    root.style.setProperty('--color-paper-deep', '#1D1D1C');
+    root.style.setProperty('--color-paper-shade', '#242423');
+    root.style.setProperty('--color-ink', '#E8E5DE');
+    root.style.setProperty('--color-ink-soft', '#B8B5AE');
+    root.style.setProperty('--color-ink-faint', '#6A6862');
+    root.style.setProperty('--color-rule', '#2A2926');
+  } else {
+    root.style.setProperty('--color-paper', '#F2F5FA');
+    root.style.setProperty('--color-paper-deep', '#E7EDF6');
+    root.style.setProperty('--color-paper-shade', '#DDE4F0');
+    root.style.setProperty('--color-ink', '#0B1E3F');
+    root.style.setProperty('--color-ink-soft', '#1E3358');
+    root.style.setProperty('--color-ink-faint', '#4D6488');
+    root.style.setProperty('--color-rule', 'rgba(11,30,63,0.12)');
+  }
+}
+function applyBlur(v) {
+  document.querySelectorAll('.glass, .nav, .plan, .tweaks').forEach(el => {
+    el.style.backdropFilter = `blur(${v}px) saturate(180%)`;
+    el.style.webkitBackdropFilter = `blur(${v}px) saturate(180%)`;
+  });
+}
+function applyOrb(v) {
+  const orb = document.querySelector('.hero__orb');
+  if (orb) orb.style.display = (v === 'off') ? 'none' : '';
+}
+
+function applyAll() {
+  applyAccent(state.accent);
+  applyHeading(state.heading);
+  applyPaper(state.paper);
+  applyBlur(state.blur);
+  applyOrb(state.orb);
+}
+applyAll();
+
+/* Tweaks hookup */
+const tweaksEl = document.getElementById('tweaks');
+function setKey(k, v) {
+  state[k] = v;
+  applyAll();
+  try { window.parent.postMessage({type: '__edit_mode_set_keys', edits: {[k]: v}}, '*'); } catch(e){}
+}
+
+document.getElementById('tw-accent').addEventListener('change', e => setKey('accent', e.target.value));
+document.getElementById('tw-heading').addEventListener('change', e => setKey('heading', e.target.value));
+document.getElementById('tw-paper').addEventListener('change', e => setKey('paper', e.target.value));
+document.getElementById('tw-blur').addEventListener('input', e => setKey('blur', +e.target.value));
+document.getElementById('tw-orb').addEventListener('change', e => setKey('orb', e.target.value));
+
+/* Sync UI with current state */
+function syncTweaksUI() {
+  document.getElementById('tw-accent').value = state.accent;
+  document.getElementById('tw-heading').value = state.heading;
+  document.getElementById('tw-paper').value = state.paper;
+  document.getElementById('tw-blur').value = state.blur;
+  document.getElementById('tw-orb').value = state.orb;
+}
+syncTweaksUI();
+
+window.addEventListener('message', (e) => {
+  const d = e.data || {};
+  if (d.type === '__activate_edit_mode') tweaksEl.classList.add('is-open');
+  if (d.type === '__deactivate_edit_mode') tweaksEl.classList.remove('is-open');
+});
+try { window.parent.postMessage({type: '__edit_mode_available'}, '*'); } catch(e){}
+
+</script>
+</body>
+</html>
