@@ -8,6 +8,16 @@
 
 ---
 
+## スクリーンショット
+
+> 🔗 本番: **https://phasera.jp** — スクロールに連動して変形する Three.js の3D背景が特徴の物語型ランディングページ。
+
+| ヒーロー | 3D粒子（スクロール連動） | 螺旋への変形 |
+|:---:|:---:|:---:|
+| ![ヒーロー](docs/screenshots/01-hero.png) | ![3D粒子](docs/screenshots/02-particle.png) | ![螺旋](docs/screenshots/03-spiral.png) |
+
+---
+
 ## 概要
 
 軽量な静的サイトとして構築されたインタラクティブWeb体験。`assets/3d` の3Dアセットを用いたビジュアル表現を中心に、ビルド不要で即時配信できる構成（Vercel Edge Cache 利用）。
