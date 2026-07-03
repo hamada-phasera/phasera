@@ -205,7 +205,7 @@ function boot() {
 
   const loader = new GLTFLoader();
   loader.load(
-    'assets/3d/spine.glb',
+    window.__PH_SPINE || 'assets/3d/spine.glb',
     (gltf) => {
       const root = gltf.scene;
       const box = new THREE.Box3().setFromObject(root);
