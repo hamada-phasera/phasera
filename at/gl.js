@@ -199,7 +199,7 @@ function boot() {
      spine — toned to the site (navy metal + blue vessels)
      ========================================================= */
   const spineGroup = new THREE.Group();
-  spineGroup.position.y = -6.5;
+  spineGroup.position.y = -11;
   scene.add(spineGroup);
   let spineLoaded = false;
 
@@ -211,7 +211,8 @@ function boot() {
       const box = new THREE.Box3().setFromObject(root);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
-      const s = 3.7 / size.y;
+      // oversized close-up: the spine crops beyond the viewport (AT: one huge artifact)
+      const s = 7.4 / size.y;
       root.scale.setScalar(s);
       root.position.set(-center.x * s, -center.y * s, -center.z * s);
       root.traverse((o) => {
@@ -255,9 +256,9 @@ function boot() {
      ========================================================= */
   const ring = new THREE.Group();
   scene.add(ring);
-  const R = MOBILE ? 2.15 : 2.85;
-  const CW = MOBILE ? 1.25 : 1.62, CH = MOBILE ? 1.56 : 2.02;
-  const CD = MOBILE ? 0.07 : 0.09; // slab thickness
+  const R = MOBILE ? 2.0 : 2.6;
+  const CW = MOBILE ? 0.98 : 1.26, CH = MOBILE ? 1.22 : 1.58;
+  const CD = MOBILE ? 0.055 : 0.07; // slab thickness
   const PITCH = 1.5; // helix rise per revolution
   const cardGeo = new THREE.BoxGeometry(CW, CH, CD, 26, 32, 1);
   const cards = [];
@@ -349,7 +350,7 @@ function boot() {
         uDim: { value: 0 },
         uTrail: { value: null },
       },
-      transparent: true, side: THREE.FrontSide,
+      transparent: true, side: THREE.FrontSide, depthWrite: false, // glass: the spine shows through
       vertexShader: `
         uniform float uTime, uSeed, uVel, uIn;
         uniform sampler2D uTrail;
@@ -389,7 +390,7 @@ function boot() {
             // slab rim: glassy edge catching the accent light
             float g = 0.5 + 0.5 * sin(vUv.y * 6.28318 + uTime * 0.6);
             vec3 rim = mix(vec3(0.07, 0.14, 0.34), vec3(0.38, 0.58, 1.0), 0.25 + uFocus * 0.5 + g * 0.15);
-            gl_FragColor = vec4(rim, a);
+            gl_FragColor = vec4(rim, a * 0.85);
             return;
           }
           // liquid refraction: shift uv by trail gradient + bend
@@ -397,12 +398,15 @@ function boot() {
           if (n.z < 0.0) uv.x = 1.0 - uv.x; // keep type readable from behind
           uv.x += vBend * 0.03 * sin(vUv.y * 3.14159);
           vec4 c = texture2D(uMap, uv);
-          float lum = (0.55 + uFocus * 0.55) * (n.z > 0.0 ? 1.0 : 0.45);
+          float lum = (0.62 + uFocus * 0.5) * (n.z > 0.0 ? 1.0 : 0.45);
           vec3 col = c.rgb * lum;
           // edge glow on focus
           float edge = smoothstep(0.5, 0.985, max(abs(vUv.x - 0.5), abs(vUv.y - 0.5)) * 2.0);
           col += vec3(0.32, 0.5, 1.0) * edge * uFocus * 0.35;
-          gl_FragColor = vec4(col, a);
+          // glass: dark body stays see-through, type and glow turn solid
+          float bright = dot(c.rgb, vec3(0.35, 0.45, 0.2));
+          float glassA = 0.32 + bright * 0.85 + edge * uFocus * 0.3 + uFocus * 0.12;
+          gl_FragColor = vec4(col, a * min(glassA, 1.0));
         }`,
     });
     const mesh = new THREE.Mesh(cardGeo, mat);
@@ -557,7 +561,7 @@ function boot() {
 
     /* spine — rises first, fully standing by reveal 0.65 */
     const rise = Math.min(reveal / 0.65, 1);
-    spineGroup.position.y = damp(spineGroup.position.y, -6.5 * (1 - rise), 3.6, dt);
+    spineGroup.position.y = damp(spineGroup.position.y, -11 * (1 - rise), 3.6, dt);
     spineGroup.rotation.y = t * 0.06 + PH.scroll * 0.00035;
     const sOp = Math.max(0, Math.min(1, (reveal - 0.15) / 0.6));
     spineGroup.traverse((o) => {
