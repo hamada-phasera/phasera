@@ -1,37 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>AIエージェントで中小企業のバックオフィスを自動化 | Phasera</title>
-<meta name="description" content="中小企業のバックオフィスをAIエージェントで自動化する伴走パートナー、Phasera。診断・KPI改善・月次伴走を、ソロで一気通貫。士業・人材派遣向け。経営の体力を取り戻す。" />
-<meta name="keywords" content="AIエージェント,中小企業,バックオフィス自動化,業務効率化,士業DX,人材派遣 業務改善,Phasera,濱田大夢" />
-<link rel="alternate" hreflang="ja-JP" href="https://phasera.jp/" />
-<link rel="alternate" hreflang="x-default" href="https://phasera.jp/" />
-<meta name="theme-color" content="#0B1E3F" />
-<meta name="author" content="Hiromu Hamada" />
-<link rel="canonical" href="https://phasera.jp/" />
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-<link rel="apple-touch-icon" href="assets/favicon.svg" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Phasera — 経営の体力を取り戻す | 中小企業のAIエージェント導入スタジオ</title>
+<meta name="description" content="Phaseraは、中小企業のバックオフィスにAIエージェントを導入する伴走パートナーです。診断・KPI改善・月次伴走をソロで一気通貫。士業・人材派遣に特化。">
+<meta name="keywords" content="AIエージェント,中小企業,バックオフィス自動化,業務効率化,士業DX,人材派遣 業務改善,Phasera,濱田大夢">
+<meta name="theme-color" content="#04060c">
+<meta name="author" content="Hiromu Hamada">
+<link rel="canonical" href="https://phasera.jp/">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
 
 <!-- Open Graph -->
-<meta property="og:type" content="website" />
-<meta property="og:site_name" content="Phasera" />
-<meta property="og:title" content="AIエージェントで中小企業のバックオフィスを自動化 | Phasera" />
-<meta property="og:description" content="中小企業のバックオフィスをAIエージェントで自動化する伴走パートナー。診断・KPI改善・月次伴走、3Dビジュアル制作まで、ソロで一気通貫。士業・人材派遣向け。" />
-<meta property="og:url" content="https://phasera.jp/" />
-<meta property="og:image" content="https://phasera.jp/assets/og-cover.png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:locale" content="ja_JP" />
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Phasera">
+<meta property="og:title" content="Phasera — 経営の体力を取り戻す">
+<meta property="og:description" content="中小企業のバックオフィスをAIエージェントで自動化する伴走パートナー。診断・KPI改善・月次伴走、3Dビジュアル制作まで、ソロで一気通貫。">
+<meta property="og:url" content="https://phasera.jp/">
+<meta property="og:image" content="https://phasera.jp/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phasera — 経営の体力を取り戻す">
+<meta name="twitter:description" content="中小企業のバックオフィスをAIエージェントで自動化する伴走パートナー。ソロで一気通貫。">
+<meta name="twitter:image" content="https://phasera.jp/assets/og-cover.png">
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="AIエージェントで中小企業のバックオフィスを自動化 | Phasera" />
-<meta name="twitter:description" content="中小企業のバックオフィスをAIエージェントで自動化する伴走パートナー。ソロで一気通貫。" />
-<meta name="twitter:image" content="https://phasera.jp/assets/og-cover.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Space+Mono&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@600&display=swap">
+<link rel="stylesheet" href="at/at.css">
+<link rel="preload" href="assets/3d/spine.glb" as="fetch" type="model/gltf-binary" crossorigin>
+<script type="importmap">
+{ "imports": { "three": "./vendor/three/three.module.js", "three/addons/": "./vendor/three/addons/" } }
+</script>
 
-<!-- JSON-LD structured data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -71,1152 +75,250 @@
         { "@type": "Offer", "name": "KPI改善プログラム", "price": "800000-1400000", "priceCurrency": "JPY", "description": "KPI設計→AIエージェント導入→運用定着（3ヶ月）" },
         { "@type": "Offer", "name": "月次経営レポート", "price": "30000-80000", "priceCurrency": "JPY", "description": "AI生成 + 人レビュー15-20分（月額）" }
       ]
-    },
-    {
-      "@type": "ItemList",
-      "name": "Phasera Selected Works",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "item": { "@type": "CreativeWork", "name": "問い合わせ自動応答エージェント", "description": "新規問い合わせの一次返信を AI が下書き、土日深夜の取りこぼし対応", "creator": { "@id": "https://phasera.jp/#org" }, "audience": "士業" } },
-        { "@type": "ListItem", "position": 2, "item": { "@type": "CreativeWork", "name": "求職者スカウト文面生成", "description": "案件と求職者プロファイルから刺さる DM 文面を自動生成", "creator": { "@id": "https://phasera.jp/#org" }, "audience": "人材派遣" } },
-        { "@type": "ListItem", "position": 3, "item": { "@type": "CreativeWork", "name": "経営指標レポート生成", "description": "各 SaaS の指標を集約、AI が前月比とコメントを生成", "creator": { "@id": "https://phasera.jp/#org" } } },
-        { "@type": "ListItem", "position": 4, "item": { "@type": "CreativeWork", "name": "書類下書きエージェント", "description": "申告書類・委任状の下書きを自動生成", "creator": { "@id": "https://phasera.jp/#org" }, "audience": "士業" } },
-        { "@type": "ListItem", "position": 5, "item": { "@type": "CreativeWork", "name": "案件 × 求職者マッチング", "description": "意味的比較で適合度スコアと推薦理由を提示", "creator": { "@id": "https://phasera.jp/#org" }, "audience": "人材派遣" } },
-        { "@type": "ListItem", "position": 6, "item": { "@type": "CreativeWork", "name": "Phasera 公式 LP", "description": "Three.js + Blender 統合の Editorial LP、CT 脊椎 GLB + GPU shader particle", "creator": { "@id": "https://phasera.jp/#org" }, "url": "https://phasera.jp/" } }
-      ]
-    },
-    {
-      "@type": "ItemList",
-      "name": "Phasera News",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "item": { "@type": "NewsArticle", "headline": "Phasera 公式サイトを公開しました。", "datePublished": "2026-05-11", "publisher": { "@id": "https://phasera.jp/#org" } } },
-        { "@type": "ListItem", "position": 2, "item": { "@type": "NewsArticle", "headline": "診断オーディットの受付を開始しました。", "datePublished": "2026-05-09", "publisher": { "@id": "https://phasera.jp/#org" } } },
-        { "@type": "ListItem", "position": 3, "item": { "@type": "NewsArticle", "headline": "3D ビジュアル制作サービスを開始しました。", "datePublished": "2026-05-05", "publisher": { "@id": "https://phasera.jp/#org" } } }
-      ]
     }
   ]
 }
 </script>
-
-<!-- Vercel Speed Insights -->
-<script defer src="/_vercel/speed-insights/script.js" data-sde="auto"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-<script type="module" src="anatomical-garden-handoff/outputs/web-bg/anatomical-garden-bg.js"></script>
-<style>
-  :root{
-    --bg:        #F2F5FA;
-    --bg-2:      #E7EDF6;
-    --ink:       #0B1E3F;
-    --ink-2:     #1E3358;
-    --ink-soft:  #4D6488;
-    --line:      rgba(11,30,63,.12);
-    --line-2:    rgba(11,30,63,.06);
-    --paper:     #ffffff;
-    --blue:      oklch(0.62 0.18 250);
-    --blue-2:    oklch(0.72 0.14 235);
-    --blue-soft: oklch(0.92 0.05 240);
-    --grad: linear-gradient(180deg,#F2F5FA 0%, #E9EFF8 50%, #F2F5FA 100%);
-    --display: "Manrope","Noto Sans JP",system-ui,sans-serif;
-    --body:    "Inter Tight","Noto Sans JP",system-ui,sans-serif;
-    --mono:    "JetBrains Mono",ui-monospace,monospace;
-    --serif:   "Instrument Serif","EB Garamond","Noto Serif JP",Georgia,serif;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-  body{overflow-x:clip}
-  a{color:inherit;text-decoration:none}
-  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
-  img{max-width:100%;display:block}
-
-  /* ============== 3D background (Anatomical Garden web component) ============== */
-  .stage{position:fixed;inset:0;z-index:0;pointer-events:none;will-change:opacity;transition:opacity .25s linear}
-  .stage anatomical-garden-bg{display:block;width:100%;height:100%}
-  #scene{width:100%;height:100%;display:block}
-  .scene-overlay{
-    position:fixed;inset:0;z-index:1;pointer-events:none;
-    background:
-      radial-gradient(60% 80% at 50% 0%, rgba(255,255,255,0) 0%, rgba(242,245,250,.55) 70%, rgba(242,245,250,.92) 100%),
-      radial-gradient(80% 60% at 50% 100%, rgba(255,255,255,0) 0%, rgba(242,245,250,.5) 70%, rgba(242,245,250,.95) 100%);
-  }
-  /* legacy fixed particle morph stage — hidden (replaced by foreground orbit at PROBLEM) */
-  .particles-stage{display:none}
-  .particles-stage canvas{width:100%;height:100%;display:block}
-  .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.45;mix-blend-mode:multiply;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.04  0 0 0 0 0.12  0 0 0 0 0.24  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  }
-
-  .content{position:relative;z-index:3}
-
-  /* ============== top nav ============== */
-  .nav{
-    position:fixed;top:0;left:0;right:0;z-index:50;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:18px 28px;
-    backdrop-filter:saturate(160%) blur(14px);
-    -webkit-backdrop-filter:saturate(160%) blur(14px);
-    background:linear-gradient(180deg, rgba(242,245,250,.7), rgba(242,245,250,.25));
-    border-bottom:1px solid var(--line-2);
-  }
-  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;letter-spacing:-.02em;font-size:18px}
-  .brand .mark{
-    width:22px;height:22px;border-radius:6px;
-    background:linear-gradient(135deg, var(--blue) 0%, var(--ink) 100%);
-    position:relative;overflow:hidden;
-  }
-  .brand .mark::after{content:"";position:absolute;inset:3px;border-left:1.5px solid #fff;}
-  .nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:13.5px;color:var(--ink-2)}
-  .nav ul a{display:flex;align-items:center;gap:6px;padding:6px 0}
-  .nav ul a::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue);opacity:0;transform:scale(.6);transition:.25s}
-  .nav ul a:hover::before{opacity:1;transform:scale(1)}
-  .nav .right{display:flex;align-items:center;gap:14px}
-  .lang{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--ink-soft)}
-  .lang b{color:var(--ink)}
-  .cta{
-    display:inline-flex;align-items:center;gap:10px;
-    padding:10px 16px;border-radius:999px;
-    background:var(--ink);color:#fff;font-size:13px;font-weight:600;letter-spacing:.01em;
-    transition:.2s;
-  }
-  .cta:hover{background:var(--blue);transform:translateY(-1px)}
-  .cta .dot{width:6px;height:6px;border-radius:50%;background:var(--blue-2)}
-
-  /* ============== shared ============== */
-  .wrap{max-width:1280px;margin:0 auto;padding:0 32px;position:relative}
-  .eyebrow{
-    font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--blue);display:inline-flex;align-items:center;gap:10px;
-  }
-  .eyebrow::before{content:"";width:24px;height:1px;background:var(--blue)}
-  .display{font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:.95;color:var(--ink)}
-  .accent{font-style:italic;font-weight:600;color:var(--blue);letter-spacing:-.04em}
-  .lede{font-size:18px;line-height:1.85;color:var(--ink-2);max-width:62ch}
-  .rule{height:1px;background:var(--line);width:100%}
-  section{padding:140px 0;position:relative}
-  section.tight{padding:100px 0}
-  .section-head{display:grid;grid-template-columns:1fr 2fr;gap:48px;margin-bottom:72px;align-items:end}
-  .section-head h2{font-size:clamp(36px, 5vw, 72px);margin:14px 0 0}
-  .section-no{font-family:var(--mono);font-size:12px;color:var(--ink-soft);letter-spacing:.16em}
-
-  /* ============== HOOK ============== */
-  .hero{min-height:100vh;display:flex;align-items:center;padding:160px 0 120px;position:relative}
-  .hero h1{font-size:clamp(46px, 7.4vw, 116px);margin:18px 0 0;line-height:1.04}
-  .hero h1 em{font-style:italic;font-weight:600;color:var(--blue);letter-spacing:-.02em}
-  .hero-meta{
-    display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;
-    margin-top:56px;padding-top:24px;border-top:1px solid var(--line);
-    font-size:13.5px;color:var(--ink-2);
-  }
-  .hero-meta h4{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-soft);margin:0 0 10px;text-transform:uppercase;font-weight:500}
-  .hero-meta p{margin:0;line-height:1.65}
-  .hero-marquee{
-    margin-top:36px;display:flex;gap:32px;align-items:center;color:var(--ink-soft);font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;flex-wrap:wrap;
-  }
-  .hero-marquee span{display:inline-flex;align-items:center;gap:10px}
-  .hero-marquee span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--blue);}
-  .scroll-hint{
-    position:absolute;left:32px;bottom:32px;display:flex;align-items:center;gap:12px;
-    font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-soft);text-transform:uppercase;
-  }
-  .scroll-hint .bar{width:48px;height:1px;background:var(--ink-soft);position:relative;overflow:hidden}
-  .scroll-hint .bar::after{content:"";position:absolute;inset:0;background:var(--blue);transform:translateX(-100%);animation:slide 2.4s infinite ease-in-out}
-  @keyframes slide{0%{transform:translateX(-100%)}50%{transform:translateX(0)}100%{transform:translateX(100%)}}
-
-  /* ============== PROBLEM — sticky orbit scroll ============== */
-  /* Outer pin: long virtual scroll length so we can drive 4 cards through the orbit */
-  .problem-pin{position:relative;height:500vh;padding:0}
-  /* Inner sticky stage holds the central canvas + orbit cards */
-  .problem-stage{
-    position:sticky;top:0;height:100vh;width:100%;overflow:hidden;
-    display:flex;align-items:center;justify-content:center;
-    background:transparent;
-  }
-  .problem-stage .stage-eyebrow{
-    position:absolute;left:32px;top:32px;
-    font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--blue);text-transform:uppercase;
-    display:flex;align-items:center;gap:10px;z-index:7;
-  }
-  .problem-stage .stage-eyebrow::before{content:"";width:24px;height:1px;background:var(--blue)}
-  .problem-stage .stage-title{
-    position:absolute;left:32px;top:64px;z-index:7;
-    font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:.95;
-    font-size:clamp(36px,4.6vw,68px);color:var(--ink);max-width:14ch;
-  }
-  .problem-stage .stage-title em{font-style:italic;font-weight:600;color:var(--blue);letter-spacing:-.04em}
-  .problem-stage .stage-progress{
-    position:absolute;right:32px;top:32px;z-index:7;
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;color:var(--ink-soft);text-transform:uppercase;
-    display:flex;flex-direction:column;align-items:flex-end;gap:8px;
-  }
-  .problem-stage .stage-progress .ticks{display:flex;gap:6px}
-  .problem-stage .stage-progress .tick{width:24px;height:1px;background:var(--line);transition:background .3s ease}
-  .problem-stage .stage-progress .tick.on{background:var(--ink)}
-
-  /* Central particle canvas (transparent — particles float over page bg) */
-  .orbit-stage{position:relative;width:min(70vmin, 720px);height:min(70vmin, 720px);z-index:5;background:transparent}
-  .orbit-canvas-wrap{position:relative;width:100%;height:100%;background:transparent}
-  .orbit-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:transparent}
-
-  /* Cards — glassmorphism, large frosted glass panel */
-  .orbit-card{
-    position:absolute;top:50%;left:50%;
-    width:min(560px, 46vw);
-    background:linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.32) 100%);
-    backdrop-filter:saturate(180%) blur(32px);
-    -webkit-backdrop-filter:saturate(180%) blur(32px);
-    border:1px solid rgba(255,255,255,0.55);
-    border-radius:24px;
-    padding:36px 40px 40px;
-    box-shadow:
-      0 1px 0 0 rgba(255,255,255,0.7) inset,
-      0 -1px 0 0 rgba(11,30,63,0.06) inset,
-      0 1px 24px -8px rgba(255,255,255,0.5),
-      0 30px 80px -28px rgba(11,30,63,0.32),
-      0 60px 120px -50px rgba(11,30,63,0.18);
-    transform:translate(-50%,-50%);
-    transform-origin:center center;
-    opacity:0;pointer-events:none;
-    will-change:transform,opacity;
-    z-index:6;
-    overflow:hidden;
-    isolation:isolate;
-  }
-  /* Glass highlight: subtle gradient sheen across the top */
-  .orbit-card::before{
-    content:"";position:absolute;left:0;right:0;top:0;height:50%;z-index:-1;
-    background:linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
-    pointer-events:none;
-  }
-  /* Faint blue rim glow */
-  .orbit-card::after{
-    content:"";position:absolute;inset:0;border-radius:24px;z-index:-1;
-    box-shadow:0 0 0 1px rgba(60,102,217,0.10) inset;
-    pointer-events:none;
-  }
-  .orbit-card .leak-no{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--blue);text-transform:uppercase;display:inline-flex;align-items:center;gap:12px}
-  .orbit-card .leak-no::before{content:"";width:24px;height:1px;background:var(--blue)}
-  .orbit-card h4{font-family:var(--display);font-weight:700;font-size:34px;letter-spacing:-.026em;line-height:1.2;margin:18px 0 18px;color:var(--ink)}
-  .orbit-card h4 em{font-style:italic;font-weight:500;color:var(--blue);font-family:var(--serif)}
-  .orbit-card p{font-size:15px;line-height:1.85;color:var(--ink-2);margin:0}
-  .orbit-card .leak-tail{margin-top:24px;padding-top:20px;border-top:1px solid rgba(11,30,63,0.18);display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
-  .orbit-card .leak-tail b{font-family:var(--display);font-style:normal;font-weight:700;font-size:32px;letter-spacing:-.025em;color:var(--ink);text-transform:none;line-height:1}
-  .orbit-card .leak-tail b sup{font-size:.45em;color:var(--blue);margin-left:3px;vertical-align:super;font-weight:600}
-
-  @media (max-width: 920px){
-    .problem-pin{height:400vh}
-    .orbit-stage{width:80vmin;height:80vmin}
-    .orbit-card{width:min(440px, 88vw);padding:26px 28px}
-    .orbit-card h4{font-size:24px;margin:14px 0 14px}
-    .orbit-card p{font-size:13.5px}
-    .orbit-card .leak-tail b{font-size:24px}
-    .problem-stage .stage-title{font-size:28px;left:20px;top:56px;max-width:16ch}
-    .problem-stage .stage-eyebrow{left:20px;top:24px}
-    .problem-stage .stage-progress{right:20px;top:24px}
-  }
-
-  /* ============== WORKS（実績） ============== */
-  .works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:48px}
-  .work-card{
-    display:flex;flex-direction:column;gap:14px;
-    padding:28px 28px 28px;
-    background:#fff;border:1px solid var(--line);border-radius:18px;
-    box-shadow:0 18px 50px -28px rgba(11,30,63,0.18);
-    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    position:relative;overflow:hidden;
-  }
-  .work-card:hover{transform:translateY(-4px);border-color:var(--blue);box-shadow:0 28px 60px -28px rgba(11,30,63,0.28)}
-  .work-card .work-thumb{
-    aspect-ratio:16/10;border-radius:10px;
-    background:
-      repeating-linear-gradient(135deg, rgba(11,30,63,.04) 0 8px, transparent 8px 16px),
-      linear-gradient(135deg, var(--blue-soft), #fff);
-    border:1px solid var(--line);position:relative;
-  }
-  .work-card .work-thumb::before{content:"";position:absolute;left:18px;top:18px;width:38px;height:38px;border:1px solid var(--ink);border-radius:50%;background:radial-gradient(circle at 35% 35%, #fff, var(--blue-soft) 60%, transparent 70%)}
-  .work-card .work-meta{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--ink-soft);text-transform:uppercase;margin-top:4px}
-  .work-card .work-tag{color:var(--blue)}
-  .work-card h3{font-family:var(--display);font-weight:700;font-size:19px;letter-spacing:-.02em;line-height:1.35;margin:0;color:var(--ink)}
-  .work-card h3 em{font-style:italic;font-weight:500;color:var(--blue)}
-  .work-card p{font-size:13.5px;line-height:1.75;color:var(--ink-2);margin:0;flex:1}
-  .work-card .work-stack{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:6px}
-  .work-card .work-stack li{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-2);padding:3px 8px;border:1px solid var(--line);border-radius:999px;background:#fff}
-  .work-card .work-metric{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;margin-top:auto;border-top:1px dashed var(--line);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-soft);text-transform:uppercase}
-  .work-card .work-metric b{font-family:var(--display);font-style:normal;font-weight:700;font-size:22px;letter-spacing:-.02em;color:var(--ink)}
-  .work-card .work-metric b sup{font-size:.46em;color:var(--blue);font-weight:600;margin-left:2px}
-
-  /* ============== NEWS ============== */
-  .news-list{list-style:none;padding:0;margin:48px 0 0;border-top:1px solid var(--ink)}
-  .news-list .news-item{
-    display:grid;grid-template-columns:120px 110px 1fr 24px;gap:24px;
-    padding:22px 8px;border-bottom:1px solid var(--line);
-    align-items:baseline;text-decoration:none;color:inherit;
-    transition:background .25s ease, padding .25s ease;
-  }
-  .news-list .news-item:hover{background:rgba(11,30,63,.025);padding-left:14px;padding-right:14px}
-  .news-list .news-date{font-family:var(--mono);font-size:12px;color:var(--ink-soft);letter-spacing:.08em}
-  .news-list .news-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);border:1px solid var(--blue);border-radius:999px;padding:3px 10px;width:fit-content;justify-self:start}
-  .news-list .news-title{font-size:15px;color:var(--ink);font-weight:500;line-height:1.55}
-  .news-list .news-arr{color:var(--ink-soft);font-family:var(--mono);font-size:14px;text-align:right}
-
-  /* ============== LEAK Summary list (after sticky pin) ============== */
-  .leak-summary{padding:120px 0 160px;position:relative}
-  .leak-summary .summary-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--blue);text-transform:uppercase;display:inline-flex;align-items:center;gap:12px;margin-bottom:18px}
-  .leak-summary .summary-eyebrow::before{content:"";width:24px;height:1px;background:var(--blue)}
-  .leak-summary h2{font-family:var(--display);font-weight:800;letter-spacing:-.035em;line-height:1;font-size:clamp(36px,5vw,72px);color:var(--ink);margin:0 0 56px;max-width:18ch}
-  .leak-summary h2 em{font-style:italic;font-weight:600;color:var(--blue);letter-spacing:-.04em}
-
-  .leak-list{list-style:none;padding:0;margin:0;border-top:1px solid var(--ink)}
-  .leak-list li{
-    display:grid;grid-template-columns:80px 1fr 220px;gap:32px;
-    padding:32px 8px 32px 0;border-bottom:1px solid var(--line);
-    align-items:center;
-    transition:background .25s ease, padding .25s ease;
-  }
-  .leak-list li:hover{background:rgba(11,30,63,.025);padding-left:14px;padding-right:14px}
-  .leak-list .leak-list-num{font-family:var(--serif);font-style:italic;font-size:42px;line-height:1;color:var(--blue);letter-spacing:-.04em;font-weight:400}
-  .leak-list .leak-list-body h3{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.022em;line-height:1.3;margin:0 0 6px;color:var(--ink)}
-  .leak-list .leak-list-body h3 em{font-style:italic;font-weight:500;color:var(--blue);font-family:var(--serif)}
-  .leak-list .leak-list-body p{font-size:13.5px;line-height:1.7;color:var(--ink-2);margin:0;max-width:54ch}
-  .leak-list .leak-list-metric{
-    text-align:right;font-family:var(--display);font-weight:700;
-    font-size:32px;letter-spacing:-.025em;color:var(--ink);line-height:1;
-  }
-  .leak-list .leak-list-metric sup{font-size:.4em;color:var(--blue);margin-left:3px;vertical-align:super;font-weight:600}
-  .leak-list .leak-list-metric .lab{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink-soft);text-transform:uppercase;margin-top:8px;font-weight:400}
-
-  .leak-summary .summary-foot{
-    display:flex;justify-content:space-between;align-items:baseline;
-    margin-top:48px;padding-top:32px;border-top:1px solid var(--ink);
-    font-family:var(--serif);font-style:italic;font-size:clamp(20px,2.4vw,32px);line-height:1.4;color:var(--ink);
-  }
-  .leak-summary .summary-foot .total{font-family:var(--display);font-style:normal;font-weight:700;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.03em;color:var(--ink)}
-  .leak-summary .summary-foot .total em{font-style:italic;font-weight:500;color:var(--blue);font-family:var(--serif)}
-
-  @media (max-width: 920px){
-    .leak-list li{grid-template-columns:60px 1fr;gap:18px}
-    .leak-list .leak-list-metric{grid-column:2;text-align:left;margin-top:12px}
-  }
-
-  /* ============== GUIDE (founder block) ============== */
-  .guide-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:64px;align-items:center}
-  .guide-body h3{font-family:var(--display);font-weight:700;font-size:clamp(28px,3.4vw,46px);letter-spacing:-.025em;line-height:1.2;margin:14px 0 24px;color:var(--ink)}
-  .guide-body h3 em{font-style:italic;font-weight:500;color:var(--blue);letter-spacing:-.03em}
-  .guide-body .lede em{font-style:italic;font-weight:500;color:var(--blue);font-family:var(--serif)}
-  .guide-body .lede{margin:0 0 18px}
-  .guide-body .credits{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-  .guide-body .credits span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-2);background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 11px;text-transform:uppercase}
-  .guide-body .sig{font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.18em;margin-top:32px;text-transform:uppercase}
-
-  /* ============== Photo slot (universal) ============== */
-  .photo-slot{
-    position:relative;border-radius:16px;overflow:hidden;
-    border:1px solid var(--line);
-    background:
-      repeating-linear-gradient(135deg, rgba(11,30,63,.04) 0 8px, transparent 8px 16px),
-      linear-gradient(135deg, var(--blue-soft), #fff);
-    box-shadow:0 30px 80px -40px rgba(11,30,63,.18);
-  }
-  .photo-slot--portrait{aspect-ratio:4/5}
-  .photo-slot--landscape{aspect-ratio:16/10}
-  .photo-slot--square{aspect-ratio:1/1}
-  .photo-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.78) contrast(1.02)}
-  .photo-slot .photo-meta{
-    position:absolute;left:14px;bottom:14px;right:14px;
-    display:flex;justify-content:space-between;gap:10px;align-items:center;
-    font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--ink-soft);
-  }
-  .photo-slot .photo-tag{
-    background:rgba(255,255,255,.85);border:1px solid var(--line-2);padding:4px 9px;border-radius:999px;
-    backdrop-filter:blur(6px);
-  }
-  .photo-slot .photo-tag.blender{color:var(--blue);border-color:var(--blue)}
-  .photo-slot .photo-id{opacity:.7}
-  /* placeholder corner mark when no <img> is loaded yet */
-  .photo-slot:not(:has(img))::before{
-    content:"";position:absolute;left:18px;top:18px;width:42px;height:42px;border:1px solid var(--ink);border-radius:50%;
-    background:radial-gradient(circle at 35% 35%, #fff, var(--blue-soft) 60%, transparent 70%);
-  }
-  .photo-slot:not(:has(img))::after{
-    content:"";position:absolute;right:0;bottom:0;width:60%;height:1px;background:var(--ink);
-  }
-
-  /* ============== PATH chapters ============== */
-  .path-axis{
-    height:1px;background:linear-gradient(90deg,var(--ink) 0%,var(--blue) 50%,transparent 100%);
-    margin-bottom:48px;position:relative;
-  }
-  .path-axis::before{content:"";position:absolute;left:0;top:-3px;width:7px;height:7px;background:var(--ink);border-radius:50%}
-  .path-axis::after{content:"→";position:absolute;right:0;top:-9px;color:var(--blue);font-family:var(--mono);font-size:14px}
-
-  .path-chapter{
-    display:grid;grid-template-columns:200px 1fr;gap:48px;
-    padding:64px 0;border-top:1px solid var(--line);
-    align-items:start;
-  }
-  .path-chapter:last-child{border-bottom:1px solid var(--line)}
-  .path-chapter .ch-no{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink-soft);text-transform:uppercase;padding-top:88px;position:relative}
-  .path-chapter .ch-no::before{
-    content:attr(data-num);position:absolute;top:-22px;left:0;
-    font-family:var(--serif);font-style:italic;font-weight:400;
-    font-size:104px;line-height:.78;letter-spacing:-.05em;color:var(--blue);
-  }
-  .path-chapter .ch-no b{display:block;color:var(--ink);font-weight:500;margin-top:6px;font-size:14px;letter-spacing:.16em;font-family:var(--mono)}
-  .ch-body h3{font-family:var(--display);font-weight:700;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.025em;line-height:1.2;margin:0 0 20px;color:var(--ink)}
-  .ch-body h3 em{font-style:italic;font-weight:500;color:var(--blue);letter-spacing:-.03em}
-  .ch-body p{font-size:15px;line-height:1.85;color:var(--ink-2);margin:0 0 18px;max-width:62ch}
-  .ch-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
-  .ch-meta span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-2);background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-transform:uppercase}
-  .ch-meta span.price{color:var(--ink);border-color:var(--ink);font-weight:600}
-
-  .ch-photo{margin-top:28px}
-  .ch-photo.wide{margin-top:32px}
-
-  /* INDUSTRY chapter — 士業 / 派遣 並置 */
-  .industry-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:24px}
-  .industry-card{background:rgba(255,255,255,.7);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:16px;padding:0;display:flex;flex-direction:column;overflow:hidden}
-  .industry-card .photo-slot{border-radius:0;border:0;border-bottom:1px solid var(--line);box-shadow:none}
-  .industry-card .ic-body{padding:24px 24px 26px;display:flex;flex-direction:column;gap:14px}
-  .industry-card h4{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em;margin:0;color:var(--ink)}
-  .industry-card .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--blue);text-transform:uppercase}
-  .industry-card ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
-  .industry-card li{font-size:13.5px;line-height:1.6;color:var(--ink-2);padding-left:14px;position:relative}
-  .industry-card li::before{content:"—";position:absolute;left:0;color:var(--blue)}
-
-  /* VISUAL chapter — 3D Creator */
-  .visual-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:28px}
-  .visual-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px}
-  .visual-card h5{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:-.01em;margin:0;color:var(--ink)}
-  .visual-card .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--blue);text-transform:uppercase}
-  .visual-card p{font-size:13.5px;line-height:1.7;color:var(--ink-2);margin:0}
-
-  /* ============== TRANSFORMATION ============== */
-  .numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:32px}
-  .num-cell{padding:48px 24px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
-  .num-cell:last-child{border-right:0}
-  .num-cell .big{font-family:var(--display);font-weight:700;font-size:56px;line-height:1;letter-spacing:-.04em;color:var(--ink)}
-  .num-cell .big sup{font-size:.45em;color:var(--blue);font-weight:600;vertical-align:super;letter-spacing:0;margin-left:2px}
-  .num-cell .lab{font-size:13px;color:var(--ink-2);line-height:1.55}
-  .num-cell .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--ink-soft);text-transform:uppercase}
-  .numbers-foot{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--ink-soft);text-transform:uppercase;margin-top:14px;text-align:right}
-
-  .transformation-text{font-family:var(--display);font-weight:600;font-size:clamp(28px,3.4vw,50px);line-height:1.3;letter-spacing:-.02em;color:var(--ink);max-width:22ch}
-  .transformation-text em{font-style:italic;font-weight:500;color:var(--blue)}
-
-  /* ============== CALL ============== */
-  .call-block{
-    position:relative;border-radius:24px;overflow:hidden;
-    background:linear-gradient(135deg, #0B1E3F 0%, #11315F 60%, #1E58A6 100%);
-    color:#fff;padding:88px 64px;
-    isolation:isolate;
-  }
-  .call-block::before{
-    content:"";position:absolute;inset:0;
-    background:
-      radial-gradient(50% 60% at 80% 20%, rgba(120,180,255,.35), transparent 70%),
-      radial-gradient(40% 60% at 10% 90%, rgba(70,130,255,.3), transparent 70%);
-    z-index:-1;
-  }
-  .call-block::after{
-    content:"";position:absolute;inset:0;z-index:-1;opacity:.18;
-    background-image:linear-gradient(0deg, transparent 95%, rgba(255,255,255,.4) 100%),linear-gradient(90deg, transparent 95%, rgba(255,255,255,.4) 100%);
-    background-size:48px 48px;
-  }
-  .call-block .eyebrow{color:#9CC4FF}
-  .call-block .eyebrow::before{background:#9CC4FF}
-  .call-block h2{font-family:var(--display);font-weight:700;font-size:clamp(40px,5.4vw,76px);letter-spacing:-.035em;line-height:1.05;margin:18px 0 24px;max-width:18ch}
-  .call-block h2 em{font-style:italic;font-weight:500;color:#9CC4FF}
-  .call-block p.lede{color:#C7D8F2;margin:0 0 36px;max-width:54ch;font-size:16px}
-  .call-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-
-  .form{display:flex;flex-direction:column;gap:14px}
-  .form .field{display:flex;flex-direction:column;gap:6px}
-  .form label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:#9CC4FF;text-transform:uppercase}
-  .form input,.form select,.form textarea{
-    width:100%;padding:13px 14px;border-radius:10px;
-    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
-    color:#fff;font:inherit;font-size:14px;line-height:1.5;
-    transition:.2s;
-  }
-  .form input:focus,.form select:focus,.form textarea:focus{
-    outline:none;border-color:#9CC4FF;background:rgba(255,255,255,.14);
-  }
-  .form textarea{resize:vertical;min-height:96px}
-  .form select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#9CC4FF 50%),linear-gradient(135deg,#9CC4FF 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 12px) 50%;background-size:6px 6px;background-repeat:no-repeat}
-  .form .submit{
-    margin-top:6px;display:inline-flex;align-items:center;justify-content:center;gap:12px;
-    padding:14px 22px;border-radius:999px;background:#fff;color:var(--ink);
-    font-weight:600;font-size:14px;cursor:pointer;transition:.2s;border:0;
-  }
-  .form .submit:hover{background:#9CC4FF}
-  .call-meta{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:#9CC4FF;text-transform:uppercase;margin-top:20px;display:flex;flex-wrap:wrap;gap:16px}
-  .call-meta span{display:inline-flex;align-items:center;gap:8px}
-  .call-meta span::before{content:"";width:5px;height:5px;border-radius:50%;background:#9CC4FF}
-
-  /* ============== footer ============== */
-  footer{padding:56px 0 28px;border-top:1px solid var(--line);background:rgba(255,255,255,.5);backdrop-filter:blur(8px)}
-  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px}
-  .foot-col h5{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink-soft);text-transform:uppercase;margin:0 0 14px;font-weight:500}
-  .foot-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-size:13.5px}
-  .foot-col a:hover{color:var(--blue)}
-  .foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink-soft);letter-spacing:.1em}
-  .foot-brand{font-family:var(--display);font-weight:800;font-size:80px;letter-spacing:-.04em;color:var(--ink);line-height:.9;margin-top:12px}
-  .foot-brand .acc{color:var(--blue);font-style:italic;font-weight:500}
-
-  /* ============== EDITORIAL MAXIMALIST LAYER ============== */
-
-  /* Mega outline section number — sits behind content, breaks grid */
-  .mega-no{
-    position:absolute;font-family:var(--serif);font-style:italic;
-    font-size:clamp(180px, 32vw, 520px);line-height:.78;
-    color:transparent;-webkit-text-stroke:1px rgba(11,30,63,.08);
-    pointer-events:none;user-select:none;z-index:0;
-    letter-spacing:-.06em;
-  }
-  .mega-no.tr{top:80px;right:-3vw}
-  .mega-no.tl{top:80px;left:-3vw}
-  .mega-no.br{bottom:0;right:-2vw}
-  .mega-no.bl{bottom:0;left:-2vw}
-  .mega-no.center{top:50%;left:50%;transform:translate(-50%,-50%);font-size:clamp(280px, 48vw, 760px);opacity:.85}
-  .mega-no.solid{color:rgba(11,30,63,.045);-webkit-text-stroke:0}
-
-  /* Pull quote — large italic serif, breaks bottom or right */
-  .pull-quote{
-    font-family:var(--serif);font-style:italic;font-weight:400;
-    font-size:clamp(48px, 7.2vw, 124px);line-height:1.0;letter-spacing:-.02em;
-    color:var(--ink);position:relative;z-index:2;
-  }
-  .pull-quote em{font-style:italic;color:var(--blue);font-weight:500}
-  .pull-quote .small{display:block;font-size:.34em;font-family:var(--mono);font-style:normal;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-top:24px;font-weight:400}
-  .pull-quote.bleed-r{margin-right:-8vw}
-  .pull-quote.bleed-l{margin-left:-8vw}
-
-  /* Marginalia — small mono notes positioned to side of content */
-  .marginalia{
-    font-family:var(--mono);font-size:11px;line-height:1.6;letter-spacing:.05em;
-    color:var(--ink-soft);max-width:24ch;
-    padding:14px 0 14px 18px;border-left:1px solid var(--line);
-    position:relative;
-  }
-  .marginalia::before{
-    content:"※";position:absolute;left:-2px;top:14px;
-    font-family:var(--serif);font-style:italic;color:var(--blue);font-size:14px;
-    background:var(--bg);padding:0 4px;
-  }
-  .marginalia b{font-family:var(--serif);font-style:italic;color:var(--ink);font-weight:500;font-size:13px;display:block;margin-bottom:4px}
-
-  /* Diagonal text — rotated decorative label */
-  .diag-text{
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;
-    color:var(--ink-soft);transform:rotate(-90deg);transform-origin:left top;
-    position:absolute;
-  }
-  .diag-text.r{right:24px;top:120px}
-  .diag-text.l{left:24px;top:120px;transform:rotate(90deg);transform-origin:right top}
-
-  /* Drop cap on first paragraph */
-  .dropcap::first-letter{
-    font-family:var(--serif);font-style:italic;font-weight:400;
-    font-size:5.5em;line-height:.85;float:left;
-    margin:6px 14px 0 0;color:var(--blue);
-  }
-
-  /* Editorial double-rule */
-  .ed-rule{
-    height:1px;background:var(--ink);margin:48px 0;position:relative;
-  }
-  .ed-rule::after{content:"";position:absolute;top:5px;left:0;right:0;height:1px;background:var(--ink-soft);opacity:.4}
-  .ed-rule.thin::after{display:none}
-
-  /* Bleed-out container (escape .wrap horizontal padding via negative margin) */
-  .bleed-edge{margin-left:calc(-1 * (50vw - 50%));margin-right:calc(-1 * (50vw - 50%));padding-left:32px;padding-right:32px}
-
-  /* Editorial chip — inline mono pill with serif italic prefix */
-  .ed-chip{
-    display:inline-flex;align-items:baseline;gap:8px;
-    padding:6px 14px;border:1px solid var(--ink);border-radius:999px;
-    font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
-  }
-  .ed-chip i{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--blue);text-transform:none;letter-spacing:0}
-
-  /* Editorial section frame: corner ticks */
-  .ed-frame{position:relative}
-  .ed-frame::before, .ed-frame::after,
-  .ed-frame > .corner-tl, .ed-frame > .corner-br{
-    content:"";position:absolute;width:18px;height:18px;border:1px solid var(--ink);pointer-events:none;
-  }
-  .ed-frame::before{top:0;left:0;border-right:0;border-bottom:0}
-  .ed-frame::after{bottom:0;right:0;border-left:0;border-top:0}
-
-  /* Vertical label (rotated) for stats / sections */
-  .v-label{
-    writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);
-    font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);
-  }
-
-  /* Mega background word */
-  .bg-word{
-    position:absolute;font-family:var(--serif);font-style:italic;
-    font-size:clamp(160px, 24vw, 380px);line-height:.85;letter-spacing:-.04em;
-    color:rgba(11,30,63,.05);pointer-events:none;user-select:none;z-index:0;
-  }
-  .bg-word.tilt{transform:rotate(-6deg)}
-
-  /* Cursor: subtle custom on body */
-  body{cursor:default}
-  a, button, .role, .case, .pain, .industry-card, .visual-card, .news-item{cursor:pointer}
-
-  /* Atmosphere: subtle radial color halo behind hero */
-  .halo{
-    position:fixed;inset:0;z-index:1;pointer-events:none;
-    background:
-      radial-gradient(60vw 50vh at 80% 12%, rgba(60,102,217,.08), transparent 60%),
-      radial-gradient(50vw 40vh at 10% 88%, rgba(110,168,255,.06), transparent 60%);
-  }
-
-  /* ============== act badge (per-section indicator) ============== */
-  .act-badge{
-    position:fixed;right:24px;bottom:24px;z-index:40;
-    padding:10px 16px;border-radius:999px;
-    background:rgba(255,255,255,.65);backdrop-filter:saturate(180%) blur(14px);
-    -webkit-backdrop-filter:saturate(180%) blur(14px);
-    border:1px solid var(--line);
-    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--ink-2);
-    display:inline-flex;align-items:center;gap:10px;
-    transition:opacity .4s ease, transform .4s ease;
-    pointer-events:none;
-  }
-  .act-badge::before{
-    content:"";width:6px;height:6px;border-radius:50%;background:var(--blue);
-    box-shadow:0 0 0 0 var(--blue);animation:actPulse 2.4s infinite;
-  }
-  .act-badge .label::before{font-family:inherit}
-  body[data-active-act="HOOK"] .act-badge .label::before{content:"01 / HOOK · The Quiet Drift"}
-  body[data-active-act="PROBLEM"] .act-badge .label::before{content:"02 / PROBLEM · Where Time Leaks"}
-  body[data-active-act="GUIDE"] .act-badge .label::before{content:"03 / GUIDE · The Partner"}
-  body[data-active-act="DIAGNOSE"] .act-badge .label::before{content:"04·01 / DIAGNOSE"}
-  body[data-active-act="BUILD"] .act-badge .label::before{content:"04·02 / BUILD"}
-  body[data-active-act="SUSTAIN"] .act-badge .label::before{content:"04·03 / SUSTAIN"}
-  body[data-active-act="INDUSTRY"] .act-badge .label::before{content:"04·04 / INDUSTRY"}
-  body[data-active-act="VISUAL"] .act-badge .label::before{content:"04·05 / VISUAL · 3D Creator"}
-  body[data-active-act="WORKS"] .act-badge .label::before{content:"04½ / WORKS · Selected"}
-  body[data-active-act="TRANSFORMATION"] .act-badge .label::before{content:"05 / TRANSFORMATION"}
-  body[data-active-act="NEWS"] .act-badge .label::before{content:"05½ / NEWS · 最近の動き"}
-  body[data-active-act="CALL"] .act-badge .label::before{content:"06 / CALL · Begin"}
-  body[data-active-act="CALL"] .act-badge{opacity:0;transform:translateY(8px)}
-  @keyframes actPulse{
-    0%{box-shadow:0 0 0 0 rgba(70,130,255,.5)}
-    70%{box-shadow:0 0 0 10px rgba(70,130,255,0)}
-    100%{box-shadow:0 0 0 0 rgba(70,130,255,0)}
-  }
-
-  /* subtle accent shift per active act on .accent text (DNA reinforcement) */
-  body[data-active-act="VISUAL"] section[data-act="VISUAL"] .ch-body h3 em{
-    text-shadow:0 0 24px rgba(60,102,217,.18);
-  }
-
-  /* ============== silentReveal: content fades in when section enters viewport ============== */
-  @media (prefers-reduced-motion: no-preference){
-    section[data-act] .display,
-    section[data-act] .lede,
-    section[data-act] .eyebrow,
-    section[data-act] .section-no,
-    section[data-act] .pain,
-    section[data-act] .photo-slot,
-    section[data-act] .guide-body > *,
-    section[data-act] .industry-card,
-    section[data-act] .visual-card,
-    section[data-act] .num-cell,
-    section[data-act] .form,
-    section[data-act] .call-meta,
-    .path-chapter[data-act] .ch-no,
-    .path-chapter[data-act] .ch-body > *{
-      opacity:0;transform:translateY(24px);
-      transition:opacity .9s cubic-bezier(.2,.6,.2,1), transform .9s cubic-bezier(.2,.6,.2,1);
-    }
-    section[data-act].is-revealed .display,
-    section[data-act].is-revealed .lede,
-    section[data-act].is-revealed .eyebrow,
-    section[data-act].is-revealed .section-no,
-    section[data-act].is-revealed .pain,
-    section[data-act].is-revealed .photo-slot,
-    section[data-act].is-revealed .guide-body > *,
-    section[data-act].is-revealed .industry-card,
-    section[data-act].is-revealed .visual-card,
-    section[data-act].is-revealed .num-cell,
-    section[data-act].is-revealed .form,
-    section[data-act].is-revealed .call-meta,
-    .path-chapter[data-act].is-revealed .ch-no,
-    .path-chapter[data-act].is-revealed .ch-body > *{
-      opacity:1;transform:translateY(0);
-    }
-    /* staggered reveal for grids */
-    section[data-act].is-revealed .pain:nth-child(1){transition-delay:.05s}
-    section[data-act].is-revealed .pain:nth-child(2){transition-delay:.15s}
-    section[data-act].is-revealed .pain:nth-child(3){transition-delay:.25s}
-    section[data-act].is-revealed .pain:nth-child(4){transition-delay:.35s}
-    section[data-act].is-revealed .num-cell:nth-child(1){transition-delay:.05s}
-    section[data-act].is-revealed .num-cell:nth-child(2){transition-delay:.15s}
-    section[data-act].is-revealed .num-cell:nth-child(3){transition-delay:.25s}
-    section[data-act].is-revealed .num-cell:nth-child(4){transition-delay:.35s}
-    section[data-act].is-revealed .visual-card:nth-child(1){transition-delay:.05s}
-    section[data-act].is-revealed .visual-card:nth-child(2){transition-delay:.15s}
-    section[data-act].is-revealed .visual-card:nth-child(3){transition-delay:.25s}
-    section[data-act].is-revealed .visual-card:nth-child(4){transition-delay:.35s}
-    section[data-act].is-revealed .industry-card:nth-child(1){transition-delay:.10s}
-    section[data-act].is-revealed .industry-card:nth-child(2){transition-delay:.25s}
-    .path-chapter[data-act].is-revealed .ch-body > *:nth-child(2){transition-delay:.10s}
-    .path-chapter[data-act].is-revealed .ch-body > *:nth-child(3){transition-delay:.20s}
-    .path-chapter[data-act].is-revealed .ch-body > *:nth-child(4){transition-delay:.30s}
-
-    /* Section enter "swipe" line — a thin accent that draws across at the top of each section */
-    section[data-act]::before{
-      content:"";position:absolute;top:0;left:0;height:1px;width:0;
-      background:linear-gradient(90deg, transparent, var(--blue), transparent);
-      transition:width 1.4s cubic-bezier(.3,.7,.2,1);
-      opacity:.6;
-    }
-    section[data-act].is-revealed::before{width:100%}
-  }
-
-  /* ============== reduced motion ============== */
-  @media (prefers-reduced-motion: reduce){
-    *{animation:none!important;transition:none!important}
-    .act-badge::before{box-shadow:none!important}
-  }
-
-  /* ============== mobile (≤ 920px) ============== */
-  @media (max-width: 920px){
-    section{padding:96px 0}
-    .nav ul{display:none}
-    .hero{padding:140px 0 80px}
-    .hero-meta{grid-template-columns:1fr;gap:18px}
-    .section-head{grid-template-columns:1fr;gap:18px;margin-bottom:48px}
-    .works-grid{grid-template-columns:1fr;gap:20px}
-    .news-list .news-item{grid-template-columns:90px 1fr;gap:8px;padding:18px 0}
-    .news-list .news-tag, .news-list .news-arr{display:none}
-    .pain-grid{grid-template-columns:1fr 1fr}
-    .pain{border-bottom:1px solid var(--line);min-height:auto}
-    .pain:nth-child(2){border-right:0}
-    .guide-grid{grid-template-columns:1fr;gap:36px}
-    .path-chapter{grid-template-columns:1fr;gap:18px;padding:48px 0}
-    .industry-cols{grid-template-columns:1fr}
-    .visual-grid{grid-template-columns:1fr}
-    .numbers{grid-template-columns:1fr 1fr}
-    .num-cell:nth-child(2){border-right:0}
-    .call-block{padding:48px 28px;border-radius:18px}
-    .call-grid{grid-template-columns:1fr;gap:32px}
-    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
-  }
-
-  /* ============== mobile fine-tune (≤ 640px) — 文字溢れ防止 + Japanese line-break ============== */
-  @media (max-width: 640px){
-    /* 横スクロール封じ ─ ただし body には overflow-x:hidden を付けない
-       （sticky 子要素が壊れる既知バグ）。clip は scroll container を作らないので
-       sticky を維持しつつ overflow を切れる。clip 未対応ブラウザでも、bg-word/
-       mega-no を display:none で無効化済みなので overflow は起きない */
-    html, body { max-width: 100vw; overflow-x: clip; }
-    main, section, .wrap { max-width: 100vw; overflow-x: clip; }
-
-    /* Japanese: ぶら下げ + 自然な行送り。keep-all は使わない（句読点が孤立する原因） */
-    body, h1, h2, h3, h4, h5, p { word-break: normal; line-break: strict; overflow-wrap: anywhere; hanging-punctuation: allow-end; }
-    /* h タグの em は inline-block でなく inline、letter-spacing も親と同じに揃える */
-    h1 em, h2 em, h3 em, h4 em, h5 em { letter-spacing: inherit; display: inline; }
-
-    /* Editorial 装飾の bleed / 巨大装飾 を mobile では撤去（横溢れの最大原因） */
-    .pull-quote.bleed-r, .pull-quote.bleed-l { margin-left: 0 !important; margin-right: 0 !important; }
-    .bleed-edge { margin-left: 0 !important; margin-right: 0 !important; padding-left: 0; padding-right: 0; }
-    .mega-no, .bg-word { display: none !important; }
-    .stage-progress, .problem-stage .stage-progress { display: none !important; }
-    .act-badge { display: none !important; }
-    .scroll-hint { display: none !important; }
-
-    .wrap{padding:0 20px}
-    section{padding:80px 0}
-    section.tight{padding:60px 0}
-    .section-head{margin-bottom:36px}
-
-    /* Hero — 大幅に縮める */
-    .hero{padding:120px 0 60px;min-height:auto}
-    .hero h1{font-size:32px;line-height:1.22;letter-spacing:-.015em;margin:14px 0 0}
-    .hero h1 em{letter-spacing:-.015em}
-    .hero-meta{margin-top:48px;padding-top:24px;gap:24px}
-    .hero-meta h4{font-size:10px}
-    .hero-meta p{font-size:13.5px;line-height:1.7}
-    .hero-marquee{font-size:10.5px;gap:18px;margin-top:24px}
-    .scroll-hint{left:20px;bottom:20px;font-size:10px}
-
-    /* Editorial decorations — 抑える */
-    .mega-no{font-size:clamp(120px, 30vw, 220px)}
-    .mega-no.center{font-size:clamp(180px, 50vw, 320px)}
-    .bg-word{font-size:clamp(80px, 20vw, 140px)}
-
-    /* Pull quote — 抑える */
-    .pull-quote{font-size:36px;line-height:1.15}
-    .pull-quote .small{font-size:.32em;letter-spacing:.16em;margin-top:14px}
-
-    /* Editorial chips & marginalia */
-    .marginalia{font-size:10.5px;padding:10px 0 10px 14px}
-    .ed-chip{font-size:10px;padding:5px 10px}
-
-    /* Display headings 全体 */
-    .display{letter-spacing:-.018em}
-
-    /* PROBLEM sticky stage — モバイルではコンパクト化 */
-    .problem-pin{height:380vh}
-    .problem-stage .stage-title{font-size:22px;line-height:1.2;left:20px;top:50px;max-width:18ch;letter-spacing:-.018em}
-    .problem-stage .stage-eyebrow{left:20px;top:24px;font-size:9.5px;letter-spacing:.18em}
-    .problem-stage .stage-progress{right:20px;top:24px;font-size:9px}
-    .problem-stage .stage-progress .tick{width:14px}
-    .orbit-stage{width:88vw;height:88vw}
-    .orbit-card{width:min(340px, 86vw);padding:22px 22px 24px;border-radius:18px}
-    .orbit-card .leak-no{font-size:10px;letter-spacing:.18em}
-    .orbit-card h4{font-size:21px;margin:12px 0 12px;line-height:1.25;letter-spacing:-.018em}
-    .orbit-card p{font-size:13px;line-height:1.7}
-    .orbit-card .leak-tail{margin-top:16px;padding-top:14px}
-    .orbit-card .leak-tail b{font-size:22px}
-
-    /* Summary list — モバイル最適化 */
-    .leak-summary{padding:80px 0 100px}
-    .leak-summary h2{font-size:28px;line-height:1.18;margin:0 0 36px;letter-spacing:-.018em}
-    .leak-list .leak-list-num{font-size:30px}
-    .leak-list .leak-list-body h3{font-size:18px;line-height:1.32;letter-spacing:-.015em}
-    .leak-list .leak-list-body p{font-size:13px;line-height:1.7}
-    .leak-list .leak-list-metric{font-size:24px}
-    .leak-summary .summary-foot{flex-direction:column;align-items:flex-start;gap:14px;margin-top:36px;padding-top:24px}
-    .leak-summary .summary-foot .total{font-size:24px}
-
-    /* GUIDE */
-    .guide-body h3{font-size:24px;line-height:1.25;letter-spacing:-.018em}
-    .guide-body .lede{font-size:15px;line-height:1.85}
-    .guide-body .credits span{font-size:9.5px;padding:4px 9px}
-    .photo-slot--portrait{max-width:280px;margin:0 auto}
-
-    /* PATH */
-    .path-chapter .ch-no{padding-top:64px}
-    .path-chapter .ch-no::before{font-size:64px;top:-12px}
-    .ch-body h3{font-size:24px;line-height:1.25;letter-spacing:-.018em}
-    .ch-body p{font-size:14.5px;line-height:1.85}
-    .ch-meta span{font-size:10px;padding:4px 10px}
-    .industry-card h4{font-size:18px}
-    .industry-card li{font-size:13px}
-    .visual-card h5{font-size:15px}
-    .visual-card p{font-size:13px;line-height:1.7}
-
-    /* TRANSFORMATION */
-    .transformation-text{font-size:24px;line-height:1.35;letter-spacing:-.012em}
-    .num-cell{padding:32px 18px;gap:10px}
-    .num-cell .big{font-size:42px}
-    .num-cell .lab{font-size:12px;line-height:1.55}
-
-    /* CALL */
-    .call-block{padding:48px 24px}
-    .call-block h2{font-size:36px;line-height:1.1;letter-spacing:-.025em}
-    .call-block p.lede{font-size:14.5px;line-height:1.8}
-    .form input,.form select,.form textarea{font-size:14px;padding:12px 14px}
-    .call-meta{font-size:10.5px;gap:10px}
-
-    /* Footer */
-    .foot-grid{grid-template-columns:1fr;gap:24px}
-    .foot-brand{font-size:56px}
-    .foot-bottom{flex-direction:column;align-items:flex-start;gap:8px;font-size:10px}
-
-    /* Editorial pull quote in GUIDE — 縮める */
-    .guide-body .pull-quote{font-size:18px !important;line-height:1.45}
-
-    /* Act badge — モバイルでは小さく */
-    .act-badge{right:14px;bottom:14px;padding:8px 12px;font-size:10px;letter-spacing:.14em}
-
-    /* === GPU 軽量化（モバイル）=== */
-    /* backdrop-filter は GPU 大食い、blur 量を半減＋背景の不透明度を上げて代用 */
-    .orbit-card{
-      backdrop-filter: blur(12px) saturate(140%) !important;
-      -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
-      background: rgba(255,255,255,0.82) !important;
-      box-shadow: 0 18px 40px -18px rgba(11,30,63,0.28) !important;
-    }
-    .orbit-card::before, .orbit-card::after { display:none !important; }
-    /* nav: backdrop-filter を弱める */
-    .nav { backdrop-filter: saturate(140%) blur(10px); -webkit-backdrop-filter: saturate(140%) blur(10px); }
-    /* mix-blend / grain / halo を停止（合成コスト削減） */
-    .grain { display: none !important; }
-    .halo { display: none !important; }
-    /* セクション内 ::before の線描画アニメも停止 */
-    section[data-act]::before { display: none !important; }
-  }
-
-  /* さらに狭い viewport (≤ 380px) */
-  @media (max-width: 380px){
-    .hero h1{font-size:28px}
-    .pull-quote{font-size:30px}
-    .problem-stage .stage-title{font-size:20px}
-    .leak-summary h2{font-size:24px}
-    .ch-body h3, .guide-body h3{font-size:21px}
-    .call-block h2{font-size:30px}
-    .num-cell .big{font-size:36px}
-  }
-
-  /* SR-only: スクリーンリーダーと検索エンジンに見せるが視覚的には非表示 */
-  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-  .err{position:fixed;left:14px;bottom:14px;z-index:99;background:#fff;border:1px solid #f88;color:#a00;padding:8px 12px;font-family:var(--mono);font-size:11px;display:none;border-radius:8px}
-</style>
 </head>
-<body>
+<body class="locked">
 
-<!-- 3D background — Anatomical Garden (CT spine + nettle + capillaries) -->
-<div class="stage" aria-hidden="true">
-  <anatomical-garden-bg id="garden"
-    style="background:transparent !important"
-    src="anatomical-garden-handoff/outputs/web-bg/garden.glb"
-    transparent-bg
-    scroll-driven
-    camera-axial
-    rotate-speed="0"
-    exposure="0.95"
-    vignette="0.0"
-    overlay-color="#F2F5FA"
-    overlay-opacity="0.0"
-    fog-color="#E7EDF6"
-    fog-near="14"
-    fog-far="36"
-    camera-distance="1.6"
-    camera-height="0.0"
-    target-height="0.0"
-    paused-when-hidden>
-  </anatomical-garden-bg>
-</div>
-<div class="scene-overlay" aria-hidden="true"></div>
-<!-- Particle morph canvas (active after HOOK) -->
-<div class="particles-stage" aria-hidden="true">
-  <canvas id="particles"></canvas>
-</div>
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="vig" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
-<div class="halo" aria-hidden="true"></div>
-<div id="err" class="err"></div>
 
-<!-- Per-section indicator badge (driven by body[data-active-act]) -->
-<div class="act-badge" aria-hidden="true"><span class="label"></span></div>
-
-<!-- Nav -->
-<header class="nav">
-  <div class="brand">
-    <span class="mark"></span>
-    <span>Phasera</span>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="#hook">Story</a></li>
-      <li><a href="#guide">Guide</a></li>
-      <li><a href="#path">Path</a></li>
-      <li><a href="#works">Works</a></li>
-      <li><a href="#numbers">Result</a></li>
-      <li><a href="#news">News</a></li>
-      <li><a href="#call">Contact</a></li>
-    </ul>
-  </nav>
-  <div class="right">
-    <span class="lang"><b>JP</b> / EN</span>
-    <a class="cta" href="#call"><span class="dot"></span>診断を申し込む</a>
-  </div>
+<!-- ============ chrome ============ -->
+<header class="nav" id="nav">
+  <a class="brand" href="#hero"><img src="assets/favicon.svg" alt="Phasera"><b>PHASERA</b></a>
+  <ul>
+    <li><a href="#leaks"><sup>02</sup>時間の漏れ</a></li>
+    <li><a href="#works"><sup>03</sup>実績</a></li>
+    <li><a href="#path"><sup>04</sup>道筋</a></li>
+    <li><a href="#guide"><sup>05</sup>案内人</a></li>
+    <li><a href="#faq"><sup>07</sup>質問</a></li>
+  </ul>
+  <a class="cta" href="#call"><i></i>診断を申し込む</a>
+  <button class="burger" id="burger" aria-label="メニューを開く"><i></i><i></i></button>
 </header>
 
-<main class="content">
+<div class="menu" id="menu" role="dialog" aria-label="メニュー">
+  <button class="m-close" id="menuClose" aria-label="閉じる">✕</button>
+  <a href="#hero"><sup>01</sup>物語</a>
+  <a href="#leaks"><sup>02</sup>時間の漏れ</a>
+  <a href="#works"><sup>03</sup>実績</a>
+  <a href="#path"><sup>04</sup>道筋と料金</a>
+  <a href="#guide"><sup>05</sup>案内人</a>
+  <a href="#faq"><sup>07</sup>よくある質問</a>
+  <a href="#news"><sup>08</sup>お知らせ</a>
+  <a class="m-cta" href="#call">診断を申し込む →</a>
+</div>
 
-  <!-- ============== 幕1 HOOK ============== -->
-  <section id="hook" class="hero" data-screen-label="01 HOOK" data-act="HOOK">
-    <span class="mega-no tr" aria-hidden="true">01</span>
-    <span class="diag-text r" aria-hidden="true">— A FIELD GUIDE FOR THE QUIETLY OVERWORKED</span>
-    <div class="wrap">
-      <p class="sr-only">Phasera は、中小企業のバックオフィスに AI エージェントを導入する伴走パートナーです。診断・KPI改善・月次伴走を、ソロで一気通貫します。士業・人材派遣・小規模事業向け。</p>
-      <div class="eyebrow">Phase 01 — The Quiet Drift</div>
-      <h1 class="display">
-        終わる気配のない<br>
-        事務の手前で、<br>
-        <em>集客の話だけが、</em><br>
-        <em>後回しにされる。</em>
+<div class="cur-dot" id="curDot" aria-hidden="true"></div>
+<div class="cur-ring" id="curRing" aria-hidden="true"><span>DRAG</span></div>
+<div class="scroll-pill" id="scrollPill" aria-hidden="true"><i></i></div>
+<a class="ask-pill" href="#call" aria-label="Phaseraに相談する">
+  <span class="dot" aria-hidden="true"></span>
+  <span class="ph" id="askPh">Ask Phasera… <em>「問い合わせ対応、自動化できる？」</em></span>
+  <span class="arr" aria-hidden="true">→</span>
+</a>
+
+<!-- ============ preloader ============ -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="inner">
+    <div class="wd">PHASERA</div>
+    <div class="pct"><span id="pctNum">0</span><sup>%</sup></div>
+    <div class="bar"><i id="pctBar"></i></div>
+    <div class="st" id="pctSt">LOADING FIELD</div>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============ 01 HERO ============ -->
+  <section id="hero" data-screen-label="01 Hero">
+    <div class="hero-tag"><i></i><span>AI Agent Studio — AX / DX · Est. 2026 · Japan</span><i></i></div>
+    <div class="hero-word" aria-hidden="true">
+      <svg viewBox="0 0 1000 175" preserveAspectRatio="xMidYMid meet" role="img" aria-label="PHASERA">
+        <text class="wl" x="500" y="150" text-anchor="middle" textLength="980" lengthAdjust="spacingAndGlyphs" font-size="168">PHASERA</text>
+      </svg>
+    </div>
+    <div class="hero-sub">
+      <h1>
+        <span class="ln"><span>経営の体力を、AIエージェントで<em>取り戻す。</em></span></span>
+        <span class="ln"><span class="h1-dim">事務に溶ける年840時間を、診断から運用まで自動化する。</span></span>
       </h1>
-
-      <div class="pull-quote bleed-r" style="margin-top:64px">
-        <span style="font-family:var(--serif);font-style:italic">A quiet drift,</span><br>
-        <em>where time stops being yours.</em>
-        <span class="small">Phasera Issue No. 01 / Back-office Field Notes</span>
-      </div>
-
       <div class="hero-meta">
-        <div>
-          <h4>About</h4>
-          <p class="dropcap">Phaseraは、中小企業のバックオフィスにAIエージェントを導入する伴走パートナーです。診断から運用までを、ソロで一気通貫します。</p>
-        </div>
-        <div>
-          <h4>For</h4>
-          <p>士業（税理士・社労士・行政書士・司法書士）／<br>人材派遣・紹介業／その他バックオフィスに時間が溶けている経営者</p>
-        </div>
-        <div>
-          <h4>First Step</h4>
-          <p>診断オーディット ¥15-30万<br>2週間で業務の地図が手に入ります</p>
-          <div class="marginalia" style="margin-top:14px">
-            <b>診断＝最初の地図</b>
-            棚卸し・削減幅試算・優先順位。動くAIを置く前に、まず地図を描きます。
-          </div>
-        </div>
-      </div>
-      <div class="hero-marquee">
-        <span>Back-office Agents</span><span>KPI Design</span><span>Workflow Automation</span><span>3D Visual Production</span><span>Solo Founder</span>
+        <span><b>For</b>士業 / 人材派遣</span>
+        <span><b>First Step</b>診断 ¥15–30万 · 2週間</span>
+        <span><b>Agents</b>5 稼働中</span>
+        <span><b>MVP</b>2週間</span>
       </div>
     </div>
-    <div class="scroll-hint"><span>Scroll</span><span class="bar"></span><span>Phase&nbsp;02</span></div>
   </section>
 
-  <!-- ============== 幕2 PROBLEM — sticky orbit (4 LEAK cards orbiting central particle anim) ============== -->
-  <section id="problem" class="problem-pin" data-screen-label="02 PROBLEM" data-act="PROBLEM">
-    <div class="problem-stage">
-      <div class="stage-eyebrow">Phase 02 — Where Time Leaks</div>
-      <h2 class="stage-title">時間が、<br><em>経営から漏れている。</em></h2>
-      <div class="stage-progress">
-        <span id="orbit-stage-name">NEUTRAL</span>
-        <div class="ticks">
-          <span class="tick"></span>
-          <span class="tick"></span>
-          <span class="tick"></span>
-          <span class="tick"></span>
-        </div>
+  <!-- ============ 02 LEAKS ============ -->
+  <section class="chapter" id="leaks" data-screen-label="02 Leaks">
+    <span class="outline-no" aria-hidden="true">02</span>
+    <div class="wrap">
+      <div class="head rv">
+        <div class="eyebrow">Phase 02 — 時間の漏れ · Where Time Leaks</div>
+        <h2>時間が、<em>経営から漏れている。</em></h2>
+        <p class="lede">終わる気配のない事務の手前で、集客の話だけが後回しにされる。4つの漏れ穴は、毎日3.5時間を奪っていく。</p>
       </div>
-
-      <div class="orbit-stage">
-        <div class="orbit-canvas-wrap">
-          <canvas class="orbit-canvas" id="orbit-canvas"></canvas>
-        </div>
-
-        <article class="orbit-card" data-card="0">
-          <span class="leak-no">LEAK 01</span>
-          <h4>事務に、<br><em>時間が溶ける。</em></h4>
+      <div class="leak-grid rv" data-rv="80">
+        <article class="leak">
+          <span class="no">LEAK 01 — ADMIN</span>
+          <h3>事務に、<em>時間が溶ける。</em></h3>
           <p>顧客対応・書類処理・問い合わせ。集客に向ける時間が、毎日少しずつ削られていく。</p>
-          <div class="leak-tail"><span>事務時間 / 年</span><b>840<sup>h</sup></b></div>
+          <div class="metric"><b>840h / 年</b><span>事務時間の試算</span></div>
         </article>
-
-        <article class="orbit-card" data-card="1">
-          <span class="leak-no">LEAK 02</span>
-          <h4>業務フローが、<br><em>頭の中にしかない。</em></h4>
+        <article class="leak">
+          <span class="no">LEAK 02 — DEPENDENCY</span>
+          <h3>業務フローが、<em>頭の中にしかない。</em></h3>
           <p>代表の脳内で動いているからスケールしない。誰かに渡せず、休めず、増やせない。</p>
-          <div class="leak-tail"><span>代表依存度</span><b>100<sup>%</sup></b></div>
+          <div class="metric"><b>代表依存 100%</b><span>引き渡し不可能</span></div>
         </article>
-
-        <article class="orbit-card" data-card="2">
-          <span class="leak-no">LEAK 03</span>
-          <h4>IT人材を、<br><em>雇う予算がない。</em></h4>
+        <article class="leak">
+          <span class="no">LEAK 03 — BUDGET</span>
+          <h3>IT人材を、<em>雇う予算がない。</em></h3>
           <p>大手コンサルは高すぎる。フリーランスは伴走しない。ちょうどいい受け皿がない。</p>
-          <div class="leak-tail"><span>投資可能予算</span><b>¥0</b></div>
+          <div class="metric"><b>受け皿 ¥0</b><span>業界に存在しない</span></div>
         </article>
-
-        <article class="orbit-card" data-card="3">
-          <span class="leak-no">LEAK 04</span>
-          <h4>SaaSは入っているが、<br><em>連携できていない。</em></h4>
-          <p>データは各所に分散、結局カンで判断。投資は積んだが、見返りが見えない。</p>
-          <div class="leak-tail"><span>分断システム</span><b>4+<sup></sup></b></div>
+        <article class="leak">
+          <span class="no">LEAK 04 — SILO</span>
+          <h3>SaaSは入っているが、<em>連携できていない。</em></h3>
+          <p>顧客管理・経理・勤怠・メールがそれぞれ独立。投資はしたのに、結局カンで判断している。</p>
+          <div class="metric"><b>分断 4+ システム</b><span>データは散在</span></div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- ============== LEAK Summary list (recap of 4 leaks) ============== -->
-  <section class="leak-summary" data-act="LEAK_SUMMARY">
+  <!-- ============ 03 WORKS — spine + orbiting liquid cards ============ -->
+  <section id="works" data-screen-label="03 Works">
+    <div class="works-pin">
+      <div class="whead">
+        <div class="eyebrow">Selected Work <span class="wcount">( 6 )</span></div>
+        <div class="works-hint">Scroll / Drag — Orbit the spine</div>
+      </div>
+      <div class="works-stage" aria-hidden="true"></div>
+      <div class="works-ui">
+        <div class="w-title">
+          <span class="idx" id="wIdx">01 / 06 — AGENTS</span>
+          <h3 id="wTitle"><span class="wl-ln"><span>AUTO</span></span><span class="wl-ln"><span>REPLY</span></span></h3>
+          <div class="sub" id="wSub">問い合わせ自動応答 — For 士業 · 2025</div>
+          <div class="desc" id="wDesc"></div>
+        </div>
+        <div class="w-pager">
+          <button id="wPrev" aria-label="前のプロジェクト">←</button>
+          <button id="wNext" aria-label="次のプロジェクト">→</button>
+        </div>
+        <nav class="w-filter" aria-label="カテゴリ絞り込み">
+          <b>What are you looking for?</b>
+          <a href="#" data-f="ALL" class="on">→ All</a>
+          <a href="#" data-f="AGENTS">→ Agents</a>
+          <a href="#" data-f="KPI">→ KPI</a>
+          <a href="#" data-f="MATCHING">→ Matching</a>
+          <a href="#" data-f="3D">→ 3D / WebGL</a>
+        </nav>
+      </div>
+      <div class="w-progress" aria-hidden="true"><i id="wBar"></i></div>
+    </div>
+    <div class="works-fallback">
+      <!-- WebGL 不可環境向けの静的リスト -->
+      <article><h3>AUTO REPLY</h3><span>問い合わせ自動応答 — For 士業 · 2025</span></article>
+      <article><h3>SCOUT DM</h3><span>スカウト文面生成 — 人材派遣 · 2025</span></article>
+      <article><h3>KPI REPORT</h3><span>経営指標レポート — All · 月次 2025</span></article>
+      <article><h3>DOC DRAFT</h3><span>書類下書き — For 士業 · 2025</span></article>
+      <article><h3>MATCH ENGINE</h3><span>案件 × 求職者マッチング — 人材派遣 · 2025</span></article>
+      <article><h3>PHASERA LP</h3><span>このサイト自体 — Meta · 2026</span></article>
+    </div>
+  </section>
+
+  <!-- ============ 04 PATH ============ -->
+  <section class="chapter" id="path" data-screen-label="04 Path">
+    <span class="outline-no" aria-hidden="true">04</span>
     <div class="wrap">
-      <div class="summary-eyebrow">Phase 02 — Summary</div>
-      <h2>4つの漏れ穴は、<br><em>毎日3.5時間</em>を奪っていく。</h2>
-
-      <ol class="leak-list">
-        <li>
-          <span class="leak-list-num">01</span>
-          <div class="leak-list-body">
-            <h3>事務に、<em>時間が溶ける</em></h3>
-            <p>顧客対応・書類処理・問い合わせで毎日3.5時間。年間にして840時間。</p>
-          </div>
-          <div class="leak-list-metric">840<sup>h/年</sup><span class="lab">事務時間</span></div>
-        </li>
-        <li>
-          <span class="leak-list-num">02</span>
-          <div class="leak-list-body">
-            <h3>業務フローが、<em>頭の中にしかない</em></h3>
-            <p>代表の脳内で動くから、引き渡せず、休めず、増やせず、後継できない。</p>
-          </div>
-          <div class="leak-list-metric">100<sup>%</sup><span class="lab">代表依存度</span></div>
-        </li>
-        <li>
-          <span class="leak-list-num">03</span>
-          <div class="leak-list-body">
-            <h3>IT人材を、<em>雇う予算がない</em></h3>
-            <p>大手コンサルは高すぎる、フリーランスは伴走しない。ちょうどいい受け皿が、業界に存在しない。</p>
-          </div>
-          <div class="leak-list-metric">¥0<span class="lab">投資可能予算</span></div>
-        </li>
-        <li>
-          <span class="leak-list-num">04</span>
-          <div class="leak-list-body">
-            <h3>SaaSは入っているが、<em>連携できていない</em></h3>
-            <p>顧客管理・経理・勤怠・メールがそれぞれ独立。投資はしたのに、結局カンで判断している。</p>
-          </div>
-          <div class="leak-list-metric">4+<span class="lab">分断システム</span></div>
-        </li>
-      </ol>
-
-      <div class="summary-foot">
-        <span>4つの漏れを、ひとつずつ閉じる。</span>
-        <span class="total">経営の<em>体力</em>が、戻り始める。</span>
+      <div class="rv">
+        <div class="eyebrow">Phase 04 — 道筋と料金 · The Path</div>
+        <h2>診断から、<em>3D制作まで。</em></h2>
+        <p class="lede">5本の伴走線が、ひとつの「軸」を共有します。最小構成では診断のみから始められ、効果を見て次のフェーズに進めます。</p>
+      </div>
+      <div class="path-list">
+        <div class="path-row rv">
+          <span class="no">01 / Diagnose</span>
+          <h3>診断オーディット<small>一回完結 · オンライン</small></h3>
+          <p class="desc">2週間で、<em>業務が見える化される。</em>業務棚卸し・削減幅試算・優先順位の提示。AI導入の前に、まず地図を作るフェーズです。</p>
+          <div class="chips"><span class="price">¥15–30万</span><span>期間 2週間</span></div>
+        </div>
+        <div class="path-row rv" data-rv="60">
+          <span class="no">02 / Build</span>
+          <h3>KPI改善プログラム<small>月次レビュー込み</small></h3>
+          <p class="desc">動くAIエージェントが、<em>2週間で現場に立つ。</em>KPI設計→導入→運用定着までを3ヶ月で並走します。</p>
+          <div class="chips"><span class="price">¥80–140万</span><span>期間 3ヶ月 · 運用引き渡し</span></div>
+        </div>
+        <div class="path-row rv" data-rv="120">
+          <span class="no">03 / Sustain</span>
+          <h3>月次経営レポート<small>最小単位の伴走線</small></h3>
+          <p class="desc">カン経営から、<em>数字で語れる経営へ。</em>AIが集めた経営指標に、人のレビューを15-20分だけ重ねます。</p>
+          <div class="chips"><span class="price">¥3–8万 / 月</span><span>30分MTG · 解約自由</span></div>
+        </div>
+        <div class="path-row rv" data-rv="180">
+          <span class="no">04 / Industry</span>
+          <h3>業界別ユースケース<small>Playbooks</small></h3>
+          <p class="desc">あなたの業界の、<em>あなたの導線で。</em>特に積み上げているのは、士業のバックオフィス自動化と人材派遣のマッチング現場です。</p>
+          <div class="chips"><span>下に詳細 ↓</span></div>
+        </div>
+        <div class="path-row rv" data-rv="240">
+          <span class="no">05 / Visual</span>
+          <h3>3Dビジュアル制作<small>Blender + Three.js</small></h3>
+          <p class="desc">BlenderからGLB書き出し、Three.js / WebGLでブラウザに実装。<em>スクロール連動・ホバー反応まで</em>一貫で対応します。この背景がその実例です。</p>
+          <div class="chips"><span>お見積り</span></div>
+        </div>
+      </div>
+      <div class="industry">
+        <div class="ind-card rv">
+          <h4>士業<span>Licensed Professionals</span></h4>
+          <ul>
+            <li><i></i><span><b>初回問い合わせ</b> → 自動応答</span></li>
+            <li><i></i><span><b>申告書類・委任状</b> → 下書き生成</span></li>
+            <li><i></i><span><b>顧問先導線</b> → フォロー自動化</span></li>
+            <li><i></i><span><b>定型問い合わせ</b> → 振り分け</span></li>
+          </ul>
+        </div>
+        <div class="ind-card rv" data-rv="80">
+          <h4>人材派遣・紹介<span>Staffing &amp; Placement</span></h4>
+          <ul>
+            <li><i></i><span><b>スカウトDM</b> → 文面自動生成</span></li>
+            <li><i></i><span><b>案件 × 求職者</b> → 意味的マッチング</span></li>
+            <li><i></i><span><b>面談日程</b> → 自動調整</span></li>
+            <li><i></i><span><b>契約書類・派遣管理表</b> → 下書き</span></li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-
-  <!-- ============== 幕3 GUIDE ============== -->
-  <section id="guide" data-screen-label="03 GUIDE" data-act="GUIDE">
-    <span class="mega-no tr" aria-hidden="true">03</span>
-    <span class="bg-word" aria-hidden="true" style="bottom:14%;left:-2vw;transform:rotate(-8deg)">Partner.</span>
+  <!-- ============ 05 GUIDE ============ -->
+  <section class="chapter" id="guide" data-screen-label="05 Guide">
+    <span class="outline-no" aria-hidden="true">05</span>
     <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="section-no">PHASE / 03 — The Partner</div>
-          <div class="marginalia" style="margin-top:18px">
-            <b>A Solo Practice</b>
-            設計・コード・UI・3D・運用を一人で持つことは、<i>役割を増やすこと</i>ではなく、責任の境界線を消すことです。
-          </div>
-        </div>
-        <div>
-          <div class="eyebrow">静かに、伴走する</div>
-          <h2 class="display">大手コンサルでも、<br>SaaSベンダでもない。</h2>
-          <div style="margin-top:28px;display:flex;gap:8px;flex-wrap:wrap">
-            <span class="ed-chip"><i>i</i>SOLO FOUNDER</span>
-            <span class="ed-chip"><i>ii</i>EST. 2026</span>
-            <span class="ed-chip"><i>iii</i>JAPAN</span>
-          </div>
+      <div class="rv">
+        <div class="eyebrow">Phase 05 — 案内人 · The Guide</div>
+        <h2>大手コンサルでも、<em>SaaSベンダでもない。</em></h2>
+        <div class="credits" style="margin-top:14px">
+          <span>Solo Founder</span><span>Est. 2026</span><span>Japan</span>
         </div>
       </div>
-
       <div class="guide-grid">
-        <div class="guide-photo">
-          <!-- PHOTO SLOT: founder portrait. 4:5, monochrome treatment, plain backdrop. Replace src below. -->
-          <div class="photo-slot photo-slot--portrait">
-            <img src="assets/founder.jpg" alt="濱田大夢 — Phasera Founder" loading="lazy" decoding="async" onerror="this.remove()" />
-            <div class="photo-meta">
-              <span class="photo-tag">PORTRAIT</span>
-              <span class="photo-id">FOUNDER · 4:5</span>
-            </div>
-          </div>
+        <div class="photo rv" data-rv="60">
+          <div class="photo-ph">PORTRAIT — HIROMU HAMADA</div>
+          <div class="pmeta"><span>Portrait</span><span>Founder · Hiromu Hamada</span></div>
         </div>
-        <div class="guide-body">
-          <h3>事業の隣に座り、<br>設計から運用まで<br><em>一人で持つ伴走者。</em></h3>
-          <p class="lede">
-            濱田大夢。Phaseraの創業者であり、唯一の設計者です。診断・設計・実装・UI・運用までを一人で統合し、AIエージェントを現場に違和感なく取り入れます。
-          </p>
-          <p class="lede" style="margin-top:18px">
-            現場を <em>1日歩きます</em> ──業務を棚卸し、優先順位を立てます。要件を <em>3日で固め</em>、設計図を引き、データの流れを描きます。プロトタイプを <em>5日で実装し</em>、画面を整え、ガードレールを敷きます。<em>2週間で、動く MVP が現場に立ちます。</em>運用に渡し、毎月の数字で改善します。設計から運用まで一人で持つから、判断の往復が消え、速度が出ます。
-          </p>
-          <div class="pull-quote" style="font-size:clamp(28px, 3.4vw, 48px);margin:24px 0 24px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:24px 0">
-            <em>"</em>大手コンサルでは引き受けられない単価で、<br>
-            フリーランスでは引き受けられない責任範囲を、<br>
-            ソロで<em>持ちます。</em><em>"</em>
-          </div>
+        <div class="gbody rv" data-rv="120">
+          <h3>事業の隣に座り、設計から運用まで<em>一人で持つ伴走者。</em></h3>
+          <p>濱田大夢。Phaseraの創業者であり、唯一の設計者です。診断・設計・実装・UI・運用までを一人で統合し、AIエージェントを現場に違和感なく取り入れます。</p>
+          <p>現場を<em>1日歩き</em>、業務を棚卸しして優先順位を立てます。要件を<em>3日で固め</em>、設計図を引き、データの流れを描きます。プロトタイプを<em>5日で実装し</em>、<em>2週間で動くMVP</em>が現場に立ちます。運用に渡し、毎月の数字で改善します。</p>
+          <div class="quote">"大手コンサルでは引き受けられない単価で、フリーランスでは引き受けられない責任範囲を、ソロで<em>持ちます。</em>"</div>
           <div class="credits">
             <span>Strategy</span><span>Architecture</span><span>Code</span><span>UI</span><span>3D / Blender</span><span>Operations</span>
           </div>
@@ -1226,1873 +328,198 @@
     </div>
   </section>
 
-  <!-- ============== 幕4 PATH (5章) ============== -->
-  <section id="path" data-screen-label="04 PATH">
-    <span class="bg-word tilt" aria-hidden="true" style="top:6%;right:-2vw">The Path.</span>
+  <!-- ============ 06 NUMBERS ============ -->
+  <section class="chapter" id="numbers" data-screen-label="06 Numbers">
+    <span class="outline-no" aria-hidden="true">06</span>
     <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="section-no">PHASE / 04 — The Path</div>
-          <div class="marginalia" style="margin-top:18px">
-            <b>Five Lines, One Spine</b>
-            診断から3D制作までの5本の伴走線が、ひとつの「軸」を共有します。
-          </div>
-        </div>
-        <div>
-          <div class="eyebrow">5つの伴走線</div>
-          <h2 class="display">診断から、<br><span class="accent">3D制作まで。</span></h2>
-        </div>
+      <div class="rv">
+        <div class="eyebrow">Phase 06 — 回復 · Before / After</div>
+        <h2>経営の<em>体力</em>が、戻ってくる。</h2>
       </div>
-
-      <div class="path-axis"></div>
-
-      <!-- 章1 DIAGNOSE -->
-      <article class="path-chapter" data-act="DIAGNOSE">
-        <div class="ch-no" data-num="01"><b>DIAGNOSE</b>診断オーディット</div>
-        <div class="ch-body">
-          <h3>2週間で、<em>業務が見える化される。</em></h3>
-          <p>業務棚卸し・削減幅試算・優先順位の提示。「どこから手をつけるか」をデータと言葉で揃え、最初の一手の解像度を上げます。AI導入の前に、まず地図を作るフェーズです。</p>
-          <div class="ch-meta">
-            <span class="price">¥15-30万</span>
-            <span>期間 2週間</span>
-            <span>一回完結</span>
-            <span>オンライン</span>
-          </div>
-        </div>
-      </article>
-
-      <!-- 章2 BUILD -->
-      <article class="path-chapter" data-act="BUILD">
-        <div class="ch-no" data-num="02"><b>BUILD</b>KPI改善プログラム</div>
-        <div class="ch-body">
-          <h3>動くAIエージェントが、<br><em>2週間で現場に立つ。</em></h3>
-          <p>KPI設計→AI/エージェント導入→運用定着までを3ヶ月で並走します。問い合わせ自動応答、書類自動処理、レポート自動生成など、現場の手前で動く小さなエージェントを積み上げていきます。</p>
-
-          <div class="ch-photo wide">
-            <!-- PHOTO SLOT: build detail. 16:10. Hands / screen / printed materials. No faces. -->
-            <div class="photo-slot photo-slot--landscape">
-              <img src="assets/build-detail.jpg" alt="AIエージェント実装の現場" loading="lazy" decoding="async" onerror="this.remove()" />
-              <div class="photo-meta">
-                <span class="photo-tag">DETAIL</span>
-                <span class="photo-id">BUILD · 16:10</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="ch-meta">
-            <span class="price">¥80-140万</span>
-            <span>期間 3ヶ月</span>
-            <span>月次レビュー込み</span>
-            <span>運用引き渡し</span>
-          </div>
-        </div>
-      </article>
-
-      <!-- 章3 SUSTAIN -->
-      <article class="path-chapter" data-act="SUSTAIN">
-        <div class="ch-no" data-num="03"><b>SUSTAIN</b>月次経営レポート</div>
-        <div class="ch-body">
-          <h3>カン経営から、<em>数字で語れる経営へ。</em></h3>
-          <p>AIが集めた経営指標に、人のレビューを15-20分だけ重ねます。投げっぱなしにしないための、最小単位の伴走線です。打ち手の良し悪しを「翌月の数字」で判定できる状態にしておきます。</p>
-          <div class="ch-meta">
-            <span class="price">¥3-8万 / 月</span>
-            <span>30分以内のミーティング</span>
-            <span>解約自由</span>
-          </div>
-        </div>
-      </article>
-
-      <!-- 章4 INDUSTRY -->
-      <article class="path-chapter" data-act="INDUSTRY">
-        <div class="ch-no" data-num="04"><b>INDUSTRY</b>業界別ユースケース</div>
-        <div class="ch-body">
-          <h3>あなたの業界の、<em>あなたの導線で。</em></h3>
-          <p>同じ「AIエージェント」でも、業界ごとに刺さるポイントは違います。Phaseraが特に積み上げているのは、士業と人材派遣・紹介業の現場です。</p>
-
-          <div class="industry-cols">
-            <!-- 士業 -->
-            <div class="industry-card">
-              <!-- PHOTO SLOT: 士業 still-life. 1:1. 印鑑・契約書フォルダ. No people. -->
-              <div class="photo-slot photo-slot--square">
-                <img src="assets/industry-shigyo.jpg" alt="士業バックオフィスの静物" loading="lazy" decoding="async" onerror="this.remove()" />
-                <div class="photo-meta">
-                  <span class="photo-tag">STILL-LIFE</span>
-                  <span class="photo-id">士業 · 1:1</span>
-                </div>
-              </div>
-              <div class="ic-body">
-                <span class="tag">For 士業</span>
-                <h4>顧問獲得の前に、<br>事務に時間を取られない。</h4>
-                <ul>
-                  <li>初回問い合わせの自動応答／一次ヒアリング</li>
-                  <li>顧問契約までの導線設計とフォロー自動化</li>
-                  <li>申告書類・委任状などの定型書類の下書き</li>
-                  <li>顧問先からの定型問い合わせの優先振り分け</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- 人材派遣 -->
-            <div class="industry-card">
-              <!-- PHOTO SLOT: 人材派遣 still-life. 1:1. 履歴書・面談机. No people. -->
-              <div class="photo-slot photo-slot--square">
-                <img src="assets/industry-haken.jpg" alt="人材派遣バックオフィスの静物" loading="lazy" decoding="async" onerror="this.remove()" />
-                <div class="photo-meta">
-                  <span class="photo-tag">STILL-LIFE</span>
-                  <span class="photo-id">派遣 · 1:1</span>
-                </div>
-              </div>
-              <div class="ic-body">
-                <span class="tag">For 人材派遣・紹介</span>
-                <h4>マッチングと書類処理を、<br>属人から手放す。</h4>
-                <ul>
-                  <li>求職者DM・スカウト文面の生成と送信</li>
-                  <li>案件と求職者のマッチング候補出し</li>
-                  <li>面談日程調整・リマインドの自動化</li>
-                  <li>契約書類・派遣管理表の下書き</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 章5 VISUAL — 3D Creator -->
-      <article class="path-chapter" data-act="VISUAL">
-        <div class="ch-no" data-num="05"><b>VISUAL</b>3Dクリエイター エージェント</div>
-        <div class="ch-body">
-          <h3>業務だけじゃない。<br><em>世界観も、伴走で作る。</em></h3>
-          <p>Phaseraが提供するのはバックオフィス自動化エージェントだけではありません。Blenderを核としたフォトリアル3Dの制作を、もう一つの「並行エージェント」として並走できます。LP、ブランディング、プロダクト紹介、SNS素材まで——「AIで作って終わり」にしないよう、世界観の細部までソロで設計します。</p>
-
-          <div class="ch-photo wide">
-            <!-- PHOTO/RENDER SLOT: Blender hero render. 16:10. Photorealistic, periwinkle/navy palette aligned. -->
-            <div class="photo-slot photo-slot--landscape">
-              <img src="assets/blender-hero.jpg" alt="Blenderレンダリングのフォトリアル3Dビジュアル" loading="lazy" decoding="async" onerror="this.remove()" />
-              <div class="photo-meta">
-                <span class="photo-tag blender">BLENDER · CYCLES</span>
-                <span class="photo-id">VISUAL · 16:10</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="visual-grid">
-            <div class="visual-card">
-              <span class="k">Still / Hero Image</span>
-              <h5>静止画レンダリング</h5>
-              <p>LPのファーストビュー、ブランドキー画、プレスキットなど。Cycles / EEVEE Next で高品位に仕上げます。</p>
-            </div>
-            <div class="visual-card">
-              <span class="k">Animation / Loop</span>
-              <h5>動画 / モーション</h5>
-              <p>プロダクトのターンテーブル、コンセプト映像、SNS縦動画まで。Blender + AI支援で短納期に対応します。</p>
-            </div>
-            <div class="visual-card">
-              <span class="k">Web 3D</span>
-              <h5>Webインタラクティブ</h5>
-              <p>BlenderからGLB書き出し、Three.js / WebGL でブラウザに実装します。スクロール連動・ホバー反応まで一貫で対応できます。</p>
-            </div>
-            <div class="visual-card">
-              <span class="k">Brand DNA</span>
-              <h5>世界観設計</h5>
-              <p>マテリアル・ライティング・カメラを、ブランドのDNAとして固定します。3Dを「装飾」で終わらせません。</p>
-            </div>
-          </div>
-
-          <div class="ch-meta">
-            <span class="price">個別見積</span>
-            <span>Blender + Three.js</span>
-            <span>静止画 / 動画 / Web</span>
-            <span>並行エージェント</span>
-          </div>
-        </div>
-      </article>
+      <div class="num-row rv" data-rv="80">
+        <div class="num-cell"><span class="k">Time Recovered</span><span class="big"><span data-count="42">0</span><sup>h / 月</sup></span><span class="lab">3ヶ月伴走後の平均削減時間（試算）</span></div>
+        <div class="num-cell"><span class="k">MVP Lead Time</span><span class="big"><span data-count="2">0</span><sup>週</sup></span><span class="lab">最初のAIエージェントが現場に立つまで</span></div>
+        <div class="num-cell"><span class="k">vs Big Consult</span><span class="big"><span data-count="10">0</span><sup>分の1</sup></span><span class="lab">大手コンサル比・同等プロジェクト単価</span></div>
+        <div class="num-cell"><span class="k">Founder</span><span class="big"><span data-count="1">0</span></span><span class="lab">設計・実装・UI・3D・運用を統合する一人</span></div>
+      </div>
+      <p class="note">※ 数字は試算ベースです。実績は伴走を重ねるごとに更新します。</p>
     </div>
   </section>
 
-  <!-- ============== 幕4.5 WORKS（実績） ============== -->
-  <section id="works" data-screen-label="04½ WORKS" data-act="WORKS">
-    <span class="mega-no tr" aria-hidden="true">04½</span>
-    <span class="bg-word tilt" aria-hidden="true" style="bottom:6%;left:-3vw">Works.</span>
+  <!-- ============ 07 FAQ ============ -->
+  <section class="chapter" id="faq" data-screen-label="07 FAQ">
+    <span class="outline-no" aria-hidden="true">07</span>
     <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="section-no">PHASE / 04½ — Selected Works</div>
-          <div class="marginalia" style="margin-top:18px">
-            <b>Field Catalog</b>
-            一覧は試作・本番・実験を含む、現場で動いた／動いているシステムのスケッチです。
-          </div>
-        </div>
-        <div>
-          <div class="eyebrow">動いている、いくつかのエージェント</div>
-          <h2 class="display">作ったものが、<br><span class="accent">いちばん語る。</span></h2>
-        </div>
+      <div class="rv">
+        <div class="eyebrow">Phase 07 — よくある質問 · FAQ</div>
+        <h2>迷う前に、<em>読んでおく。</em></h2>
       </div>
-
-      <div class="works-grid">
-        <article class="work-card">
-          <div class="work-thumb"></div>
-          <div class="work-meta"><span class="work-tag">For 士業 / 試作</span><span class="work-date">2025</span></div>
-          <h3>問い合わせ自動応答 <em>エージェント</em></h3>
-          <p>新規問い合わせの一次返信を AI が下書き、担当者は確認するだけ。土日深夜の取りこぼし対応に。</p>
-          <ul class="work-stack"><li>OpenAI</li><li>Gmail API</li><li>Notion</li></ul>
-          <div class="work-metric"><span>削減見込み</span><b>−3<sup>h/週</sup></b></div>
-        </article>
-
-        <article class="work-card">
-          <div class="work-thumb"></div>
-          <div class="work-meta"><span class="work-tag">For 人材派遣 / 試作</span><span class="work-date">2025</span></div>
-          <h3>求職者スカウト <em>文面生成</em></h3>
-          <p>案件と求職者プロファイルを読み込み、刺さる DM 文面を自動生成。属人化していた文面作成を半自動化。</p>
-          <ul class="work-stack"><li>OpenAI</li><li>Slack</li><li>スプレッドシート</li></ul>
-          <div class="work-metric"><span>削減見込み</span><b>−4<sup>h/週</sup></b></div>
-        </article>
-
-        <article class="work-card">
-          <div class="work-thumb"></div>
-          <div class="work-meta"><span class="work-tag">All / 月次</span><span class="work-date">2025</span></div>
-          <h3>経営指標 <em>レポート生成</em></h3>
-          <p>各 SaaS の指標を集約、AI が前月比とコメントを生成。人レビュー 15-20 分で月次経営会議に出せる。</p>
-          <ul class="work-stack"><li>OpenAI</li><li>Make</li><li>Slack</li></ul>
-          <div class="work-metric"><span>会議準備</span><b>20<sup>min</sup></b></div>
-        </article>
-
-        <article class="work-card">
-          <div class="work-thumb"></div>
-          <div class="work-meta"><span class="work-tag">For 士業 / 試作</span><span class="work-date">2025</span></div>
-          <h3>書類下書き <em>エージェント</em></h3>
-          <p>顧問先情報を元に、申告書類・委任状の下書きを自動生成。最終確認のみ士業が担う運用に。</p>
-          <ul class="work-stack"><li>OpenAI</li><li>Python</li><li>PDF</li></ul>
-          <div class="work-metric"><span>下書き時間</span><b>−60<sup>%</sup></b></div>
-        </article>
-
-        <article class="work-card">
-          <div class="work-thumb"></div>
-          <div class="work-meta"><span class="work-tag">For 人材派遣 / 試作</span><span class="work-date">2025</span></div>
-          <h3>案件 × 求職者 <em>マッチング</em></h3>
-          <p>案件要件と求職者スキルを意味的に比較、適合度スコアと推薦理由を提示。一次振り分けを高速化。</p>
-          <ul class="work-stack"><li>OpenAI</li><li>Embeddings</li><li>Notion</li></ul>
-          <div class="work-metric"><span>振り分け</span><b>5×<sup>速</sup></b></div>
-        </article>
-
-        <article class="work-card">
-          <div class="work-thumb"></div>
-          <div class="work-meta"><span class="work-tag">Meta / 本番</span><span class="work-date">2026</span></div>
-          <h3>このサイト自体 / <em>Phasera LP</em></h3>
-          <p>Three.js + Blender 統合の Editorial LP。CT 脊椎 GLB + GPU shader particle + sticky orbit を一人で実装。3D 制作能力の証明。</p>
-          <ul class="work-stack"><li>Three.js</li><li>Blender</li><li>GLSL</li><li>Vercel</li></ul>
-          <div class="work-metric"><span>制作期間</span><b>2<sup>週</sup></b></div>
-        </article>
+      <div class="faq-list rv" data-rv="80">
+        <details class="faq-item">
+          <summary><span class="qno">Q1</span><span>AIエージェントとは何ですか？普通のAIツールと何が違いますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>AIエージェントは、目的を渡すと自律的に複数のステップを実行するAIです。チャットで一問一答する従来のAIツールと違い、メール返信・書類下書き・データ集計などを連続して処理し、人が確認するのは要所だけになります。Phaseraでは中小企業のバックオフィス業務に合わせて設計します。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q2</span><span>中小企業のバックオフィスでAIエージェントは何ができますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>問い合わせの一次返信、書類の下書き、経営指標の月次レポート、顧客フォローの自動化など、定型作業の8割を自動化できます。中小企業特有の属人化された業務フローも、伴走しながら設計・実装します。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q3</span><span>導入にかかる費用と期間の目安は？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>診断オーディットが15〜30万円・2週間、KPI改善プログラムが80〜140万円・3ヶ月、月次経営レポートが3〜8万円/月です。最小構成では診断のみから始められ、効果を見て次のフェーズに進めます。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q4</span><span>士業（税理士・社労士・行政書士）でも活用できますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>はい、士業向けには初回問い合わせの自動応答、申告書類・委任状の下書き、顧問先からの定型問い合わせの振り分けなどを実装しています。顧問獲得の前段にある事務作業を圧縮するのが狙いです。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q5</span><span>人材派遣のマッチング業務はどこまで自動化できますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>案件と求職者プロファイルの意味的マッチング、スカウトDM文面の自動生成、面談日程調整、契約書類・派遣管理表の下書きまで自動化できます。最終判断は人に残し、属人化していた候補出しを手放せます。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q6</span><span>既存の会計・勤怠・CRMシステムと連携できますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>freee・マネーフォワード・ジョブカン・kintone・Salesforce などのAPI連携、Gmail/Slack/Notion 等のSaaS連携に対応します。診断オーディットで現状のシステム構成を棚卸ししてから、無理のない連携設計を行います。</p></div>
+        </details>
       </div>
     </div>
   </section>
 
-  <!-- ============== 幕5 TRANSFORMATION ============== -->
-  <section id="numbers" data-screen-label="05 TRANSFORMATION" data-act="TRANSFORMATION">
-    <span class="mega-no tl" aria-hidden="true">05</span>
-    <span class="bg-word" aria-hidden="true" style="bottom:6%;right:-4vw;transform:rotate(8deg)">Recovered.</span>
+  <!-- ============ 08 NEWS ============ -->
+  <section class="chapter" id="news" data-screen-label="08 News" style="padding-top:0">
     <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="section-no">PHASE / 05 — The Next Phase</div>
-          <div class="marginalia" style="margin-top:18px">
-            <b>Counted Honestly</b>
-            数字は試算ベースです。実績は伴走を重ねるごとに更新します。
-          </div>
-        </div>
-        <div>
-          <div class="eyebrow">Before / After</div>
-          <h2 class="display">経営の<span class="accent">体力</span>が、<br>戻ってくる。</h2>
-        </div>
+      <div class="rv">
+        <div class="eyebrow">Phase 08 — お知らせ · News</div>
+        <h2><em>静かに、</em>動いています。</h2>
       </div>
-
-      <div class="pull-quote bleed-r" style="margin:48px 0 24px;font-size:clamp(56px, 8vw, 140px)">
-        <em>Recovered,</em><br>
-        breath by <em>breath.</em>
-        <span class="small">Phasera Issue No. 05 / Field Outcomes</span>
-      </div>
-
-      <p class="transformation-text">
-        <em>経営の体力</em>が戻ると、<br>
-        数字で語れる経営と、<br>
-        自分の時間が、両立する。
-      </p>
-
-      <div class="numbers">
-        <div class="num-cell">
-          <span class="k">Time Recovered</span>
-          <span class="big" data-count="42"><sup>h/月</sup></span>
-          <span class="lab">3ヶ月伴走後の、平均削減時間です（試算）。</span>
-        </div>
-        <div class="num-cell">
-          <span class="k">MVP Lead Time</span>
-          <span class="big" data-count="2"><sup>週</sup></span>
-          <span class="lab">最初のAIエージェントが現場に立つまでの期間です。</span>
-        </div>
-        <div class="num-cell">
-          <span class="k">vs Big Consult</span>
-          <span class="big" data-count="10"><sup>分の1</sup></span>
-          <span class="lab">大手コンサル比、同等プロジェクトの単価になります。</span>
-        </div>
-        <div class="num-cell">
-          <span class="k">Founder</span>
-          <span class="big" data-count="1"></span>
-          <span class="lab">設計・実装・UI・3D・運用すべてを統合する一人です。</span>
-        </div>
-      </div>
-      <div class="numbers-foot">※ 数字は実績の蓄積に応じて随時更新します</div>
-    </div>
-  </section>
-
-  <!-- ============== NEWS（お知らせ） ============== -->
-  <section id="news" class="tight" data-screen-label="05½ NEWS" data-act="NEWS">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <div class="section-no">News — 最近の動き</div>
-        </div>
-        <div>
-          <div class="eyebrow">お知らせ</div>
-          <h2 class="display"><em>静かに、</em><br>動いています。</h2>
-        </div>
-      </div>
-
-      <ol class="news-list">
-        <li><a class="news-item" href="#call">
-          <span class="news-date">2026.05.11</span>
-          <span class="news-tag">Launch</span>
-          <span class="news-title">Phasera 公式サイトを公開しました。</span>
-          <span class="news-arr">→</span>
+      <ol class="news-list rv" data-rv="80">
+        <li><a href="https://phasera.jp/cases/">
+          <span class="d">2026.06.17</span><span class="t">Cases</span>
+          <span class="ttl">ケーススタディ（実装解説 5本）を公開しました。</span><span class="arr">→</span>
         </a></li>
-        <li><a class="news-item" href="#call">
-          <span class="news-date">2026.05.09</span>
-          <span class="news-tag">Service</span>
-          <span class="news-title">診断オーディット（¥15-30万 / 2週間）の受付を開始しました。</span>
-          <span class="news-arr">→</span>
+        <li><a href="#hero">
+          <span class="d">2026.05.11</span><span class="t">Launch</span>
+          <span class="ttl">Phasera 公式サイトを公開しました。</span><span class="arr">→</span>
         </a></li>
-        <li><a class="news-item" href="#path">
-          <span class="news-date">2026.05.05</span>
-          <span class="news-tag">Product</span>
-          <span class="news-title">3D ビジュアル制作サービス（Blender + Three.js）を開始しました。</span>
-          <span class="news-arr">→</span>
+        <li><a href="#call">
+          <span class="d">2026.05.09</span><span class="t">Service</span>
+          <span class="ttl">診断オーディット（¥15-30万 / 2週間）の受付を開始しました。</span><span class="arr">→</span>
+        </a></li>
+        <li><a href="#path">
+          <span class="d">2026.05.05</span><span class="t">Product</span>
+          <span class="ttl">3Dビジュアル制作サービス（Blender + Three.js）を開始しました。</span><span class="arr">→</span>
         </a></li>
       </ol>
     </div>
   </section>
 
-  <!-- ============== 幕6 CALL ============== -->
-  <section id="call" class="tight" data-screen-label="06 CALL" data-act="CALL">
-    <span class="mega-no center" aria-hidden="true">06</span>
+  <!-- ============ 09 CALL ============ -->
+  <section id="call" data-screen-label="09 Begin">
     <div class="wrap">
-      <div class="call-block">
-        <span style="position:absolute;top:32px;right:48px;font-family:var(--serif);font-style:italic;font-size:clamp(120px,16vw,260px);line-height:.85;color:rgba(156,196,255,.18);pointer-events:none;letter-spacing:-.04em" aria-hidden="true">Begin.</span>
-        <div class="eyebrow">Phase 06 — Begin</div>
-        <h2>最初の一歩は、<br><em>診断</em>から。</h2>
-        <p class="lede">2週間で、業務の地図が手に入ります。1営業日以内にお返事します。フォームでも、メールでも、ご都合のよい方法でご連絡ください。</p>
-
-        <div class="call-grid">
-          <div>
-            <!-- FORM: submit triggers a prefilled mailto. Upgrade to Formspree/Tally later if needed. -->
-            <form class="form" id="diagnose-form" onsubmit="(function(e){
-              e.preventDefault();
-              const f = e.target;
-              const name = (f.name && f.name.value || '').trim();
-              const email = (f.email && f.email.value || '').trim();
-              const industry = (f.industry && f.industry.value || '').trim();
-              const message = (f.message && f.message.value || '').trim();
-              const subject = '【Phasera 診断申込】' + (name || 'お名前未入力');
-              const body = [
-                'Phasera 診断オーディットへの申込みです。',
-                '',
-                '────────────────',
-                'お名前  : ' + name,
-                'メール  : ' + email,
-                '業種    : ' + industry,
-                '────────────────',
-                '',
-                '相談したいこと:',
-                message || '（未記入）',
-                '',
-                '────────────────',
-                '※ このメールは https://phasera.jp の申込フォームから自動生成されました。'
-              ].join('\\n');
-              const mailto = 'mailto:hamada.phasera@gmail.com'
-                + '?subject=' + encodeURIComponent(subject)
-                + '&body=' + encodeURIComponent(body);
-              window.location.href = mailto;
-              return false;
-            })(event)">
-              <div class="field">
-                <label for="f-name">お名前</label>
-                <input id="f-name" name="name" type="text" required autocomplete="name" />
-              </div>
-              <div class="field">
-                <label for="f-email">メールアドレス</label>
-                <input id="f-email" name="email" type="email" required autocomplete="email" />
-              </div>
-              <div class="field">
-                <label for="f-industry">業種</label>
-                <select id="f-industry" name="industry" required>
-                  <option value="">選択してください</option>
-                  <option value="士業">士業（税理士・社労士・行政書士・司法書士）</option>
-                  <option value="人材派遣">人材派遣・紹介業</option>
-                  <option value="クリニック・サロン">小規模クリニック・サロン</option>
-                  <option value="飲食">飲食</option>
-                  <option value="クリエイティブ">クリエイティブ・小規模事業</option>
-                  <option value="その他">その他</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="f-message">相談したいこと（任意）</label>
-                <textarea id="f-message" name="message" rows="4" placeholder="例：問い合わせ対応に毎日2時間取られている。書類処理の自動化から始めたい。"></textarea>
-              </div>
-              <button class="submit" type="submit">診断を申し込む <span style="font-family:var(--mono)">→</span></button>
-            </form>
+      <div class="head rv">
+        <div class="eyebrow">Phase 09 — はじめる · Begin</div>
+        <h2>最初の一歩は、<em>診断</em>から。</h2>
+        <p class="lede" style="margin:0 auto">2週間で、業務の地図が手に入ります。フォームでも、メールでも、ご都合のよい方法でご連絡ください。</p>
+      </div>
+      <div class="call-grid">
+        <form class="form rv" id="diagnose-form" novalidate>
+          <div class="field">
+            <label for="f-name">お名前 <span class="req">必須</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+            <span class="err-msg">お名前を入力してください</span>
           </div>
-
-          <div>
-            <div class="call-meta">
-              <span>診断料金 ¥15-30万</span>
-              <span>期間 2週間</span>
-              <span>提供 オンライン</span>
-              <span>ご返信 1営業日以内</span>
-              <span>お支払 銀行振込</span>
-            </div>
-            <p class="lede" style="margin-top:24px">
-              フォーム以外をご希望の場合は、<a href="mailto:hamada.phasera@gmail.com" style="color:#9CC4FF;border-bottom:1px solid rgba(156,196,255,.4)">hamada.phasera@gmail.com</a> 宛にご連絡ください。<br>
-              ご紹介の場合は、紹介者のお名前を本文に添えていただけますと助かります。
-            </p>
+          <div class="field">
+            <label for="f-email">メールアドレス <span class="req">必須</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required>
+            <span class="err-msg">メールアドレスの形式をご確認ください</span>
           </div>
+          <div class="field">
+            <label for="f-industry">業種 <span class="req">必須</span></label>
+            <select id="f-industry" name="industry" required>
+              <option value="" selected>選択してください</option>
+              <option value="士業">士業（税理士・社労士・行政書士・司法書士）</option>
+              <option value="人材派遣">人材派遣・紹介業</option>
+              <option value="クリニック・サロン">小規模クリニック・サロン</option>
+              <option value="飲食">飲食</option>
+              <option value="クリエイティブ">クリエイティブ・小規模事業</option>
+              <option value="その他">その他</option>
+            </select>
+            <span class="err-msg">業種を選択してください</span>
+          </div>
+          <div class="field">
+            <label for="f-message">相談したいこと（任意）</label>
+            <textarea id="f-message" name="message" rows="4" placeholder="例：問い合わせ対応に毎日2時間取られている。書類処理の自動化から始めたい。"></textarea>
+            <span class="err-msg"></span>
+          </div>
+          <button class="submit" type="submit" id="submitBtn">
+            <span id="btnLabel">診断を申し込む</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+        </form>
+        <div class="side rv" data-rv="100">
+          <div class="call-meta">
+            <span>診断料金<b>¥15–30万</b></span>
+            <span>期間<b>2週間</b></span>
+            <span>提供<b>オンライン</b></span>
+            <span>ご返信<b>1営業日以内</b></span>
+            <span>お支払<b>銀行振込</b></span>
+          </div>
+          <p>フォーム以外をご希望の場合は、<a href="mailto:hamada.phasera@gmail.com">hamada.phasera@gmail.com</a> 宛にご連絡ください。ご紹介の場合は、紹介者のお名前を本文に添えていただけますと助かります。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============== Footer ============== -->
-  <footer>
-    <div class="wrap">
-      <div class="foot-grid">
-        <div class="foot-col">
-          <div class="brand"><span class="mark"></span><span>Phasera</span></div>
-          <p style="font-size:13px;color:var(--ink-2);line-height:1.7;margin:14px 0 0;max-width:36ch">
-            中小企業のバックオフィスにAIエージェントを導入する伴走パートナーです。<br>
-            設計・コード・UI・3D・運用まで、ソロで一気通貫します。
-          </p>
-        </div>
-        <div class="foot-col">
-          <h5>Path</h5>
-          <ul>
-            <li><a href="#hook">Story</a></li>
-            <li><a href="#guide">Guide</a></li>
-            <li><a href="#path">Services</a></li>
-            <li><a href="#works">Works</a></li>
-            <li><a href="#numbers">Result</a></li>
-            <li><a href="#news">News</a></li>
-          </ul>
-        </div>
-        <div class="foot-col">
-          <h5>Connect</h5>
-          <ul>
-            <li><a href="#call">診断を申し込む</a></li>
-            <li><a href="mailto:hamada.phasera@gmail.com">hamada.phasera@gmail.com</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="foot-brand">Phas<span class="acc">e</span>ra<span style="color:var(--blue)">.</span></div>
-
-      <div class="foot-bottom">
-        <span>© 2026 PHASERA — Hiromu Hamada</span>
-        <span>BUILT WITH ♥ / SOLO IN JAPAN</span>
-      </div>
-    </div>
-  </footer>
-
 </main>
 
-<!-- ============== Three.js procedural spine — DISABLED (replaced by <anatomical-garden-bg>) ============== -->
-<script type="module">
-  // Disabled: HOOK background is now the Anatomical Garden web component (#garden)
-  if (true) {
-    // Provide HOOK→PROBLEM opacity fade for the garden host element
-    const stage = document.querySelector('.stage');
-    const garden = document.getElementById('garden');
-    const hookEl = document.getElementById('hook');
-    const problemEl = document.getElementById('problem');
-    if (stage && hookEl && problemEl) {
-      let smoothed = 1;
-      let pausedNow = false;
-      const update = () => {
-        const startY = hookEl.offsetTop + hookEl.offsetHeight - 240;
-        const endY = problemEl.offsetTop;
-        const range = Math.max(1, endY - startY);
-        const raw = (window.scrollY - startY) / range;
-        const target = Math.max(0, Math.min(1, 1 - raw));
-        smoothed += (target - smoothed) * 0.18;
-        stage.style.opacity = smoothed.toFixed(3);
-        // GPU 節約: opacity < 0.04 で garden 描画停止
-        const shouldPause = smoothed < 0.04;
-        if (garden && shouldPause !== pausedNow) {
-          pausedNow = shouldPause;
-          if (shouldPause) garden.setAttribute('data-paused', '');
-          else garden.removeAttribute('data-paused');
-        }
-        requestAnimationFrame(update);
-      };
-      update();
-    }
-  }
-  // === Procedural spine DISABLED (Anatomical Garden takes over background) ===
-  if (false) {
-  const errEl = document.getElementById('err');
-  const showErr = (msg) => { if(!errEl) return; errEl.textContent = String(msg); errEl.style.display='block'; };
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  try{
-    const THREE = await import('https://esm.sh/three@0.160.0');
-    const { RoomEnvironment } = await import('https://esm.sh/three@0.160.0/examples/jsm/environments/RoomEnvironment.js');
-    const { GLTFLoader } = await import('https://esm.sh/three@0.160.0/examples/jsm/loaders/GLTFLoader.js');
-
-    const canvas = document.getElementById('scene');
-    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.0;
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0xE9EFF8, 14, 46);
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 200);
-    camera.position.set(0, 0, 24);
-
-    scene.add(new THREE.AmbientLight(0xE6EEFB, 0.55));
-    const key = new THREE.DirectionalLight(0xffffff, 1.2); key.position.set(5,8,7); scene.add(key);
-    const rim = new THREE.DirectionalLight(0x6FA8FF, 0.9); rim.position.set(-7,-4,-5); scene.add(rim);
-    const fill = new THREE.DirectionalLight(0xffffff, 0.3); fill.position.set(0,-6,4); scene.add(fill);
-
-    const root = new THREE.Group();
-    scene.add(root);
-
-    // ============================================================
-    // SPINE (持続レイヤ — Phasera のブランドメタファ)
-    // ============================================================
-    const spineGroup = new THREE.Group();
-    const curvePts = [];
-    const SPINE_H = 32, SEG = 80;
-    for(let i=0;i<=SEG;i++){
-      const t = i/SEG;
-      curvePts.push(new THREE.Vector3(Math.sin(t*Math.PI*3)*0.6, (t-0.5)*SPINE_H, Math.sin(t*Math.PI*5)*0.25));
-    }
-    const spineCurve = new THREE.CatmullRomCurve3(curvePts);
-    spineCurve.curveType = 'catmullrom'; spineCurve.tension = 0.5;
-
-    const spineTube = new THREE.Mesh(
-      new THREE.TubeGeometry(spineCurve, 200, 0.06, 8, false),
-      new THREE.MeshStandardMaterial({color:0x0B1E3F, roughness:0.35, metalness:0.6, transparent:true, opacity:0.7})
-    );
-    spineGroup.add(spineTube);
-    const spineSleeve = new THREE.Mesh(
-      new THREE.TubeGeometry(spineCurve, 200, 0.18, 10, false),
-      new THREE.MeshBasicMaterial({color:0x6FA8FF, transparent:true, opacity:0.08})
-    );
-    spineGroup.add(spineSleeve);
-
-    const vertMat = new THREE.MeshStandardMaterial({color:0xffffff, roughness:0.18, metalness:0.7, emissive:0x1E58A6, emissiveIntensity:0.04, envMapIntensity:1.4, transparent:true, opacity:1});
-    const ringMat = new THREE.MeshStandardMaterial({color:0x1E58A6, roughness:0.22, metalness:0.85, envMapIntensity:1.2, transparent:true, opacity:1});
-    for(let i=0;i<60;i++){
-      const t = i/59;
-      const p = spineCurve.getPointAt(t);
-      const tan = spineCurve.getTangentAt(t);
-      const r = 0.55 - Math.abs(t-0.5)*0.4;
-      const q = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), tan.clone().normalize());
-      const torus = new THREE.Mesh(new THREE.TorusGeometry(r, 0.05, 12, 36), ringMat);
-      torus.position.copy(p); torus.quaternion.copy(q); spineGroup.add(torus);
-      const cap = new THREE.Mesh(new THREE.CylinderGeometry(r*0.85, r*0.85, 0.04, 28), vertMat);
-      cap.position.copy(p); cap.quaternion.copy(q); spineGroup.add(cap);
-      if(i%3===0){
-        const sm = new THREE.MeshStandardMaterial({color:0x6FA8FF, emissive:0x6FA8FF, emissiveIntensity:0.6, metalness:0.4, roughness:0.18, envMapIntensity:1.6, transparent:true, opacity:1});
-        const sphere = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 12), sm);
-        const offset = new THREE.Vector3(1,0,0).applyQuaternion(q).multiplyScalar(r*1.1);
-        sphere.position.copy(p).add(offset); spineGroup.add(sphere);
-        const s2 = sphere.clone(); s2.position.copy(p).sub(offset); spineGroup.add(s2);
-      }
-    }
-    root.add(spineGroup);
-
-    // ============================================================
-    // TENDRILS (HOOK / GUIDE / TRANSFORMATION で強調、他では控えめ)
-    // ============================================================
-    const tendrilGroup = new THREE.Group();
-    const tendrilMat = new THREE.MeshStandardMaterial({color:0x6FA8FF, emissive:0x4A7EE0, emissiveIntensity:0.15, transparent:true, opacity:0.55, roughness:0.35, metalness:0.4, envMapIntensity:1.2});
-    for(let i=0;i<26;i++){
-      const t = 0.08 + (i/26)*0.84;
-      const origin = spineCurve.getPointAt(t);
-      const outDir = new THREE.Vector3((Math.random()-0.5),(Math.random()-0.5)*0.4,(Math.random()-0.5)).normalize();
-      const len = 2 + Math.random()*4.5;
-      const mid = origin.clone().add(outDir.clone().multiplyScalar(len*0.5)).add(new THREE.Vector3((Math.random()-0.5),(Math.random()-0.5)*0.6,(Math.random()-0.5)));
-      const end = origin.clone().add(outDir.clone().multiplyScalar(len)).add(new THREE.Vector3((Math.random()-0.5)*1.5,(Math.random()-0.5)*1.5,(Math.random()-0.5)*1.5));
-      const cv = new THREE.CatmullRomCurve3([origin, mid, end]);
-      tendrilGroup.add(new THREE.Mesh(new THREE.TubeGeometry(cv, 32, 0.018+Math.random()*0.015, 6, false), tendrilMat));
-      const term = new THREE.Mesh(
-        new THREE.SphereGeometry(0.04+Math.random()*0.04, 10, 10),
-        new THREE.MeshStandardMaterial({color:0x9CC4FF, emissive:0x9CC4FF, emissiveIntensity:0.7, metalness:0.5, roughness:0.15, envMapIntensity:1.6, transparent:true, opacity:1})
-      );
-      term.position.copy(end); tendrilGroup.add(term);
-    }
-    root.add(tendrilGroup);
-
-    // ============================================================
-    // BASE PARTICLES
-    // ============================================================
-    const partCount = reduced ? 200 : 700;
-    const partGeo = new THREE.BufferGeometry();
-    const positions = new Float32Array(partCount*3);
-    const phases = new Float32Array(partCount);
-    for(let i=0;i<partCount;i++){
-      const radius = 4 + Math.random()*14;
-      const theta = Math.random()*Math.PI*2;
-      positions[i*3] = Math.cos(theta)*radius*(0.3+Math.random()*0.7);
-      positions[i*3+1] = (Math.random()-0.5)*32;
-      positions[i*3+2] = Math.sin(theta)*radius*(0.3+Math.random()*0.7);
-      phases[i] = Math.random()*Math.PI*2;
-    }
-    partGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
-    partGeo.setAttribute('aPhase', new THREE.BufferAttribute(phases,1));
-    const ptc = document.createElement('canvas'); ptc.width=ptc.height=64;
-    const ptx = ptc.getContext('2d');
-    const grd = ptx.createRadialGradient(32,32,0,32,32,32);
-    grd.addColorStop(0,'rgba(110,168,255,1)');
-    grd.addColorStop(0.4,'rgba(110,168,255,.5)');
-    grd.addColorStop(1,'rgba(110,168,255,0)');
-    ptx.fillStyle=grd; ptx.fillRect(0,0,64,64);
-    const partMat = new THREE.PointsMaterial({size:0.18, map:new THREE.CanvasTexture(ptc), transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, color:0x6FA8FF, opacity:0.85});
-    root.add(new THREE.Points(partGeo, partMat));
-
-    // ============================================================
-    // FEATURE GROUP HELPERS
-    // ============================================================
-    const makeFeature = (name) => {
-      const g = new THREE.Group();
-      g.userData = { name, opacity: 0 };
-      g.visible = false;
-      root.add(g);
-      return g;
-    };
-    const recordBaseOpacities = (group) => {
-      group.traverse(o => {
-        if(o.material){
-          o.material.transparent = true;
-          if(o.material.userData._baseOpacity === undefined){
-            o.material.userData._baseOpacity = o.material.opacity ?? 1;
-          }
-          o.material.opacity = 0;
-        }
-      });
-    };
-
-    // ============================================================
-    // PROBLEM — 4枚の "leak fragment"（紙質感の Plane が漂う）
-    // ============================================================
-    const problemGroup = makeFeature('PROBLEM');
-    const paperMat = new THREE.MeshStandardMaterial({color:0xF2F5FA, roughness:0.85, metalness:0.05, side:THREE.DoubleSide, transparent:true, opacity:0.9});
-    for(let i=0;i<4;i++){
-      const plane = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.1, 1, 1), paperMat.clone());
-      const ang = (i/4)*Math.PI*2;
-      plane.position.set(Math.cos(ang)*3.2, Math.sin(ang*0.5)*1.5, Math.sin(ang)*2.4);
-      plane.rotation.set(Math.random()*0.3, ang, (Math.random()-0.5)*0.4);
-      plane.userData.baseAng = ang;
-      // small label dot to evoke "missing time"
-      const label = new THREE.Mesh(
-        new THREE.RingGeometry(0.04, 0.06, 16),
-        new THREE.MeshBasicMaterial({color:0x3C66D9, transparent:true, opacity:0.9, side:THREE.DoubleSide})
-      );
-      label.position.set(0, 0, 0.001);
-      plane.add(label);
-      problemGroup.add(plane);
-    }
-    recordBaseOpacities(problemGroup);
-
-    // ============================================================
-    // GUIDE — 1個の発光ノード + ハロー
-    // ============================================================
-    const guideGroup = makeFeature('GUIDE');
-    const guideCore = new THREE.Mesh(
-      new THREE.SphereGeometry(0.55, 32, 32),
-      new THREE.MeshStandardMaterial({color:0xFFFFFF, emissive:0x9CC4FF, emissiveIntensity:1.2, metalness:0.3, roughness:0.15, envMapIntensity:2.0, transparent:true, opacity:1})
-    );
-    guideGroup.add(guideCore);
-    const guideHalo = new THREE.Mesh(
-      new THREE.SphereGeometry(1.4, 32, 32),
-      new THREE.MeshBasicMaterial({color:0x6FA8FF, transparent:true, opacity:0.12, side:THREE.BackSide})
-    );
-    guideGroup.add(guideHalo);
-    guideGroup.position.set(2.4, 1.0, 0);
-    recordBaseOpacities(guideGroup);
-
-    // ============================================================
-    // DIAGNOSE — blueprint grid（BufferGeometry lines）
-    // ============================================================
-    const diagnoseGroup = makeFeature('DIAGNOSE');
-    const gridLinesPositions = [];
-    const GRID_SIZE = 6, GRID_DIVS = 12;
-    const half = GRID_SIZE/2;
-    // Behind spine: a grid plane + a perpendicular plane
-    for(let i=0;i<=GRID_DIVS;i++){
-      const t = (i/GRID_DIVS)*GRID_SIZE - half;
-      // horizontal lines on XY plane (at z=-2)
-      gridLinesPositions.push(-half, t, -2,  half, t, -2);
-      gridLinesPositions.push(t, -half, -2,  t, half, -2);
-      // also vertical plane at x=2.5 (XY swap)
-      gridLinesPositions.push(2.5, t, -half, 2.5, t, half);
-      gridLinesPositions.push(2.5, -half, t, 2.5, half, t);
-    }
-    const gridGeo = new THREE.BufferGeometry();
-    gridGeo.setAttribute('position', new THREE.Float32BufferAttribute(gridLinesPositions, 3));
-    const gridMat = new THREE.LineBasicMaterial({color:0x3C66D9, transparent:true, opacity:0.7});
-    const gridLines = new THREE.LineSegments(gridGeo, gridMat);
-    gridLines.userData.totalCount = gridLinesPositions.length / 3;
-    gridLines.geometry.setDrawRange(0, 0); // start hidden
-    diagnoseGroup.add(gridLines);
-    diagnoseGroup.userData.lines = gridLines;
-    diagnoseGroup.userData.drawProgress = 0;
-    recordBaseOpacities(diagnoseGroup);
-
-    // ============================================================
-    // BUILD — 6 modular cubes that dock to spine
-    // ============================================================
-    const buildGroup = makeFeature('BUILD');
-    const cubeMat = new THREE.MeshStandardMaterial({color:0x1E3358, roughness:0.25, metalness:0.85, envMapIntensity:1.4, transparent:true, opacity:1});
-    const cubeAccent = new THREE.MeshStandardMaterial({color:0x6FA8FF, emissive:0x3C66D9, emissiveIntensity:0.4, roughness:0.2, metalness:0.6, envMapIntensity:1.6, transparent:true, opacity:1});
-    for(let i=0;i<6;i++){
-      const size = 0.5 + Math.random()*0.3;
-      const cube = new THREE.Mesh(new THREE.BoxGeometry(size, size, size), i%2===0 ? cubeMat.clone() : cubeAccent.clone());
-      const ang = (i/6)*Math.PI*2;
-      cube.position.set(Math.cos(ang)*2.3, (i-2.5)*0.5, Math.sin(ang)*1.6);
-      cube.rotation.set(Math.random(), Math.random(), Math.random());
-      cube.userData.spawnDelay = i*0.4;
-      cube.userData.targetPos = cube.position.clone();
-      buildGroup.add(cube);
-    }
-    recordBaseOpacities(buildGroup);
-
-    // ============================================================
-    // SUSTAIN — 月次オービット（2本のリング）
-    // ============================================================
-    const sustainGroup = makeFeature('SUSTAIN');
-    const ringMat2 = new THREE.MeshStandardMaterial({color:0x3C66D9, roughness:0.3, metalness:0.7, transparent:true, opacity:0.6, envMapIntensity:1.3});
-    const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.04, 16, 100), ringMat2);
-    ring1.rotation.x = Math.PI/2;
-    sustainGroup.add(ring1);
-    const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.4, 0.025, 12, 100), ringMat2.clone());
-    ring2.rotation.x = Math.PI/2 + 0.3;
-    ring2.rotation.z = 0.4;
-    sustainGroup.add(ring2);
-    // satellite node on ring1
-    const sat = new THREE.Mesh(
-      new THREE.SphereGeometry(0.12, 16, 16),
-      new THREE.MeshStandardMaterial({color:0xFFFFFF, emissive:0x9CC4FF, emissiveIntensity:1.0, metalness:0.4, roughness:0.18, transparent:true, opacity:1, envMapIntensity:1.8})
-    );
-    sat.userData.r = 2.6;
-    sustainGroup.add(sat);
-    sustainGroup.userData.sat = sat;
-    recordBaseOpacities(sustainGroup);
-
-    // ============================================================
-    // INDUSTRY — 2 satellite tubes（士業=blue / 派遣=blue-2）が Y 字に伸びる
-    // ============================================================
-    const industryGroup = makeFeature('INDUSTRY');
-    const branchPaths = [
-      { color: 0x3C66D9, dir: new THREE.Vector3(-1, 0.4, 0.2) },
-      { color: 0x5A91DD, dir: new THREE.Vector3(1, 0.6, -0.2) },
-    ];
-    branchPaths.forEach(({color, dir}) => {
-      const start = new THREE.Vector3(0, 0, 0);
-      const mid = dir.clone().multiplyScalar(2.5).add(new THREE.Vector3(0, 1.5, 0));
-      const end = dir.clone().multiplyScalar(5).add(new THREE.Vector3(0, 3, 0));
-      const cv = new THREE.CatmullRomCurve3([start, mid, end]);
-      const tube = new THREE.Mesh(
-        new THREE.TubeGeometry(cv, 64, 0.06, 8, false),
-        new THREE.MeshStandardMaterial({color, roughness:0.3, metalness:0.6, transparent:true, opacity:1, envMapIntensity:1.3})
-      );
-      const term = new THREE.Mesh(
-        new THREE.SphereGeometry(0.16, 16, 16),
-        new THREE.MeshStandardMaterial({color:0xFFFFFF, emissive:color, emissiveIntensity:0.8, metalness:0.4, roughness:0.18, transparent:true, opacity:1, envMapIntensity:1.6})
-      );
-      term.position.copy(end);
-      industryGroup.add(tube);
-      industryGroup.add(term);
-    });
-    recordBaseOpacities(industryGroup);
-
-    // ============================================================
-    // VISUAL — 浮遊するアイコサヘドロン（PBR ガラス、Blender placeholder）
-    // GLB が assets/3d/visual.glb に存在すれば差し替え
-    // ============================================================
-    const visualGroup = makeFeature('VISUAL');
-    const visualPrim = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(1.0, 0),
-      new THREE.MeshPhysicalMaterial({
-        color: 0xE7EDF6,
-        roughness: 0.05,
-        metalness: 0.0,
-        transmission: 0.85,
-        thickness: 0.6,
-        ior: 1.45,
-        envMapIntensity: 1.8,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.05,
-        transparent: true, opacity: 1,
-      })
-    );
-    visualPrim.position.set(3.0, 0, 0);
-    visualGroup.add(visualPrim);
-    visualGroup.userData.primitive = visualPrim;
-    // Try to load Blender GLB (progressive enhancement)
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load(
-      'assets/3d/visual.glb',
-      (gltf) => {
-        // success: replace primitive with Blender model
-        visualGroup.remove(visualPrim);
-        const m = gltf.scene;
-        m.position.set(3.0, 0, 0);
-        m.scale.setScalar(1.0);
-        m.traverse(o => {
-          if(o.material){
-            o.material.transparent = true;
-            o.material.userData._baseOpacity = o.material.opacity ?? 1;
-            o.material.opacity = visualGroup.userData.opacity || 0;
-            o.material.envMapIntensity = 1.8;
-          }
-        });
-        visualGroup.add(m);
-        console.info('[Phasera] Blender visual.glb loaded.');
-      },
-      undefined,
-      () => { /* silently fall back to icosahedron */ }
-    );
-    recordBaseOpacities(visualGroup);
-
-    // ============================================================
-    // TRANSFORMATION — 追加パーティクル + emissive bloom（密度 +60%）
-    // ============================================================
-    const transformGroup = makeFeature('TRANSFORMATION');
-    const xCount = reduced ? 80 : 280;
-    const xGeo = new THREE.BufferGeometry();
-    const xPos = new Float32Array(xCount*3);
-    for(let i=0;i<xCount;i++){
-      const r = 1.2 + Math.random()*5;
-      const a = Math.random()*Math.PI*2;
-      const y = (Math.random()-0.5)*10;
-      xPos[i*3] = Math.cos(a)*r;
-      xPos[i*3+1] = y;
-      xPos[i*3+2] = Math.sin(a)*r;
-    }
-    xGeo.setAttribute('position', new THREE.BufferAttribute(xPos, 3));
-    const xMat = new THREE.PointsMaterial({size:0.12, map:new THREE.CanvasTexture(ptc), transparent:true, depthWrite:false, blending:THREE.AdditiveBlending, color:0x9CC4FF, opacity:1});
-    const xPoints = new THREE.Points(xGeo, xMat);
-    transformGroup.add(xPoints);
-    // central glowing sphere
-    const xCore = new THREE.Mesh(
-      new THREE.SphereGeometry(0.4, 24, 24),
-      new THREE.MeshStandardMaterial({color:0xFFFFFF, emissive:0x6FA8FF, emissiveIntensity:1.6, metalness:0.4, roughness:0.18, transparent:true, opacity:1, envMapIntensity:2.0})
-    );
-    transformGroup.add(xCore);
-    transformGroup.userData.core = xCore;
-    recordBaseOpacities(transformGroup);
-
-    // ============================================================
-    // SECTION GATING via IntersectionObserver
-    // ============================================================
-    const ALL_FEATURES = {
-      PROBLEM: problemGroup,
-      GUIDE: guideGroup,
-      DIAGNOSE: diagnoseGroup,
-      BUILD: buildGroup,
-      SUSTAIN: sustainGroup,
-      INDUSTRY: industryGroup,
-      VISUAL: visualGroup,
-      TRANSFORMATION: transformGroup,
-    };
-    let activeAct = 'HOOK';
-    let prevAct = 'HOOK';
-    let transitionT = 0; // 0=stable, 1=fresh transition, decays each frame
-    document.body.setAttribute('data-active-act', activeAct);
-
-    // Per-section camera target (focus point + dolly + fov)
-    const CAMERA_TARGETS = {
-      HOOK:           { x: 0.0, y: 0.2, z: 24, fov: 38, fog: [14, 46] },
-      PROBLEM:        { x: 0.4, y: 0.3, z: 22, fov: 40, fog: [12, 40] },
-      GUIDE:          { x: 1.3, y: 0.7, z: 19, fov: 36, fog: [16, 44] },
-      DIAGNOSE:       { x: 0.0,y: -0.6, z: 21, fov: 40, fog: [14, 42] },
-      BUILD:          { x: 0.5, y: 0.0, z: 19, fov: 38, fog: [12, 38] },
-      SUSTAIN:        { x: 0.0, y: 0.0, z: 22, fov: 42, fog: [16, 46] },
-      INDUSTRY:       { x: 0.0, y: 1.2, z: 21, fov: 40, fog: [14, 42] },
-      VISUAL:         { x: 1.6, y: 0.0, z: 17, fov: 34, fog: [10, 36] },
-      TRANSFORMATION: { x: 0.0, y: 0.4, z: 19, fov: 38, fog: [14, 50] },
-      CALL:           { x: 0.0, y: 0.0, z: 24, fov: 38, fog: [18, 50] },
-    };
-    const camPos = { x: 0, y: 0, z: 24, fov: 38, fogN: 14, fogF: 46 };
-
-    const sectionEls = document.querySelectorAll('[data-act]');
-    let topRatio = -1, topAct = activeAct;
-    const ioOpts = { threshold: [0.3, 0.5, 0.7], rootMargin: '-15% 0px -15% 0px' };
-    const io = new IntersectionObserver((entries) => {
-      // pick the most visible
-      entries.forEach(e => {
-        const act = e.target.getAttribute('data-act');
-        e.target._ratio = e.isIntersecting ? e.intersectionRatio : 0;
-      });
-      let best = null, bestRatio = 0.0;
-      sectionEls.forEach(s => {
-        if((s._ratio || 0) > bestRatio){ bestRatio = s._ratio; best = s; }
-      });
-      if(best){
-        const next = best.getAttribute('data-act');
-        if(next !== activeAct){
-          prevAct = activeAct;
-          activeAct = next;
-          transitionT = 1.0;
-          document.body.setAttribute('data-active-act', activeAct);
-        }
-      }
-    }, ioOpts);
-    sectionEls.forEach(s => io.observe(s));
-
-    // ============================================================
-    // resize / scroll / mouse
-    // ============================================================
-    const ro = new ResizeObserver(()=>{
-      const w = canvas.clientWidth, h = canvas.clientHeight;
-      renderer.setSize(w,h,false);
-      camera.aspect = w/h; camera.updateProjectionMatrix();
-    });
-    ro.observe(canvas);
-
-    let scrollProgress = 0, smoothed = 0;
-    let mx = 0, my = 0, smx = 0, smy = 0;
-    const updateScroll = () => {
-      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-      scrollProgress = Math.min(1, Math.max(0, window.scrollY / max));
-    };
-    window.addEventListener('scroll', updateScroll, {passive:true});
-    updateScroll();
-    window.addEventListener('mousemove', e=>{
-      mx = (e.clientX / window.innerWidth) - 0.5;
-      my = (e.clientY / window.innerHeight) - 0.5;
-    });
-
-    // ============================================================
-    // ANIMATE
-    // ============================================================
-    const clock = new THREE.Clock();
-    const animate = () => {
-      const t = clock.getElapsedTime();
-      smoothed += (scrollProgress - smoothed) * 0.06;
-      smx += (mx - smx) * 0.04;
-      smy += (my - smy) * 0.04;
-
-      // transition decay (~1.4s)
-      transitionT = Math.max(0, transitionT - 0.0085);
-      const flash = transitionT * transitionT * (3 - 2 * transitionT); // smoothstep flash
-
-      // CALL → softStill: damp motion to 15%
-      const isCalling = activeAct === 'CALL';
-      const motionGate = isCalling ? 0.15 : 1.0;
-
-      // ===== camera per-section target (lerp) =====
-      const tgt = CAMERA_TARGETS[activeAct] || CAMERA_TARGETS.HOOK;
-      camPos.x   += (tgt.x   - camPos.x)   * 0.04;
-      camPos.y   += (tgt.y   - camPos.y)   * 0.04;
-      camPos.z   += (tgt.z   - camPos.z)   * 0.045;
-      camPos.fov += (tgt.fov - camPos.fov) * 0.05;
-      camPos.fogN += (tgt.fog[0] - camPos.fogN) * 0.03;
-      camPos.fogF += (tgt.fog[1] - camPos.fogF) * 0.03;
-      // shake on transition (very subtle)
-      const shake = (reduced ? 0 : flash * 0.06);
-      camera.position.set(
-        camPos.x + Math.sin(t * 32) * shake,
-        camPos.y + Math.cos(t * 28) * shake,
-        camPos.z
-      );
-      camera.fov = camPos.fov;
-      camera.updateProjectionMatrix();
-      camera.lookAt(0, smoothed * 0.4, 0);
-      scene.fog.near = camPos.fogN;
-      scene.fog.far  = camPos.fogF;
-
-      // common spine motion
-      const baseY = smoothed * Math.PI * 0.7 * motionGate;
-      const baseX = -0.18 + smoothed * 0.25 * motionGate;
-      const scale = 1 + smoothed * 0.15 * motionGate;
-      root.rotation.y = baseY + smx * 0.25 + (reduced ? 0 : t*0.01*motionGate);
-      root.rotation.x = baseX + smy * 0.12;
-      root.scale.setScalar(scale);
-      root.position.y = -smoothed * 5 + (reduced ? 0 : Math.sin(t*0.4)*0.08*motionGate);
-
-      // spine opacity hand-off: full in HOOK, fade out after, near-zero in CALL
-      if(spineGroup.userData.targetOpacity === undefined) spineGroup.userData.targetOpacity = 1;
-      if(spineGroup.userData.opacity === undefined) spineGroup.userData.opacity = 1;
-      // smoothed: 0 at top, 1 at bottom. HOOK ends roughly at smoothed≈0.07
-      let _spineFade = 1.0;
-      if(smoothed > 0.04){
-        _spineFade = Math.max(0.06, 1.0 - (smoothed - 0.04) * 9);
-      }
-      spineGroup.userData.targetOpacity = isCalling ? 0.0 : _spineFade;
-      spineGroup.userData.opacity += (spineGroup.userData.targetOpacity - spineGroup.userData.opacity) * 0.05;
-      spineGroup.traverse(o => {
-        if(o.material){
-          if(o.material.userData._baseOpacity === undefined) o.material.userData._baseOpacity = o.material.opacity;
-          o.material.opacity = (o.material.userData._baseOpacity ?? 1) * spineGroup.userData.opacity;
-        }
-      });
-      tendrilGroup.traverse(o => {
-        if(o.material){
-          if(o.material.userData._baseOpacity === undefined) o.material.userData._baseOpacity = o.material.opacity;
-          o.material.opacity = (o.material.userData._baseOpacity ?? 1) * spineGroup.userData.opacity;
-        }
-      });
-      partMat.opacity = 0.85 * spineGroup.userData.opacity;
-
-      // Per-feature opacity lerp
-      Object.entries(ALL_FEATURES).forEach(([act, group]) => {
-        const target = (act === activeAct) ? 1 : 0;
-        group.userData.opacity += (target - group.userData.opacity) * 0.05;
-        const op = group.userData.opacity;
-        group.traverse(o => {
-          if(o.material){
-            o.material.opacity = (o.material.userData._baseOpacity ?? 1) * op;
-          }
-        });
-        group.visible = op > 0.005;
-      });
-
-      // ====== TRANSITION FLASH (global) ======
-      // Briefly boost exposure & spine emissive when activeAct changes
-      renderer.toneMappingExposure = 1.0 + flash * 0.18;
-
-      // ====== Per-feature animations ======
-      // PROBLEM — 4 papers: rotate + tilt sway + Y bob, easing smoothstep on enter
-      if(problemGroup.userData.opacity > 0.01){
-        const e = problemGroup.userData.opacity;
-        const ease = e * e * (3 - 2 * e);
-        problemGroup.children.forEach((p, i) => {
-          const phase = t * 0.4 + i * 1.5;
-          const ang = p.userData.baseAng + phase * 0.18;
-          const r = (3.2 + Math.sin(phase*0.5)*0.6) * (0.5 + ease*0.5);
-          p.position.x = Math.cos(ang) * r;
-          p.position.z = Math.sin(ang) * (2.4 + Math.cos(phase*0.3)*0.5);
-          p.position.y = Math.sin(phase*0.7) * 1.5 + Math.cos(t*0.3 + i) * 0.3;
-          p.rotation.y = ang + Math.sin(phase) * 0.3;
-          p.rotation.z = Math.sin(t*0.5 + i) * 0.22;
-          p.rotation.x = Math.cos(t*0.3 + i*1.4) * 0.15;
-        });
-      }
-
-      // GUIDE — pulse + halo expansion ripple + slow position bob
-      if(guideGroup.userData.opacity > 0.01){
-        const pulse = 1 + Math.sin(t * 1.4) * 0.06;
-        const ripple = 1.05 + (Math.sin(t * 0.7) * 0.5 + 0.5) * 0.18;
-        guideCore.scale.setScalar(pulse);
-        guideHalo.scale.setScalar(pulse * ripple);
-        // halo opacity breathes inversely (expand → fade)
-        if(guideHalo.material._baseOpacity === undefined){ guideHalo.material._baseOpacity = guideHalo.material.userData._baseOpacity ?? 0.12; }
-        const haloFade = 0.05 + (1 - (ripple-1.05)/0.18) * 0.10;
-        guideHalo.material.opacity = haloFade * guideGroup.userData.opacity;
-        guideGroup.position.y = 1.0 + Math.sin(t * 0.8) * 0.18;
-        guideGroup.rotation.y = t * 0.12;
-        // emissive boost on transition
-        if(guideCore.material) guideCore.material.emissiveIntensity = 1.2 + flash * 0.8;
-      }
-
-      // DIAGNOSE — gradual line draw + scanning beam after complete
-      if(diagnoseGroup.userData.opacity > 0.01){
-        diagnoseGroup.userData.drawProgress = Math.min(1, diagnoseGroup.userData.drawProgress + 0.014);
-        const total = gridLines.userData.totalCount;
-        gridLines.geometry.setDrawRange(0, Math.floor(total * diagnoseGroup.userData.drawProgress));
-        // gentle Y-axis sway of the whole grid for depth feeling
-        diagnoseGroup.rotation.y = Math.sin(t*0.3) * 0.04;
-        diagnoseGroup.rotation.x = Math.cos(t*0.25) * 0.03;
-        // pulse opacity slightly to feel "scanning"
-        if(gridMat.userData._baseOpacity === undefined){ gridMat.userData._baseOpacity = 0.7; }
-        const pulse = 0.55 + (Math.sin(t*1.2)*0.5+0.5)*0.35;
-        gridMat.opacity = pulse * diagnoseGroup.userData.opacity;
-      } else {
-        diagnoseGroup.userData.drawProgress = 0;
-      }
-
-      // BUILD — cubes snap-in with bounce easing + sustained tumble
-      if(buildGroup.userData.opacity > 0.01){
-        buildGroup.userData.timer = (buildGroup.userData.timer || 0) + 1/60;
-        buildGroup.children.forEach((cube, i) => {
-          cube.rotation.x += 0.006;
-          cube.rotation.y += 0.005;
-          cube.rotation.z += 0.0025;
-          const phase = Math.max(0, buildGroup.userData.timer - cube.userData.spawnDelay);
-          // overshoot bounce: 1.0 + sin decay
-          const baseS = Math.min(1, phase * 1.2);
-          const overshoot = baseS < 1 ? 0 : Math.sin(phase*4) * Math.exp(-phase*1.2) * 0.18;
-          cube.scale.setScalar(baseS + overshoot);
-          // gentle orbital drift around target position
-          const drift = 0.15;
-          cube.position.x = cube.userData.targetPos.x + Math.cos(t*0.3 + i) * drift;
-          cube.position.y = cube.userData.targetPos.y + Math.sin(t*0.4 + i*1.2) * drift;
-        });
-      } else {
-        buildGroup.userData.timer = 0;
-        buildGroup.children.forEach(c => c.scale.setScalar(0));
-      }
-
-      // SUSTAIN — orbital ring rotation + satellite orbits + scale pulse
-      if(sustainGroup.userData.opacity > 0.01){
-        ring1.rotation.z += 0.004;
-        ring2.rotation.z -= 0.0025;
-        ring1.rotation.x = Math.PI/2 + Math.sin(t*0.5)*0.04;
-        const r = sustainGroup.userData.sat.userData.r;
-        const a = t * 0.55;
-        sustainGroup.userData.sat.position.set(
-          Math.cos(a)*r,
-          Math.sin(a*0.3)*0.4,
-          Math.sin(a)*r
-        );
-        // satellite tiny pulse
-        const sp = 1 + Math.sin(t*3)*0.15;
-        sustainGroup.userData.sat.scale.setScalar(sp);
-      }
-
-      // INDUSTRY — tip nodes pulse asymmetrically + slight tube wobble
-      if(industryGroup.userData.opacity > 0.01){
-        industryGroup.rotation.y = Math.sin(t*0.2)*0.05;
-        industryGroup.children.forEach((c, i) => {
-          if(c.geometry instanceof THREE.SphereGeometry){
-            c.scale.setScalar(1 + Math.sin(t*1.6 + i*1.7)*0.16);
-          }
-        });
-      }
-
-      // VISUAL — icosahedron tumble + breath + position float
-      if(visualGroup.userData.opacity > 0.01){
-        visualGroup.rotation.y += 0.005;
-        visualGroup.rotation.x += 0.002;
-        visualGroup.rotation.z += 0.001;
-        visualGroup.position.y = Math.sin(t * 0.5) * 0.35;
-        // subtle scale breath
-        const breathS = 1 + Math.sin(t*0.7)*0.04;
-        if(visualGroup.userData.primitive){
-          visualGroup.userData.primitive.scale.setScalar(breathS);
-        }
-      }
-
-      // TRANSFORMATION — rising particles + core radiate + extra emissive boost
-      if(transformGroup.userData.opacity > 0.01){
-        transformGroup.rotation.y -= 0.0025;
-        const c = transformGroup.userData.core;
-        c.scale.setScalar(1 + Math.sin(t*2.0)*0.10);
-        if(c.material) c.material.emissiveIntensity = 1.4 + Math.sin(t*1.6)*0.4 + flash*0.5;
-        // particles rise upward slowly when active
-        const arr = xGeo.attributes.position.array;
-        for(let i=0;i<xCount;i++){
-          arr[i*3+1] += 0.012 * transformGroup.userData.opacity;
-          if(arr[i*3+1] > 5){ arr[i*3+1] = -5; }
-        }
-        xGeo.attributes.position.needsUpdate = true;
-      }
-
-      // base particle drift
-      if(!reduced){
-        const arr = partGeo.attributes.position.array;
-        const phs = partGeo.attributes.aPhase.array;
-        for(let i=0;i<partCount;i++){
-          arr[i*3+1] += Math.sin(t*0.4 + phs[i]) * 0.0015 * motionGate;
-          arr[i*3]   += Math.cos(t*0.3 + phs[i]) * 0.0007 * motionGate;
-        }
-        partGeo.attributes.position.needsUpdate = true;
-      }
-
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    };
-    animate();
-
-  } catch(e){
-    console.error(e);
-    showErr('3D scene failed to load: ' + (e?.message || e));
-  }
-  } // end if(false) — procedural spine disabled
-</script>
-
-<!-- ============== Numbers count-up + section reveal on scroll ============== -->
-<script>
-(function(){
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // silentReveal: add .is-revealed when section/chapter enters viewport
-  const revealEls = document.querySelectorAll('[data-act]');
-  if(reduced){
-    revealEls.forEach(el => el.classList.add('is-revealed'));
-  } else {
-    const revealIO = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if(e.isIntersecting && e.intersectionRatio > 0.12){
-          e.target.classList.add('is-revealed');
-        }
-      });
-    }, { threshold: [0.12, 0.3], rootMargin: '0px 0px -10% 0px' });
-    revealEls.forEach(el => revealIO.observe(el));
-  }
-
-  // metricCount
-  const cells = document.querySelectorAll('.num-cell .big[data-count]');
-  const animateCount = (el) => {
-    const target = parseFloat(el.getAttribute('data-count'));
-    if(reduced){ el.firstChild ? (el.firstChild.textContent = target) : (el.textContent = target); return; }
-    const dur = 1600, t0 = performance.now();
-    const sup = el.querySelector('sup');
-    const supHtml = sup ? sup.outerHTML : '';
-    const ease = (x) => 1 - Math.pow(1 - x, 3);
-    const tick = (now) => {
-      const p = Math.min(1, (now - t0)/dur);
-      const v = Math.round(target * ease(p));
-      el.innerHTML = v + supHtml;
-      if(p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  };
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if(e.isIntersecting){
-        animateCount(e.target);
-        io.unobserve(e.target);
-      }
-    });
-  }, {threshold:0.4});
-  cells.forEach(c => io.observe(c));
-})();
-</script>
-
-<!-- ============== Particle Morph (post-HOOK storytelling) ============== -->
-<script>
-(() => {
-  const canvas = document.getElementById('particles');
-  const stage  = canvas && canvas.parentElement;
-  if(!canvas || !stage) return;
-  const ctx = canvas.getContext('2d', { alpha: true });
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const DPR = Math.min(window.devicePixelRatio || 1, 2);
-  const COUNT = reduced ? 6000 : 24000;
-
-  let W = 0, H = 0;
-  function resize(){
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width  = W * DPR;
-    canvas.height = H * DPR;
-    canvas.style.width  = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  }
-  resize();
-  addEventListener('resize', resize);
-
-  // Particles (current pos + per-particle seeds)
-  const particles = new Array(COUNT);
-  for(let i=0;i<COUNT;i++){
-    particles[i] = {
-      x:(Math.random()-0.5)*2, y:(Math.random()-0.5)*2, z:(Math.random()-0.5)*2,
-      s1:Math.random(), s2:Math.random(), s3:Math.random(), s4:Math.random()
-    };
-  }
-
-  // Shape generators: 5 stages mapped to Phasera narrative
-  // Plane → Dispersion → Torus → Helix → Sphere
-  function shapePlane(p,i,t){
-    const idx=i+1, golden=Math.PI*(3-Math.sqrt(5));
-    const r=Math.sqrt(idx/COUNT)*1.45, a=idx*golden;
-    const x=Math.cos(a)*r, z=Math.sin(a)*r;
-    const y=Math.sin(r*6 - t*0.0015)*0.18 + 0.4;
-    return [x,y,z];
-  }
-  function shapeCloud(p,i,t){
-    const drift=0.05;
-    const x=(p.s1-0.5)*2.6 + Math.sin(t*0.0006 + p.s2*7)*drift;
-    const y=(p.s2-0.5)*2.0 + Math.cos(t*0.0007 + p.s3*7)*drift;
-    const z=(p.s3-0.5)*2.2 + Math.sin(t*0.0005 + p.s4*7)*drift;
-    return [x,y,z];
-  }
-  function shapeTorus(p,i,t){
-    const R=0.95, r=0.32;
-    const u=p.s1*Math.PI*2 + t*0.0004;
-    const v=p.s2*Math.PI*2 + t*0.0006;
-    const cu=Math.cos(u), su=Math.sin(u), cv=Math.cos(v), sv=Math.sin(v);
-    const x=(R+r*cv)*cu, y=r*sv, z=(R+r*cv)*su;
-    const ty=y*Math.cos(0.6) - z*Math.sin(0.6);
-    const tz=y*Math.sin(0.6) + z*Math.cos(0.6);
-    return [x,ty,tz];
-  }
-  function shapeHelix(p,i,t){
-    const strand = p.s1<0.5 ? 0 : 1;
-    const turns=5;
-    const u=p.s2;
-    const angle=u*Math.PI*2*turns + t*0.0008 + (strand?Math.PI:0);
-    const radius=0.55, y=(u-0.5)*2.4;
-    const x=Math.cos(angle)*radius, z=Math.sin(angle)*radius;
-    if(p.s3<0.18){
-      const lerp=p.s4;
-      const a1=u*Math.PI*2*turns + t*0.0008, a2=a1+Math.PI;
-      const x1=Math.cos(a1)*radius, z1=Math.sin(a1)*radius;
-      const x2=Math.cos(a2)*radius, z2=Math.sin(a2)*radius;
-      return [x1+(x2-x1)*lerp, y, z1+(z2-z1)*lerp];
-    }
-    return [x,y,z];
-  }
-  function shapeSphere(p,i,t){
-    const idx=i+0.5;
-    const phi=Math.acos(1 - 2*idx/COUNT);
-    const theta=Math.PI*(1+Math.sqrt(5))*idx + t*0.0005;
-    return [Math.sin(phi)*Math.cos(theta), Math.cos(phi), Math.sin(phi)*Math.sin(theta)];
-  }
-  const SHAPES = [shapePlane, shapeCloud, shapeTorus, shapeHelix, shapeSphere];
-
-  // Project 3D→2D
-  function project(x,y,z){
-    const fov=2.6, camZ=3.2;
-    const k = fov / (camZ - z);
-    const minDim = Math.min(W,H);
-    const scale = minDim * 0.36;
-    return { px: W/2 + x*k*scale, py: H/2 + y*k*scale, depth: k };
-  }
-  function easeInOutCubic(t){ return t<0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
-
-  // Scope progress to HOOK end → CALL top
-  const hookEl = document.getElementById('hook');
-  const callEl = document.getElementById('call');
-  let progress = 0;
-  let stageOpacity = 0;
-  let smoothedStageOp = 0;
-  function updateProgress(){
-    if(!hookEl || !callEl) return;
-    const startY = hookEl.offsetTop + hookEl.offsetHeight;
-    const endY   = callEl.offsetTop;
-    const range  = Math.max(1, endY - startY);
-    const raw    = (window.scrollY - startY) / range;
-    progress = Math.min(1, Math.max(0, raw));
-    // Stage opacity: fade in at last 280px of HOOK, fade out at first 360px of CALL
-    const fadeIn = 280, fadeOut = 360;
-    if(window.scrollY < startY){
-      stageOpacity = Math.min(1, Math.max(0, (window.scrollY - (startY - fadeIn)) / fadeIn));
-    } else if(window.scrollY > endY - fadeOut){
-      stageOpacity = Math.min(1, Math.max(0, (endY - window.scrollY) / fadeOut));
-    } else {
-      stageOpacity = 1;
-    }
-  }
-  addEventListener('scroll', updateProgress, { passive: true });
-  addEventListener('resize', updateProgress);
-  updateProgress();
-
-  // Render
-  function frame(now){
-    // smooth stage opacity
-    smoothedStageOp += (stageOpacity - smoothedStageOp) * 0.10;
-    stage.style.opacity = smoothedStageOp.toFixed(3);
-
-    if(smoothedStageOp < 0.005){ requestAnimationFrame(frame); return; }
-
-    // periwinkle trail (matches Phasera bg)
-    ctx.fillStyle = 'rgba(242,245,250,0.45)';
-    ctx.fillRect(0, 0, W, H);
-
-    const segs = SHAPES.length - 1;
-    const segPos = progress * segs;
-    const segIdx = Math.min(segs - 1, Math.floor(segPos));
-    const segT = easeInOutCubic(Math.min(1, Math.max(0, segPos - segIdx)));
-
-    const fnA = SHAPES[segIdx];
-    const fnB = SHAPES[segIdx + 1];
-    const ease = reduced ? 1.0 : 0.085;
-
-    // depth-based color: ink (#0B1E3F) → blue (#3C66D9)
-    const inkR=11,inkG=30,inkB=63;
-    const blR=60,blG=102,blB=217;
-
-    for(let i=0;i<COUNT;i++){
-      const p = particles[i];
-      const a = fnA(p,i,now);
-      const b = fnB(p,i,now);
-      const tx = a[0] + (b[0]-a[0])*segT;
-      const ty = a[1] + (b[1]-a[1])*segT;
-      const tz = a[2] + (b[2]-a[2])*segT;
-
-      p.x += (tx - p.x) * ease;
-      p.y += (ty - p.y) * ease;
-      p.z += (tz - p.z) * ease;
-
-      // gentle global rotation, 50% slower than original
-      const rot = now * 0.00008 + progress * 0.4;
-      const cs = Math.cos(rot), sn = Math.sin(rot);
-      const rx = p.x*cs + p.z*sn;
-      const rz = -p.x*sn + p.z*cs;
-
-      const proj = project(rx, p.y, rz);
-      if(proj.px < -20 || proj.px > W+20 || proj.py < -20 || proj.py > H+20) continue;
-
-      const size = Math.max(0.3, proj.depth * 0.75);
-      const alpha = Math.min(0.85, 0.14 + proj.depth * 0.45) * smoothedStageOp;
-
-      const ct = Math.min(1, proj.depth * 1.4);
-      const r = (inkR + (blR-inkR)*ct) | 0;
-      const g = (inkG + (blG-inkG)*ct) | 0;
-      const bb = (inkB + (blB-inkB)*ct) | 0;
-      ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + bb + ',' + alpha.toFixed(3) + ')';
-      ctx.fillRect(proj.px, proj.py, size, size);
-    }
-
-    requestAnimationFrame(frame);
-  }
-  requestAnimationFrame(frame);
-})();
-</script>
-
-<!-- ============== PROBLEM sticky orbit: GPU shader (morph 完全 GPU化, JS は uniform 更新のみ) ============== -->
-<script type="module">
-  const pin = document.querySelector('.problem-pin');
-  const canvas = document.getElementById('orbit-canvas');
-  const cards = document.querySelectorAll('.orbit-card');
-  const stageName = document.getElementById('orbit-stage-name');
-  const ticks = document.querySelectorAll('.problem-stage .stage-progress .tick');
-  if(!pin || !canvas || cards.length === 0){ /* nothing to do */ }
-  else try {
-    const THREE = await import('https://esm.sh/three@0.160.0');
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isMobile = matchMedia('(max-width: 640px)').matches;
-    const COUNT = reduced ? 4000 : 14000;
-
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMobile, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.75 : 2));
-    renderer.setClearColor(0x000000, 0);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0, 3.2);
-
-    // === Per-particle seeds (s1-s4 baked into vec4 attribute) ===
-    const seedAttr = new Float32Array(COUNT * 4);
-    const positions = new Float32Array(COUNT * 3); // dummy positions, shader overrides
-    for(let i=0; i<COUNT; i++){
-      seedAttr[i*4]   = Math.random();
-      seedAttr[i*4+1] = Math.random();
-      seedAttr[i*4+2] = Math.random();
-      seedAttr[i*4+3] = Math.random();
-    }
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('seed', new THREE.BufferAttribute(seedAttr, 4));
-
-    // sprite texture (radial soft dot)
-    const sCanvas = document.createElement('canvas');
-    sCanvas.width = sCanvas.height = 64;
-    const sCtx = sCanvas.getContext('2d');
-    const sGrad = sCtx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    sGrad.addColorStop(0, 'rgba(255,255,255,1)');
-    sGrad.addColorStop(0.4, 'rgba(255,255,255,0.55)');
-    sGrad.addColorStop(1, 'rgba(255,255,255,0)');
-    sCtx.fillStyle = sGrad; sCtx.fillRect(0, 0, 64, 64);
-    const tex = new THREE.CanvasTexture(sCanvas);
-
-    // === GPU shader: morph + depth color completely on vertex shader ===
-    const vertexShader = /* glsl */ `
-      attribute vec4 seed;
-      uniform float uTime;
-      uniform float uProgress; // 0=neutral, 1=helix
-      uniform float uPointSize;
-      varying vec3 vColor;
-      const float TURNS = 5.0;
-      const float TWO_PI = 6.28318530718;
-      const float PI = 3.14159265359;
-      const float DRIFT = 0.04;
-
-      vec3 shapeNeutral(vec4 s, float t){
-        return vec3(
-          (s.x - 0.5) * 1.8 + sin(t*0.0006 + s.y*7.0) * DRIFT,
-          (s.y - 0.5) * 1.4 + cos(t*0.0007 + s.z*7.0) * DRIFT,
-          (s.z - 0.5) * 1.6 + sin(t*0.0005 + s.w*7.0) * DRIFT
-        );
-      }
-      vec3 shapeHelix(vec4 s, float t){
-        float strand = step(0.5, s.x);
-        float u = s.y;
-        float radius = 0.55;
-        float y = (u - 0.5) * 1.9;
-        // 16% は rung（双螺旋を繋ぐ橋）、それ以外は strand
-        if(s.z < 0.16){
-          float lerpT = s.w;
-          float a1 = u * TWO_PI * TURNS + t*0.0008;
-          float a2 = a1 + PI;
-          vec2 p1 = vec2(cos(a1), sin(a1)) * radius;
-          vec2 p2 = vec2(cos(a2), sin(a2)) * radius;
-          vec2 p = mix(p1, p2, lerpT);
-          return vec3(p.x, y, p.y);
-        } else {
-          float angle = u * TWO_PI * TURNS + t*0.0008 + strand*PI;
-          return vec3(cos(angle)*radius, y, sin(angle)*radius);
-        }
-      }
-      float easeInOutCubic(float t){
-        return t < 0.5 ? 4.0*t*t*t : 1.0 - pow(-2.0*t + 2.0, 3.0) / 2.0;
-      }
-
-      void main(){
-        vec3 a = shapeNeutral(seed, uTime);
-        vec3 b = shapeHelix(seed, uTime);
-        float segT = easeInOutCubic(uProgress);
-        vec3 pos = mix(a, b, segT);
-
-        // depth-based color: 奥(z<0)=ink → 手前(z>0)=blue
-        float ct = clamp((pos.z + 1.0) * 0.55, 0.0, 1.0);
-        vec3 ink  = vec3(11.0/255.0, 30.0/255.0, 63.0/255.0);
-        vec3 blue = vec3(60.0/255.0, 102.0/255.0, 217.0/255.0);
-        vColor = mix(ink, blue, ct);
-
-        vec4 mvPos = modelViewMatrix * vec4(pos, 1.0);
-        gl_Position = projectionMatrix * mvPos;
-        // size attenuation: 近いほど大きく
-        gl_PointSize = uPointSize * (300.0 / -mvPos.z);
-      }
-    `;
-    const fragmentShader = /* glsl */ `
-      uniform sampler2D uMap;
-      varying vec3 vColor;
-      void main(){
-        vec4 sprite = texture2D(uMap, gl_PointCoord);
-        if(sprite.a < 0.01) discard;
-        gl_FragColor = vec4(vColor, sprite.a * 0.92);
-      }
-    `;
-    const mat = new THREE.ShaderMaterial({
-      uniforms: {
-        uTime: { value: 0 },
-        uProgress: { value: 0 },
-        uPointSize: { value: isMobile ? 0.022 : 0.030 },
-        uMap: { value: tex }
-      },
-      vertexShader, fragmentShader,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.NormalBlending
-    });
-    const points = new THREE.Points(geo, mat);
-    // bounding sphere（shader が position を上書きするので明示的に大きめに）
-    geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), 5);
-    scene.add(points);
-
-    function resize(){
-      const rect = canvas.getBoundingClientRect();
-      const w = Math.max(1, rect.width);
-      const h = Math.max(1, rect.height);
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    }
-    resize();
-    new ResizeObserver(resize).observe(canvas);
-    addEventListener('resize', resize);
-
-    // === Card windows ===
-    const STAGE_NAMES = ['NEUTRAL', 'HELIX'];
-    const CARD_COUNT = cards.length;
-    const cardWindows = [];
-    const WIN_WIDTH = 0.30;
-    for(let i=0; i<CARD_COUNT; i++){
-      const mid = 0.10 + (i / (CARD_COUNT - 1)) * 0.80;
-      cardWindows.push({ start: mid - WIN_WIDTH/2, end: mid + WIN_WIDTH/2, mid });
-    }
-
-    let progress = 0;
-    let smoothedProgress = 0;
-    function updateScroll(){
-      const rect = pin.getBoundingClientRect();
-      const total = Math.max(1, pin.offsetHeight - window.innerHeight);
-      const scrolled = -rect.top;
-      progress = Math.min(1, Math.max(0, scrolled / total));
-    }
-    addEventListener('scroll', updateScroll, { passive: true });
-    addEventListener('resize', updateScroll);
-    updateScroll();
-
-    function positionCards(){
-      const travelX = Math.min(window.innerWidth*0.48, 700);
-      cards.forEach((card, i) => {
-        const w = cardWindows[i];
-        const localT = (progress - w.start) / (w.end - w.start);
-        const t = Math.min(1.1, Math.max(-0.1, localT));
-        const tClamped = Math.min(1, Math.max(0, t));
-        const eased = tClamped<0.5 ? 4*tClamped*tClamped*tClamped : 1 - Math.pow(-2*tClamped+2,3)/2;
-        const x = -travelX + eased * travelX * 2;
-        const opacity = Math.pow(Math.sin(tClamped * Math.PI), 1.4);
-        const scale = 0.78 + opacity * 0.24;
-        card.style.transform = `translate(calc(-50% + ${x}px), -50%) scale(${scale.toFixed(3)})`;
-        card.style.opacity = opacity.toFixed(3);
-      });
-      const seg = Math.min(STAGE_NAMES.length - 1, Math.floor(progress * STAGE_NAMES.length));
-      const cardActive = Math.min(CARD_COUNT-1, Math.floor(progress * CARD_COUNT));
-      if(stageName) stageName.textContent = STAGE_NAMES[seg];
-      ticks.forEach((tk, i) => tk.classList.toggle('on', i <= cardActive));
-    }
-
-    let visible = true;
-    new IntersectionObserver((entries) => {
-      entries.forEach(e => { visible = e.isIntersecting; });
-    }, { rootMargin: '20% 0px 20% 0px' }).observe(pin);
-
-    // === animate (JS は uniform 更新と card position のみ — O(1)) ===
-    function frame(now){
-      requestAnimationFrame(frame);
-      if(!visible) return;
-      smoothedProgress += (progress - smoothedProgress) * 0.08;
-      positionCards();
-
-      mat.uniforms.uTime.value = now;
-      mat.uniforms.uProgress.value = smoothedProgress;
-      points.rotation.y = now * 0.00009 + smoothedProgress * 0.6;
-
-      renderer.render(scene, camera);
-    }
-    requestAnimationFrame(frame);
-  } catch(e){ console.error('[orbit] WebGL setup failed', e); }
-</script>
-
-<!-- ============== legacy per-LEAK script (disabled) ============== -->
-<script>
-(() => {
-  return; // disabled
-  const canvases = document.querySelectorAll('.leak-canvas');
-  if(!canvases.length) return;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  canvases.forEach(canvas => setupLeak(canvas, canvas.getAttribute('data-leak')));
-
-  function setupLeak(canvas, leak){
-    const ctx = canvas.getContext('2d', { alpha: true });
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    let W = 0, H = 0;
-    let visible = false;
-    let raf = 0;
-
-    function resize(){
-      const rect = canvas.getBoundingClientRect();
-      W = Math.max(1, Math.floor(rect.width));
-      H = Math.max(1, Math.floor(rect.height));
-      canvas.width = W * DPR;
-      canvas.height = H * DPR;
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-      // clear with white
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, W, H);
-    }
-    resize();
-    new ResizeObserver(resize).observe(canvas);
-
-    // particle counts per leak (sparse for 03)
-    let COUNT;
-    if(leak === '03') COUNT = reduced ? 80 : 280;
-    else if(leak === '04') COUNT = reduced ? 600 : 2000;
-    else if(leak === '02') COUNT = reduced ? 1200 : 4200;
-    else COUNT = reduced ? 1000 : 3500;
-
-    // particle store
-    const ps = new Array(COUNT);
-    for(let i=0;i<COUNT;i++){
-      ps[i] = {
-        x: Math.random()*W, y: Math.random()*H,
-        vx: 0, vy: 0,
-        s1: Math.random(), s2: Math.random(), s3: Math.random(), s4: Math.random(),
-        u: Math.random()*Math.PI*2,
-        cluster: Math.floor(Math.random()*5)
-      };
-    }
-
-    // ===== shape draw functions =====
-    const ink = [11,30,63], blue = [60,102,217], blueLite = [110,168,255];
-
-    function fmt(c, a){ return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a.toFixed(3)+')'; }
-
-    // 01 — TIME MELTS: vertical drip / rain. Particles fall from top to bottom and respawn.
-    function drawDrip(t){
-      ctx.fillStyle = 'rgba(255,255,255,0.55)'; // white trail
-      ctx.fillRect(0,0,W,H);
-      const t01 = t * 0.001;
-      for(let i=0;i<COUNT;i++){
-        const p = ps[i];
-        // gravity-ish acceleration
-        p.vy += 0.018 + p.s1 * 0.012;
-        p.y += p.vy;
-        p.x += Math.sin(t01*0.6 + p.s2*8) * 0.18;
-        if(p.y > H + 8){
-          p.y = -8 - Math.random()*40;
-          p.x = Math.random()*W;
-          p.vy = 0.05 + Math.random()*0.4;
-        }
-        // color: top = blue, bottom = ink (time melts into deep)
-        const colorT = 1 - p.y/H;
-        const r = (ink[0] + (blue[0]-ink[0])*colorT) | 0;
-        const g = (ink[1] + (blue[1]-ink[1])*colorT) | 0;
-        const b = (ink[2] + (blue[2]-ink[2])*colorT) | 0;
-        const alpha = 0.18 + colorT * 0.32;
-        ctx.fillStyle = 'rgba('+r+','+g+','+b+','+alpha.toFixed(3)+')';
-        // streak: long thin vertical line for falling effect
-        ctx.fillRect(p.x, p.y, 1.2, 1.2 + p.vy*1.4);
-      }
-      // bottom "absorbed" gradient
-      const grad = ctx.createLinearGradient(0, H*0.7, 0, H);
-      grad.addColorStop(0, 'rgba(11,30,63,0)');
-      grad.addColorStop(1, 'rgba(11,30,63,0.18)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, H*0.7, W, H*0.3);
-    }
-
-    // 02 — TANGLED IN HEAD: trefoil-like knot, dense central tangle.
-    function drawKnot(t){
-      ctx.fillStyle = 'rgba(255,255,255,0.50)';
-      ctx.fillRect(0,0,W,H);
-      const t01 = t * 0.0004;
-      const cx = W/2, cy = H/2;
-      const scale = Math.min(W,H) * 0.18;
-      for(let i=0;i<COUNT;i++){
-        const p = ps[i];
-        p.u += 0.006 + p.s1*0.004;
-        const u = p.u + t01 + p.s2*1.2;
-        // Trefoil-like curve
-        const x = Math.sin(u) + 2*Math.sin(2*u + p.s3*0.4);
-        const y = Math.cos(u) - 2*Math.cos(2*u + p.s3*0.4);
-        const z = -Math.sin(3*u);
-        const projZ = 1 / (3 - z*0.3);
-        const px = cx + x * scale * projZ + (p.s4-0.5)*6;
-        const py = cy + y * scale * projZ + (p.s2-0.5)*6;
-        const alpha = 0.18 + p.s1 * 0.45 * projZ;
-        const colorT = projZ * 0.9;
-        const r = (ink[0] + (blue[0]-ink[0])*colorT) | 0;
-        const g = (ink[1] + (blue[1]-ink[1])*colorT) | 0;
-        const b = (ink[2] + (blue[2]-ink[2])*colorT) | 0;
-        ctx.fillStyle = 'rgba('+r+','+g+','+b+','+alpha.toFixed(3)+')';
-        ctx.fillRect(px, py, 1.4, 1.4);
-      }
-      // dark dense core to suggest "trapped in head"
-      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, scale*0.9);
-      grad.addColorStop(0, 'rgba(11,30,63,0.18)');
-      grad.addColorStop(1, 'rgba(11,30,63,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0,0,W,H);
-    }
-
-    // 03 — OUT OF REACH: sparse, lonely scatter, slow drift.
-    function drawSparse(t){
-      ctx.fillStyle = 'rgba(255,255,255,0.30)'; // slow trails
-      ctx.fillRect(0,0,W,H);
-      const t01 = t * 0.0008;
-      for(let i=0;i<COUNT;i++){
-        const p = ps[i];
-        // brownian
-        p.vx += (Math.random()-0.5) * 0.04;
-        p.vy += (Math.random()-0.5) * 0.04;
-        p.vx *= 0.96;
-        p.vy *= 0.96;
-        p.x += p.vx;
-        p.y += p.vy;
-        if(p.x < 0) p.x = W;
-        if(p.x > W) p.x = 0;
-        if(p.y < 0) p.y = H;
-        if(p.y > H) p.y = 0;
-        // pulsing alpha — sometimes visible, sometimes faded
-        const alpha = 0.12 + Math.max(0, Math.sin(t01*1.2 + p.s1*9)) * 0.42;
-        ctx.fillStyle = 'rgba(11,30,63,'+alpha.toFixed(3)+')';
-        ctx.fillRect(p.x, p.y, 2.5, 2.5);
-      }
-      // big empty void label feeling — just one larger glyph fade in/out
-      const beat = (Math.sin(t * 0.0015) * 0.5 + 0.5);
-      ctx.fillStyle = 'rgba(60,102,217,'+(0.04 + beat*0.05).toFixed(3)+')';
-      ctx.beginPath();
-      ctx.arc(W/2, H/2, Math.min(W,H)*0.04, 0, Math.PI*2);
-      ctx.fill();
-    }
-
-    // 04 — DISCONNECTED: 5 small island clusters orbit own centers, no bridges.
-    function drawIslands(t){
-      ctx.fillStyle = 'rgba(255,255,255,0.50)';
-      ctx.fillRect(0,0,W,H);
-      const NC = 5;
-      const t01 = t * 0.0006;
-      const baseR = Math.min(W,H) * 0.32;
-      const centers = new Array(NC);
-      for(let c=0;c<NC;c++){
-        const a0 = (c/NC) * Math.PI*2 + t01*0.4;
-        centers[c] = {
-          x: W/2 + Math.cos(a0) * baseR,
-          y: H/2 + Math.sin(a0) * baseR * 0.7
-        };
-      }
-      // very faint dashed attempt-to-connect lines (broken)
-      ctx.strokeStyle = 'rgba(11,30,63,0.06)';
-      ctx.setLineDash([3,8]);
-      ctx.lineWidth = 1;
-      for(let c=0;c<NC;c++){
-        const a = centers[c], b = centers[(c+2)%NC];
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.stroke();
-      }
-      ctx.setLineDash([]);
-      // particles orbit assigned center
-      for(let i=0;i<COUNT;i++){
-        const p = ps[i];
-        const c = centers[p.cluster];
-        const orbitSpeed = 0.018 + p.s1*0.022;
-        const angle = p.u + t * 0.001 * orbitSpeed * (p.cluster%2 ? 1 : -1);
-        const radius = 6 + p.s2 * 22;
-        const x = c.x + Math.cos(angle) * radius;
-        const y = c.y + Math.sin(angle) * radius * 0.85;
-        const alpha = 0.22 + p.s3 * 0.42;
-        // each cluster gets slightly different tint within ink/blue range
-        const colorT = (p.cluster / (NC-1)) * 0.7;
-        const r = (ink[0] + (blue[0]-ink[0])*colorT) | 0;
-        const g = (ink[1] + (blue[1]-ink[1])*colorT) | 0;
-        const b = (ink[2] + (blue[2]-ink[2])*colorT) | 0;
-        ctx.fillStyle = 'rgba('+r+','+g+','+b+','+alpha.toFixed(3)+')';
-        ctx.fillRect(x, y, 1.6, 1.6);
-      }
-    }
-
-    const drawFn = leak === '01' ? drawDrip
-                  : leak === '02' ? drawKnot
-                  : leak === '03' ? drawSparse
-                  : leak === '04' ? drawIslands
-                  : drawDrip;
-
-    let last = performance.now();
-    function frame(now){
-      if(!visible){ raf = 0; return; } // pause when off-screen
-      drawFn(now);
-      raf = requestAnimationFrame(frame);
-    }
-
-    // gate by IntersectionObserver — only animate when in viewport
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        const wasVisible = visible;
-        visible = e.isIntersecting && e.intersectionRatio > 0.05;
-        if(visible && !wasVisible){
-          last = performance.now();
-          if(!raf) raf = requestAnimationFrame(frame);
-        }
-      });
-    }, { threshold: [0.05, 0.5] });
-    io.observe(canvas);
-  }
-})();
-</script>
-
+<!-- ============ footer ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="fbrand"><img src="assets/favicon.svg" alt=""><b>PHASERA</b></div>
+        <p class="fdesc">中小企業のバックオフィスにAIエージェントを導入する伴走パートナーです。設計・コード・UI・3D・運用まで、ソロで一気通貫します。</p>
+      </div>
+      <div>
+        <h5>Path</h5>
+        <ul>
+          <li><a href="#hero">物語</a></li>
+          <li><a href="#works">実績</a></li>
+          <li><a href="#path">道筋と料金</a></li>
+          <li><a href="#guide">案内人</a></li>
+          <li><a href="#numbers">数字</a></li>
+          <li><a href="#news">お知らせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Pages</h5>
+        <ul>
+          <li><a href="https://phasera.jp/cases/">ケーススタディ</a></li>
+          <li><a href="https://phasera.jp/pricing/">料金・費用</a></li>
+          <li><a href="https://phasera.jp/for/shigyo/">士業向け</a></li>
+          <li><a href="https://phasera.jp/for/jinzai-haken/">人材派遣向け</a></li>
+          <li><a href="https://phasera.jp/about/">運営者情報</a></li>
+          <li><a href="https://phasera.jp/author/hamada/">著者・濱田大夢</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Connect</h5>
+        <ul>
+          <li><a href="#call">診断を申し込む</a></li>
+          <li><a href="mailto:hamada.phasera@gmail.com">hamada.phasera@gmail.com</a></li>
+          <li><a href="https://phasera.jp">phasera.jp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-mega" aria-hidden="true">Phas<em>e</em>ra.</div>
+    <div class="foot-bottom">
+      <span>© 2026 PHASERA — Hiromu Hamada</span>
+      <span><a href="https://phasera.jp/privacy/">プライバシーポリシー</a> · Built with ♥ / Solo in Japan</span>
+    </div>
+  </div>
+</footer>
+
+<script src="at/works-data.js"></script>
+<script src="at/app.js"></script>
+<script type="module" src="at/gl.js"></script>
 </body>
 </html>
