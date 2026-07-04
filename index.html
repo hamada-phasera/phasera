@@ -55,7 +55,10 @@
       "@id": "https://phasera.jp/#founder",
       "name": "濱田大夢",
       "alternateName": "Hiromu Hamada",
-      "jobTitle": "Founder",
+      "jobTitle": "Founder / Forward Deployed Engineer",
+      "description": "中小企業のバックオフィスにAIエージェントを導入するFDE（Forward Deployed Engineer）。診断・設計・実装・UI・3D・運用までを一人で統合する。",
+      "knowsAbout": ["AIエージェント", "バックオフィス自動化", "士業DX", "人材派遣 業務改善", "Three.js", "Blender", "業務設計"],
+      "url": "https://phasera.jp/author/hamada/",
       "worksFor": { "@id": "https://phasera.jp/#org" }
     },
     {
@@ -67,13 +70,29 @@
     },
     {
       "@type": "Service",
-      "serviceType": "AIエージェント導入伴走",
+      "serviceType": "AIエージェント導入・伴走（Forward Deployed Engineer）",
       "provider": { "@id": "https://phasera.jp/#org" },
       "areaServed": "JP",
       "offers": [
-        { "@type": "Offer", "name": "診断オーディット", "price": "150000-300000", "priceCurrency": "JPY", "description": "業務棚卸し・削減幅試算・優先順位の提示（2週間）" },
-        { "@type": "Offer", "name": "KPI改善プログラム", "price": "800000-1400000", "priceCurrency": "JPY", "description": "KPI設計→AIエージェント導入→運用定着（3ヶ月）" },
-        { "@type": "Offer", "name": "月次経営レポート", "price": "30000-80000", "priceCurrency": "JPY", "description": "AI生成 + 人レビュー15-20分（月額）" }
+        { "@type": "Offer", "name": "梅・診断オーディット", "price": "150000-300000", "priceCurrency": "JPY", "description": "業務棚卸し・削減幅試算・優先順位の提示（2週間・続行義務なし）" },
+        { "@type": "Offer", "name": "竹・KPI改善 / 月次伴走", "price": "800000-1400000", "priceCurrency": "JPY", "description": "実装から運用定着まで並走。月次伴走 3-8万円/月〜" },
+        { "@type": "Offer", "name": "松・経営統括 / 外部COO相当", "priceCurrency": "JPY", "description": "多事業化・承継・M&Aまで見据えた中長期パートナーシップ（月額・お見積り）" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://phasera.jp/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "AIエージェントとは何ですか？普通のAIツールと何が違いますか？", "acceptedAnswer": { "@type": "Answer", "text": "AIエージェントは、目的を渡すと自律的に複数のステップを実行するAIです。チャットで一問一答する従来のAIツールと違い、メール返信・書類下書き・データ集計などを連続して処理し、人が確認するのは要所だけになります。Phaseraでは中小企業のバックオフィス業務に合わせて設計します。" } },
+        { "@type": "Question", "name": "中小企業のバックオフィスでAIエージェントは何ができますか？", "acceptedAnswer": { "@type": "Answer", "text": "問い合わせの一次返信、書類の下書き、経営指標の月次レポート、顧客フォローの自動化など、定型作業の8割を自動化できます。中小企業特有の属人化された業務フローも、伴走しながら設計・実装します。" } },
+        { "@type": "Question", "name": "導入にかかる費用と期間の目安は？", "acceptedAnswer": { "@type": "Answer", "text": "梅・診断オーディットが15〜30万円・2週間、竹・KPI改善プログラムが80〜140万円・3ヶ月（月次伴走は3〜8万円/月〜）、松・経営統括は月額のお見積りです。最小構成では診断のみから始められ、効果を見て次のフェーズに進めます。" } },
+        { "@type": "Question", "name": "士業（税理士・社労士・行政書士）でも活用できますか？", "acceptedAnswer": { "@type": "Answer", "text": "はい、士業向けには初回問い合わせの自動応答、申告書類・委任状の下書き、顧問先からの定型問い合わせの振り分けなどを実装しています。顧問獲得の前段にある事務作業を圧縮するのが狙いです。" } },
+        { "@type": "Question", "name": "人材派遣のマッチング業務はどこまで自動化できますか？", "acceptedAnswer": { "@type": "Answer", "text": "案件と求職者プロファイルの意味的マッチング、スカウトDM文面の自動生成、面談日程調整、契約書類・派遣管理表の下書きまで自動化できます。最終判断は人に残し、属人化していた候補出しを手放せます。" } },
+        { "@type": "Question", "name": "既存の会計・勤怠・CRMシステムと連携できますか？", "acceptedAnswer": { "@type": "Answer", "text": "freee・マネーフォワード・ジョブカン・kintone・Salesforce などのAPI連携、Gmail/Slack/Notion 等のSaaS連携に対応します。乗り換えではなく接続から始めるので、いま使っているものを捨てる必要はありません。" } },
+        { "@type": "Question", "name": "契約期間や解約の条件は？途中でやめられますか？", "acceptedAnswer": { "@type": "Answer", "text": "診断オーディットは一回完結で、続行の義務はありません。伴走は数ヶ月単位、統括は中長期を想定しますが、やめる判断（撤退条項）を最初から契約に明記します。引き止めません。" } },
+        { "@type": "Question", "name": "相談から着手までの流れを教えてください。", "acceptedAnswer": { "@type": "Answer", "text": "① 初回60分の無料相談 → ② 現状ヒアリング（現場を歩く）→ ③『判断の地図』＝診断レポートの提出 → ④ 着手 or 見送りを判断、の順です。営業電話・営業メールは一切ありません。" } },
+        { "@type": "Question", "name": "IT担当がいなくても大丈夫ですか？補助金は使えますか？", "acceptedAnswer": { "@type": "Answer", "text": "社内側の窓口は経営者ご本人1名で構いません。設計・実装・運用はこちらで持ちます。IT導入補助金・事業再構築補助金などの活用相談にも応じますが、補助金前提では動かず、まず事業として意味のある一手を優先します。" } },
+        { "@type": "Question", "name": "途中で担当者が変わることはありますか？", "acceptedAnswer": { "@type": "Answer", "text": "ありません。診断から運用まで、同じ一人（FDE）が最後まで持ちます。途中で人を入れ替えないことを約束します。" } }
       ]
     }
   ]
@@ -93,8 +112,9 @@
     <li><a href="#leaks"><sup>02</sup>時間の漏れ</a></li>
     <li><a href="#works"><sup>03</sup>実績</a></li>
     <li><a href="#path"><sup>04</sup>道筋</a></li>
-    <li><a href="#guide"><sup>05</sup>案内人</a></li>
-    <li><a href="#faq"><sup>07</sup>質問</a></li>
+    <li><a href="#fde"><sup>05</sup>流儀</a></li>
+    <li><a href="#voices"><sup>07</sup>事例</a></li>
+    <li><a href="#faq"><sup>10</sup>質問</a></li>
   </ul>
   <a class="cta" href="#call"><i></i>診断を申し込む</a>
   <button class="burger" id="burger" aria-label="メニューを開く"><i></i><i></i></button>
@@ -106,9 +126,12 @@
   <a href="#leaks"><sup>02</sup>時間の漏れ</a>
   <a href="#works"><sup>03</sup>実績</a>
   <a href="#path"><sup>04</sup>道筋と料金</a>
-  <a href="#guide"><sup>05</sup>案内人</a>
-  <a href="#faq"><sup>07</sup>よくある質問</a>
-  <a href="#news"><sup>08</sup>お知らせ</a>
+  <a href="#fde"><sup>05</sup>私たちの流儀</a>
+  <a href="#guide"><sup>06</sup>案内人</a>
+  <a href="#voices"><sup>07</sup>導入事例</a>
+  <a href="#fit"><sup>08</sup>向く / 向かない</a>
+  <a href="#faq"><sup>10</sup>よくある質問</a>
+  <a href="#news"><sup>11</sup>お知らせ</a>
   <a class="m-cta" href="#call">診断を申し込む →</a>
 </div>
 
@@ -135,7 +158,7 @@
 
   <!-- ============ 01 HERO ============ -->
   <section id="hero" data-screen-label="01 Hero">
-    <div class="hero-tag"><i></i><span>AI Agent Studio — AX / DX · Est. 2026 · Japan</span><i></i></div>
+    <div class="hero-tag"><i></i><span>Forward Deployed Engineer for SMB — AX / DX · Est. 2026 · Japan</span><i></i></div>
     <div class="hero-word" aria-hidden="true">
       <svg viewBox="0 0 1000 175" preserveAspectRatio="xMidYMid meet" role="img" aria-label="PHASERA">
         <text class="wl" x="500" y="150" text-anchor="middle" textLength="980" lengthAdjust="spacingAndGlyphs" font-size="168">PHASERA</text>
@@ -143,14 +166,14 @@
     </div>
     <div class="hero-sub">
       <h1>
-        <span class="ln"><span>経営の体力を、AIエージェントで<em>取り戻す。</em></span></span>
-        <span class="ln"><span class="h1-dim">事務に溶ける年840時間を、診断から運用まで自動化する。</span></span>
+        <span class="ln"><span>作業ではなく、<em>判断を売る。</em></span></span>
+        <span class="ln"><span class="h1-dim">現場に入り込むエンジニアが、経営者の“夜のExcel”を終わらせる。</span></span>
       </h1>
       <div class="hero-meta">
         <span><b>For</b>士業 / 人材派遣</span>
         <span><b>First Step</b>診断 ¥15–30万 · 2週間</span>
-        <span><b>Agents</b>5 稼働中</span>
-        <span><b>MVP</b>2週間</span>
+        <span><b>Trial</b>初回60分 無料</span>
+        <span><b>No</b>営業電話なし</span>
       </div>
     </div>
   </section>
@@ -161,8 +184,8 @@
     <div class="wrap">
       <div class="head rv">
         <div class="eyebrow">Phase 02 — 時間の漏れ · Where Time Leaks</div>
-        <h2>時間が、<em>経営から漏れている。</em></h2>
-        <p class="lede">終わる気配のない事務の手前で、集客の話だけが後回しにされる。4つの漏れ穴は、毎日3.5時間を奪っていく。</p>
+        <h2>ツールは増えた。だが、<em>判断の材料は増えていない。</em></h2>
+        <p class="lede">SaaSもAIも入れた。それでも経営者の時間は、まだ“夜のExcel”に支配されている。データはあるのに、判断のドラフトを整える人が、社内にも社外にもいない。4つの漏れ穴が、毎日3.5時間を奪っていく。</p>
       </div>
       <div class="leak-grid rv" data-rv="80">
         <article class="leak">
@@ -205,7 +228,7 @@
         <div class="w-title">
           <span class="idx" id="wIdx">01 / 06 — AGENTS</span>
           <h3 id="wTitle"><span class="wl-ln"><span>AUTO</span></span><span class="wl-ln"><span>REPLY</span></span></h3>
-          <div class="sub" id="wSub">問い合わせ自動応答 — For 士業 · 2025</div>
+          <div class="sub" id="wSub">問い合わせ自動応答 — For 士業 · R&amp;D 2025</div>
           <div class="desc" id="wDesc"></div>
         </div>
         <div class="w-pager">
@@ -225,11 +248,11 @@
     </div>
     <div class="works-fallback">
       <!-- WebGL 不可環境向けの静的リスト -->
-      <article><h3>AUTO REPLY</h3><span>問い合わせ自動応答 — For 士業 · 2025</span></article>
-      <article><h3>SCOUT DM</h3><span>スカウト文面生成 — 人材派遣 · 2025</span></article>
-      <article><h3>KPI REPORT</h3><span>経営指標レポート — All · 月次 2025</span></article>
-      <article><h3>DOC DRAFT</h3><span>書類下書き — For 士業 · 2025</span></article>
-      <article><h3>MATCH ENGINE</h3><span>案件 × 求職者マッチング — 人材派遣 · 2025</span></article>
+      <article><h3>AUTO REPLY</h3><span>問い合わせ自動応答 — For 士業 · R&amp;D 2025</span></article>
+      <article><h3>SCOUT DM</h3><span>スカウト文面生成 — 人材派遣 · R&amp;D 2025</span></article>
+      <article><h3>KPI REPORT</h3><span>経営指標レポート — All · 月次 R&amp;D 2025</span></article>
+      <article><h3>DOC DRAFT</h3><span>書類下書き — For 士業 · R&amp;D 2025</span></article>
+      <article><h3>MATCH ENGINE</h3><span>案件 × 求職者マッチング — 人材派遣 · R&amp;D 2025</span></article>
       <article><h3>PHASERA LP</h3><span>このサイト自体 — Meta · 2026</span></article>
     </div>
   </section>
@@ -240,38 +263,38 @@
     <div class="wrap">
       <div class="rv">
         <div class="eyebrow">Phase 04 — 道筋と料金 · The Path</div>
-        <h2>診断から、<em>3D制作まで。</em></h2>
-        <p class="lede">5本の伴走線が、ひとつの「軸」を共有します。最小構成では診断のみから始められ、効果を見て次のフェーズに進めます。</p>
+        <h2>診断から、<em>経営の統括まで。</em></h2>
+        <p class="lede">松竹梅の3段。まず<em>梅（診断）</em>から低リスクで始め、効果を見て<em>竹（伴走）</em>・<em>松（統括）</em>へ。すべてを一人のFDEが、ひとつの「軸」で持ちます。やめる判断も、最初から契約に書きます。</p>
       </div>
       <div class="path-list">
         <div class="path-row rv">
-          <span class="no">01 / Diagnose</span>
-          <h3>診断オーディット<small>一回完結 · オンライン</small></h3>
-          <p class="desc">2週間で、<em>業務が見える化される。</em>業務棚卸し・削減幅試算・優先順位の提示。AI導入の前に、まず地図を作るフェーズです。</p>
-          <div class="chips"><span class="price">¥15–30万</span><span>期間 2週間</span></div>
+          <span class="no">梅 · Diagnose</span>
+          <h3>診断オーディット<small>入口 · 一回完結 · 続行義務なし</small></h3>
+          <p class="desc">2週間で、<em>業務が見える化される。</em>現場を歩き、棚卸し・削減幅の試算・優先順位を提示。AIを入れる前に、まず「判断の地図」を作るフェーズです。</p>
+          <div class="chips"><span class="price">¥15–30万</span><span>期間 2週間</span><span>この先へ進む義務なし</span></div>
         </div>
         <div class="path-row rv" data-rv="60">
-          <span class="no">02 / Build</span>
-          <h3>KPI改善プログラム<small>月次レビュー込み</small></h3>
-          <p class="desc">動くAIエージェントが、<em>2週間で現場に立つ。</em>KPI設計→導入→運用定着までを3ヶ月で並走します。</p>
-          <div class="chips"><span class="price">¥80–140万</span><span>期間 3ヶ月 · 運用引き渡し</span></div>
+          <span class="no">竹 · Build &amp; Run</span>
+          <h3>KPI改善プログラム / 月次伴走<small>中核 · 実装から運用定着まで</small></h3>
+          <p class="desc">動くAIエージェントが、<em>2週間で現場に立つ。</em>KPI設計→実装→運用定着まで並走。月次で経営指標に人のレビューを重ね、数字で返します。<em>社内の中核人材の“引き押さえ”</em>として機能します。</p>
+          <div class="chips"><span class="price">¥80–140万 / 3ヶ月〜</span><span>月次伴走 ¥3–8万/月〜</span><span>運用引き渡し</span></div>
         </div>
         <div class="path-row rv" data-rv="120">
-          <span class="no">03 / Sustain</span>
-          <h3>月次経営レポート<small>最小単位の伴走線</small></h3>
-          <p class="desc">カン経営から、<em>数字で語れる経営へ。</em>AIが集めた経営指標に、人のレビューを15-20分だけ重ねます。</p>
-          <div class="chips"><span class="price">¥3–8万 / 月</span><span>30分MTG · 解約自由</span></div>
+          <span class="no">松 · Integrate</span>
+          <h3>経営統括 / 外部COO相当<small>上位 · 中長期パートナーシップ</small></h3>
+          <p class="desc">カン経営から、<em>数字で語れる経営へ。</em>多事業化・承継・M&amp;Aまで見据え、意思決定者の隣で設計・実装・運用を統合。<em>外部COO相当</em>の役割を、半年〜単位で持ちます。</p>
+          <div class="chips"><span class="price">お見積り / 月額</span><span>中長期 · 経営者直轄</span></div>
         </div>
         <div class="path-row rv" data-rv="180">
-          <span class="no">04 / Industry</span>
+          <span class="no">＋ · Industry</span>
           <h3>業界別ユースケース<small>Playbooks</small></h3>
-          <p class="desc">あなたの業界の、<em>あなたの導線で。</em>特に積み上げているのは、士業のバックオフィス自動化と人材派遣のマッチング現場です。</p>
+          <p class="desc">あなたの業界の、<em>あなたの導線で。</em>積み上げているのは、士業のバックオフィス自動化と人材派遣のマッチング現場。<a href="for/shigyo/">士業向け →</a> ／ <a href="for/jinzai-haken/">人材派遣向け →</a></p>
           <div class="chips"><span>下に詳細 ↓</span></div>
         </div>
         <div class="path-row rv" data-rv="240">
-          <span class="no">05 / Visual</span>
+          <span class="no">＋ · Visual</span>
           <h3>3Dビジュアル制作<small>Blender + Three.js</small></h3>
-          <p class="desc">BlenderからGLB書き出し、Three.js / WebGLでブラウザに実装。<em>スクロール連動・ホバー反応まで</em>一貫で対応します。この背景がその実例です。</p>
+          <p class="desc">BlenderからGLB書き出し、Three.js / WebGLでブラウザに実装。<em>スクロール連動・ホバー反応まで</em>一貫で対応。この背景こそ、自分で設計・実装した実例です。</p>
           <div class="chips"><span>お見積り</span></div>
         </div>
       </div>
@@ -298,13 +321,52 @@
     </div>
   </section>
 
-  <!-- ============ 05 GUIDE ============ -->
-  <section class="chapter" id="guide" data-screen-label="05 Guide">
+  <!-- ============ 05 FDE — 私たちの流儀 ============ -->
+  <section class="chapter" id="fde" data-screen-label="05 FDE">
     <span class="outline-no" aria-hidden="true">05</span>
     <div class="wrap">
       <div class="rv">
-        <div class="eyebrow">Phase 05 — 案内人 · The Guide</div>
-        <h2>大手コンサルでも、<em>SaaSベンダでもない。</em></h2>
+        <div class="eyebrow">Phase 05 — 私たちの流儀 · The FDE Way</div>
+        <h2>納品して去る人ではなく、<em>現場に住み込む技術者。</em></h2>
+        <p class="lede">Phaseraは <strong>FDE（Forward Deployed Engineer）</strong> として動きます。現場に入り込み、ツールの納品ではなく、事業の“結果”が出るまでを自分で持つエンジニア。6つの原則で、それを約束します。</p>
+      </div>
+      <ol class="fde-list">
+        <li class="fde-row rv">
+          <span class="fno">01</span>
+          <div class="fbody"><h3>遠隔で指示しない。<em>現場に入る。</em></h3><p>資料を送って終わりにせず、あなたの業務の隣に座る。判断が起きる場所で設計する。</p></div>
+        </li>
+        <li class="fde-row rv" data-rv="60">
+          <span class="fno">02</span>
+          <div class="fbody"><h3>スライドではなく、<em>動くものを置く。</em></h3><p>提案書より先に、2週間で現場に立つMVPを。議論は、触れる実物の上でする。</p></div>
+        </li>
+        <li class="fde-row rv" data-rv="120">
+          <span class="fno">03</span>
+          <div class="fbody"><h3>ツールではなく、<em>結果に責任を持つ。</em></h3><p>「導入した」で終わらせない。数字が動くまでを、成果として持つ。</p></div>
+        </li>
+        <li class="fde-row rv" data-rv="60">
+          <span class="fno">04</span>
+          <div class="fbody"><h3>あなたの業務の<em>言葉を覚える。</em></h3><p>まず現場を1日歩き、業種特有の判断の筋道を理解してから、設計に入る。</p></div>
+        </li>
+        <li class="fde-row rv" data-rv="120">
+          <span class="fno">05</span>
+          <div class="fbody"><h3>速く出して、<em>隣で直す。</em></h3><p>週次で数字をレビューし、その場で調整する。長い納期ではなく、短いループで進める。</p></div>
+        </li>
+        <li class="fde-row rv" data-rv="180">
+          <span class="fno">06</span>
+          <div class="fbody"><h3>渡して終わりにしない。<em>数字で返す。</em></h3><p>運用まで並走し、やめる判断（撤退条項）も最初から契約に。引き止めない。</p></div>
+        </li>
+      </ol>
+      <p class="fde-foot rv" data-rv="80">一人のFDEが、診断→設計→実装→運用→（撤退判断）まで、ひとつの<em>軸</em>で持つ。これが、大手より安く、フリーランスより責任範囲が広い理由です。</p>
+    </div>
+  </section>
+
+  <!-- ============ 06 GUIDE ============ -->
+  <section class="chapter" id="guide" data-screen-label="06 Guide">
+    <span class="outline-no" aria-hidden="true">06</span>
+    <div class="wrap">
+      <div class="rv">
+        <div class="eyebrow">Phase 06 — 案内人 · The Guide</div>
+        <h2>その一人が、<em>ここにいる。</em></h2>
         <div class="credits" style="margin-top:14px">
           <span>Solo Founder</span><span>Est. 2026</span><span>Japan</span>
         </div>
@@ -315,25 +377,98 @@
           <div class="pmeta"><span>Portrait</span><span>Founder · Hiromu Hamada</span></div>
         </div>
         <div class="gbody rv" data-rv="120">
-          <h3>事業の隣に座り、設計から運用まで<em>一人で持つ伴走者。</em></h3>
-          <p>濱田大夢。Phaseraの創業者であり、唯一の設計者です。診断・設計・実装・UI・運用までを一人で統合し、AIエージェントを現場に違和感なく取り入れます。</p>
+          <h3>事業の隣に座り、設計から運用まで<em>一人で持つFDE。</em></h3>
+          <p>濱田大夢。Phaseraの創業者であり、唯一の設計者です。診断・設計・実装・UI・運用までを一人で統合し、AIエージェントを現場に違和感なく取り入れます。<em>いま見ているこの3D背景も、Blender→Three.jsで自分で設計・実装したもの</em>——「作れる人が、隣に立つ」ことの証明です。</p>
           <p>現場を<em>1日歩き</em>、業務を棚卸しして優先順位を立てます。要件を<em>3日で固め</em>、設計図を引き、データの流れを描きます。プロトタイプを<em>5日で実装し</em>、<em>2週間で動くMVP</em>が現場に立ちます。運用に渡し、毎月の数字で改善します。</p>
           <div class="quote">"大手コンサルでは引き受けられない単価で、フリーランスでは引き受けられない責任範囲を、ソロで<em>持ちます。</em>"</div>
+          <!-- TODO: 実データ差し込み — 経歴・資格・受賞・実務年数（本人提供後にここへ） -->
+          <p class="cred-note">経歴・資格・実務の詳細は <a href="author/hamada/">著者ページ →</a></p>
           <div class="credits">
             <span>Strategy</span><span>Architecture</span><span>Code</span><span>UI</span><span>3D / Blender</span><span>Operations</span>
           </div>
-          <div class="sig">— Hiromu Hamada / Founder</div>
+          <div class="tech-strip"><b>Stack</b><span>Claude</span><span>Cursor</span><span>Next.js</span><span>Supabase</span><span>freee / kintone / Salesforce</span></div>
+          <div class="sig">— Hiromu Hamada / Founder &amp; FDE</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ 06 NUMBERS ============ -->
-  <section class="chapter" id="numbers" data-screen-label="06 Numbers">
-    <span class="outline-no" aria-hidden="true">06</span>
+  <!-- ============ 07 VOICES — 導入事例 / 顧客の声 ============ -->
+  <section class="chapter" id="voices" data-screen-label="07 Voices">
+    <span class="outline-no" aria-hidden="true">07</span>
     <div class="wrap">
       <div class="rv">
-        <div class="eyebrow">Phase 06 — 回復 · Before / After</div>
+        <div class="eyebrow">Phase 07 — 導入事例 · Voices</div>
+        <h2>数字と、<em>現場の言葉で。</em></h2>
+        <p class="lede">掲載するのは、実在の導入先のみ。守秘のため企業名は伏せ、業界・指標・役職で示します。（順次公開）</p>
+      </div>
+      <!-- TODO: 実在の顧客の声・指標・役職に差し替え（本人提供後）。現状はレイアウト枠 -->
+      <div class="voices-grid rv" data-rv="80">
+        <figure class="voice-card">
+          <div class="v-metric"><b>—</b><span>削減時間 / 月</span></div>
+          <blockquote>「導入先の声を掲載予定」</blockquote>
+          <figcaption><span class="v-ind">士業 · 税理士法人</span><span class="v-role">代表</span></figcaption>
+        </figure>
+        <figure class="voice-card">
+          <div class="v-metric"><b>—</b><span>リードタイム</span></div>
+          <blockquote>「導入先の声を掲載予定」</blockquote>
+          <figcaption><span class="v-ind">人材紹介 · 派遣</span><span class="v-role">事業責任者</span></figcaption>
+        </figure>
+        <figure class="voice-card">
+          <div class="v-metric"><b>—</b><span>月次工数</span></div>
+          <blockquote>「導入先の声を掲載予定」</blockquote>
+          <figcaption><span class="v-ind">製造 · 受発注</span><span class="v-role">代表取締役</span></figcaption>
+        </figure>
+      </div>
+      <a class="voices-more" href="cases/">実装解説（どのツールを、どう繋いだか）を読む →</a>
+    </div>
+  </section>
+
+  <!-- ============ 08 FIT — 向く / 向かない ============ -->
+  <section class="chapter" id="fit" data-screen-label="08 Fit">
+    <span class="outline-no" aria-hidden="true">08</span>
+    <div class="wrap">
+      <div class="rv">
+        <div class="eyebrow">Phase 08 — 向く / 向かない · Fit</div>
+        <h2>誰にでも、<em>とは言いません。</em></h2>
+        <p class="lede">合う相手に、深く入る。だから最初に線を引きます。大手DXコンサル・SaaS単体導入・情シス採用と、Phaseraの立ち位置の違いもここに。</p>
+      </div>
+      <div class="fit-grid rv" data-rv="80">
+        <div class="fit-col fit-yes">
+          <h3><span class="fit-mark">◎</span>向いています</h3>
+          <ul>
+            <li>SaaSやAIを入れたのに、<b>稼働せず止まっている</b></li>
+            <li>経営者が直轄で、<b>週次で意思決定できる</b></li>
+            <li>定型業務が属人化し、<b>代表に依存している</b></li>
+            <li>まず小さく試し、<b>数字を見て広げたい</b></li>
+          </ul>
+        </div>
+        <div class="fit-col fit-no">
+          <h3><span class="fit-mark">×</span>向きません</h3>
+          <ul>
+            <li>「とりあえずAIで<b>何かしたい</b>」フェーズ</li>
+            <li>丸投げして、<b>報告書だけ</b>受け取りたい</li>
+            <li>現場には<b>一切入らせたくない</b></li>
+            <li><b>最安の外注先</b>を探している</li>
+          </ul>
+        </div>
+      </div>
+      <div class="compare rv" data-rv="120">
+        <div class="cmp-row cmp-head"><span>比較軸</span><span>大手DXコンサル</span><span>SaaS単体導入</span><span>情シス採用</span><span class="cmp-us">Phasera</span></div>
+        <div class="cmp-row"><span>費用感</span><span>月数百万〜</span><span>月数万〜</span><span>年600万〜（採用）</span><span class="cmp-us">月額 / 松竹梅</span></div>
+        <div class="cmp-row"><span>責任範囲</span><span>提案中心</span><span>ツールのみ</span><span>社内固定</span><span class="cmp-us">設計〜運用〜結果</span></div>
+        <div class="cmp-row"><span>距離</span><span>遠い</span><span>—</span><span>近いが採用難</span><span class="cmp-us">現場に入るFDE</span></div>
+        <div class="cmp-row"><span>撤退</span><span>継続前提</span><span>解約のみ</span><span>—</span><span class="cmp-us">条項を最初に明記</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 09 NUMBERS — 回復 + Evidence ============ -->
+  <section class="chapter" id="numbers" data-screen-label="09 Numbers">
+    <span class="outline-no" aria-hidden="true">09</span>
+    <div class="wrap">
+      <div class="rv">
+        <div class="eyebrow">Phase 09 — 回復 · Before / After</div>
         <h2>経営の<em>体力</em>が、戻ってくる。</h2>
       </div>
       <div class="num-row rv" data-rv="80">
@@ -343,15 +478,23 @@
         <div class="num-cell"><span class="k">Founder</span><span class="big"><span data-count="1">0</span></span><span class="lab">設計・実装・UI・3D・運用を統合する一人</span></div>
       </div>
       <p class="note">※ 数字は試算ベースです。実績は伴走を重ねるごとに更新します。</p>
+      <div class="evidence rv" data-rv="120">
+        <span class="ev-label">Evidence</span>
+        <div class="ev-grid">
+          <div class="ev-cell"><b>+25%</b><span>生成AIを埋め込んだナレッジワーク業務の生産性上振れ</span><cite>McKinsey · 2024</cite></div>
+          <div class="ev-cell"><b>34pt</b><span>大企業と中小企業のDX導入率の開き</span><cite>経済産業省 · SMB DX</cite></div>
+          <div class="ev-cell"><b>−40h</b><span>経営者の処理時間を月40時間、判断の帯域に戻す</span><cite>Phasera · Benchmark（試算）</cite></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ============ 07 FAQ ============ -->
-  <section class="chapter" id="faq" data-screen-label="07 FAQ">
-    <span class="outline-no" aria-hidden="true">07</span>
+  <!-- ============ 10 FAQ ============ -->
+  <section class="chapter" id="faq" data-screen-label="10 FAQ">
+    <span class="outline-no" aria-hidden="true">10</span>
     <div class="wrap">
       <div class="rv">
-        <div class="eyebrow">Phase 07 — よくある質問 · FAQ</div>
+        <div class="eyebrow">Phase 10 — よくある質問 · FAQ</div>
         <h2>迷う前に、<em>読んでおく。</em></h2>
       </div>
       <div class="faq-list rv" data-rv="80">
@@ -377,23 +520,39 @@
         </details>
         <details class="faq-item">
           <summary><span class="qno">Q6</span><span>既存の会計・勤怠・CRMシステムと連携できますか？</span><span class="qmark" aria-hidden="true"></span></summary>
-          <div class="faq-a"><p>freee・マネーフォワード・ジョブカン・kintone・Salesforce などのAPI連携、Gmail/Slack/Notion 等のSaaS連携に対応します。診断オーディットで現状のシステム構成を棚卸ししてから、無理のない連携設計を行います。</p></div>
+          <div class="faq-a"><p>freee・マネーフォワード・ジョブカン・kintone・Salesforce などのAPI連携、Gmail/Slack/Notion 等のSaaS連携に対応します。乗り換えではなく“接続”から始めるので、いま使っているものを捨てる必要はありません。診断オーディットで現状のシステム構成を棚卸ししてから、無理のない連携設計を行います。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q7</span><span>契約期間や解約の条件は？途中でやめられますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>診断オーディットは一回完結で、続行の義務はありません。伴走（竹）は数ヶ月単位、統括（松）は中長期を想定しますが、やめる判断（撤退条項）を最初から契約に明記します。引き止めません。撤退は失敗ではなく、判断材料を確保するための選択肢です。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q8</span><span>相談から着手までの流れを教えてください。</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>① 初回60分の無料相談 → ② 現状ヒアリング（現場を歩く）→ ③「判断の地図」＝診断レポートの提出 → ④ 着手 or 見送りを判断、の順です。営業電話・営業メールは一切ありません。合わない場合は、同等規模の他社をご紹介することもあります。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q9</span><span>IT担当がいなくても大丈夫ですか？補助金は使えますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>社内側の窓口は、経営者ご本人1名で構いません。設計・実装・運用はこちらで持ちます。IT導入補助金・事業再構築補助金などの活用相談にも応じますが、補助金前提では動かず、まず事業として意味のある一手を優先します。</p></div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="qno">Q10</span><span>途中で担当者が変わることはありますか？</span><span class="qmark" aria-hidden="true"></span></summary>
+          <div class="faq-a"><p>ありません。診断から運用まで、同じ一人（FDE）が最後まで持ちます。「途中で人を入れ替えないこと」を約束します。だからこそ、業種特有の判断の筋道が引き継ぎで失われません。</p></div>
         </details>
       </div>
     </div>
   </section>
 
-  <!-- ============ 08 NEWS ============ -->
-  <section class="chapter" id="news" data-screen-label="08 News" style="padding-top:0">
+  <!-- ============ 11 NEWS ============ -->
+  <section class="chapter" id="news" data-screen-label="11 News" style="padding-top:0">
     <div class="wrap">
       <div class="rv">
-        <div class="eyebrow">Phase 08 — お知らせ · News</div>
+        <div class="eyebrow">Phase 11 — お知らせ · News</div>
         <h2><em>静かに、</em>動いています。</h2>
       </div>
       <ol class="news-list rv" data-rv="80">
-        <li><a href="https://phasera.jp/cases/">
+        <li><a href="cases/">
           <span class="d">2026.06.17</span><span class="t">Cases</span>
-          <span class="ttl">ケーススタディ（実装解説 5本）を公開しました。</span><span class="arr">→</span>
+          <span class="ttl">ケーススタディ（実装解説）を公開しました。</span><span class="arr">→</span>
         </a></li>
         <li><a href="#hero">
           <span class="d">2026.05.11</span><span class="t">Launch</span>
@@ -411,13 +570,16 @@
     </div>
   </section>
 
-  <!-- ============ 09 CALL ============ -->
-  <section id="call" data-screen-label="09 Begin">
+  <!-- ============ 12 CALL ============ -->
+  <section id="call" data-screen-label="12 Begin">
     <div class="wrap">
       <div class="head rv">
-        <div class="eyebrow">Phase 09 — はじめる · Begin</div>
-        <h2>最初の一歩は、<em>診断</em>から。</h2>
-        <p class="lede" style="margin:0 auto">2週間で、業務の地図が手に入ります。フォームでも、メールでも、ご都合のよい方法でご連絡ください。</p>
+        <div class="eyebrow">Phase 12 — はじめる · Begin</div>
+        <h2>まずは、<em>60分だけ</em>預けてみる。</h2>
+        <p class="lede" style="margin:0 auto">初回60分は無料。営業電話・営業メールは一切ありません。2週間で、業務の地図が手に入ります。フォームでも、メールでも、ご都合のよい方法でどうぞ。</p>
+        <div class="reassure" aria-hidden="false">
+          <span>初回60分 無料</span><span>1営業日以内に返信</span><span>営業しません</span><span>秘密保持は初回から</span>
+        </div>
       </div>
       <div class="call-grid">
         <form class="form rv" id="diagnose-form" novalidate>
@@ -482,23 +644,22 @@
       <div>
         <h5>Path</h5>
         <ul>
-          <li><a href="#hero">物語</a></li>
           <li><a href="#works">実績</a></li>
           <li><a href="#path">道筋と料金</a></li>
+          <li><a href="#fde">私たちの流儀</a></li>
           <li><a href="#guide">案内人</a></li>
-          <li><a href="#numbers">数字</a></li>
-          <li><a href="#news">お知らせ</a></li>
+          <li><a href="#voices">導入事例</a></li>
+          <li><a href="#fit">向く / 向かない</a></li>
         </ul>
       </div>
       <div>
         <h5>Pages</h5>
         <ul>
-          <li><a href="https://phasera.jp/cases/">ケーススタディ</a></li>
-          <li><a href="https://phasera.jp/pricing/">料金・費用</a></li>
-          <li><a href="https://phasera.jp/for/shigyo/">士業向け</a></li>
-          <li><a href="https://phasera.jp/for/jinzai-haken/">人材派遣向け</a></li>
-          <li><a href="https://phasera.jp/about/">運営者情報</a></li>
-          <li><a href="https://phasera.jp/author/hamada/">著者・濱田大夢</a></li>
+          <li><a href="cases/">ケーススタディ</a></li>
+          <li><a href="for/shigyo/">士業向け</a></li>
+          <li><a href="for/jinzai-haken/">人材派遣向け</a></li>
+          <li><a href="about/">運営者情報</a></li>
+          <li><a href="author/hamada/">著者・濱田大夢</a></li>
         </ul>
       </div>
       <div>
@@ -513,7 +674,7 @@
     <div class="foot-mega" aria-hidden="true">Phas<em>e</em>ra.</div>
     <div class="foot-bottom">
       <span>© 2026 PHASERA — Hiromu Hamada</span>
-      <span><a href="https://phasera.jp/privacy/">プライバシーポリシー</a> · Built with ♥ / Solo in Japan</span>
+      <span><a href="privacy/">プライバシーポリシー</a> · Built with ♥ / Solo in Japan</span>
     </div>
   </div>
 </footer>

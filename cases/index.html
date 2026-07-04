@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ケーススタディ — AIエージェント導入の実装解説 | Phasera</title>
+<meta name="description" content="Phaseraが手がけたAIエージェント導入の実装解説。どのツールを、どう繋いだか。士業・人材派遣のバックオフィス自動化を、設計の考え方まで公開します。">
+<meta name="keywords" content="AIエージェント 事例,バックオフィス自動化 事例,士業 DX 事例,人材派遣 自動化 事例,実装解説,Phasera">
+<meta name="author" content="Hiromu Hamada">
+<meta name="theme-color" content="#04060c">
+<link rel="canonical" href="https://phasera.jp/cases/">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Phasera">
+<meta property="og:title" content="ケーススタディ — AIエージェント導入の実装解説 | Phasera">
+<meta property="og:description" content="どのツールを、どう繋いだか。設計の考え方まで公開する実装解説。">
+<meta property="og:url" content="https://phasera.jp/cases/">
+<meta property="og:image" content="https://phasera.jp/assets/og-cover.png">
+<meta property="og:locale" content="ja_JP">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Space+Mono&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@600&display=swap">
+<link rel="stylesheet" href="/at/page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Phasera", "item": "https://phasera.jp/" },
+      { "@type": "ListItem", "position": 2, "name": "ケーススタディ", "item": "https://phasera.jp/cases/" }
+    ]},
+    { "@type": "CollectionPage", "name": "Phasera ケーススタディ", "url": "https://phasera.jp/cases/", "isPartOf": { "@type": "WebSite", "url": "https://phasera.jp/" } }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="pbar">
+  <a class="brand" href="/"><img src="/assets/favicon.svg" alt="Phasera"><b>PHASERA</b></a>
+  <nav>
+    <a href="/for/shigyo/">士業向け</a>
+    <a href="/for/jinzai-haken/">人材派遣向け</a>
+    <a href="/#path">料金</a>
+    <a class="cta" href="/#call">診断を申し込む</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="/">Home</a><span>/</span>ケーススタディ</div>
+</div>
+
+<main class="wrap">
+  <section class="phero">
+    <div class="eyebrow">Cases · 実装解説</div>
+    <h1>どのツールを、<em>どう繋いだか。</em></h1>
+    <p class="lede">結果の数字だけでなく、設計の考え方まで公開します。属人化した業務のどこにAIエージェントを差し込み、既存のSaaSとどう接続したか——「作れる人が隣に立つ」とはどういうことかを、実装で示します。</p>
+  </section>
+
+  <div class="prose">
+    <section>
+      <h2>掲載中の事例</h2>
+      <div class="callout">実在の導入先のみを、守秘契約に配慮して掲載します（企業名は伏せ、業界・指標・役職で表記）。<b>順次公開予定。</b>下記は取り扱う領域の一覧です。</div>
+      <div class="case-list">
+        <div class="ph"><span class="c-tag">士業</span><span class="c-ttl">初回問い合わせ 自動応答<small>一次返信の当日化 / 取りこぼし削減</small></span><span class="arr">準備中</span></div>
+        <div class="ph"><span class="c-tag">士業</span><span class="c-ttl">申告書類・委任状 下書き生成<small>繁忙期の一極集中を緩和</small></span><span class="arr">準備中</span></div>
+        <div class="ph"><span class="c-tag">人材派遣</span><span class="c-ttl">スカウトDM 自動生成<small>営業の週次事務を圧縮</small></span><span class="arr">準備中</span></div>
+        <div class="ph"><span class="c-tag">人材派遣</span><span class="c-ttl">案件 × 求職者 マッチング<small>候補出しの自動化（判断は人）</small></span><span class="arr">準備中</span></div>
+        <div class="ph"><span class="c-tag">全業種</span><span class="c-ttl">経営指標レポート 自動生成<small>各SaaSの指標を集約し月次コメント</small></span><span class="arr">準備中</span></div>
+        <a href="/"><span class="c-tag">3D / WebGL</span><span class="c-ttl">Phasera 公式サイト<small>CT脊椎GLB + GPUパーティクル。Blender→Three.jsの一貫制作</small></span><span class="arr">→</span></a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Phaseraの事例の、<em>読み方。</em></h2>
+      <p>各事例は「課題 → どこにAIを差し込んだか → 使ったツールと接続 → 結果の数字」で構成します。狙いは、あなたの現場に置き換えて考えられること。汎用の成功譚ではなく、業種特有の判断の筋道が残る設計を大切にしています。</p>
+    </section>
+  </div>
+
+  <div class="cta-band">
+    <h2>あなたの現場は、<em>どこから畳めるか。</em></h2>
+    <p>診断オーディットで、業務の地図と削減幅の試算をお渡しします。</p>
+    <a class="btn" href="/#call">診断を申し込む →</a>
+    <div class="re"><span>初回60分 無料</span><span>1営業日以内に返信</span><span>営業しません</span></div>
+  </div>
+</main>
+
+<footer class="pfoot">
+  <div class="wrap-wide">
+    <div class="row">
+      <a class="fb" href="/"><img src="/assets/favicon.svg" alt=""><b>PHASERA</b></a>
+      <div class="links">
+        <a href="/for/shigyo/">士業向け</a>
+        <a href="/for/jinzai-haken/">人材派遣向け</a>
+        <a href="/about/">運営者情報</a>
+        <a href="/author/hamada/">著者</a>
+        <a href="/#call">診断を申し込む</a>
+      </div>
+    </div>
+    <div class="cprt">© 2026 PHASERA — Hiromu Hamada · Solo in Japan</div>
+  </div>
+</footer>
+
+</body>
+</html>

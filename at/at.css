@@ -645,6 +645,78 @@ footer ul a:hover { color: var(--accent-3); }
 .foot-bottom a { color: var(--dim); }
 @media (max-width: 900px) { .foot-grid { grid-template-columns: 1fr 1fr; } }
 
+/* ---------- FDE — 私たちの流儀 ---------- */
+.fde-list { margin-top: 7vh; border-top: 1px solid var(--line); }
+.fde-row { display: grid; grid-template-columns: 96px 1fr; gap: 20px; align-items: start;
+  padding: 30px 0; border-bottom: 1px solid var(--line); transition: background 0.3s; }
+.fde-row:hover { background: rgba(12, 22, 44, 0.4); }
+.fde-row .fno { font-family: var(--font-en); font-weight: 700; font-size: clamp(30px, 4vw, 52px);
+  line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(140, 175, 235, 0.35); }
+.fde-row .fbody h3 { font-size: clamp(17px, 2vw, 23px); font-weight: 700; line-height: 1.5; }
+.fde-row .fbody p { font-size: 13.5px; color: var(--dim); margin-top: 8px; max-width: 42em; }
+.fde-foot { margin-top: 28px; font-size: 14.5px; color: var(--ink); line-height: 1.9;
+  border-left: 2px solid var(--accent-2); padding-left: 20px; }
+@media (max-width: 700px) { .fde-row { grid-template-columns: 56px 1fr; gap: 12px; } }
+
+/* guide extras */
+.cred-note { font-size: 12px; color: var(--dim); margin: 12px 0 4px; }
+.cred-note a { color: var(--accent-3); border-bottom: 1px solid rgba(156, 196, 255, 0.3); }
+.tech-strip { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0 10px; }
+.tech-strip b { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim-2); }
+.tech-strip span { font-family: var(--font-mono); font-size: 10px; color: var(--dim);
+  border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px; }
+
+/* ---------- Voices — 導入事例 ---------- */
+.voices-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line);
+  border: 1px solid var(--line); margin-top: 7vh; }
+.voice-card { background: rgba(7, 12, 24, 0.72); padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 16px; }
+.voice-card .v-metric { display: flex; align-items: baseline; gap: 10px; }
+.voice-card .v-metric b { font-family: var(--font-en); font-weight: 700; font-size: clamp(28px, 3vw, 40px); color: var(--accent-3); }
+.voice-card .v-metric span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--dim-2); }
+.voice-card blockquote { font-size: 15px; line-height: 1.9; color: var(--ink); }
+.voice-card figcaption { display: flex; flex-direction: column; gap: 3px; margin-top: auto;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; }
+.voice-card .v-ind { color: var(--accent-2); text-transform: uppercase; }
+.voice-card .v-role { color: var(--dim-2); }
+.voices-more { display: inline-block; margin-top: 26px; font-family: var(--font-mono); font-size: 12px;
+  color: var(--accent-3); border-bottom: 1px solid rgba(156, 196, 255, 0.3); }
+@media (max-width: 820px) { .voices-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Fit — 向く / 向かない + 比較 ---------- */
+.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 7vh; }
+.fit-col { border: 1px solid var(--line); border-radius: 14px; padding: clamp(24px, 3vw, 38px);
+  background: rgba(7, 12, 24, 0.62); }
+.fit-col h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; margin-bottom: 14px; }
+.fit-mark { font-family: var(--font-mono); }
+.fit-yes .fit-mark { color: var(--accent-3); }
+.fit-no .fit-mark { color: #ff8f8f; }
+.fit-col li { padding: 9px 0; font-size: 14px; color: var(--dim); border-top: 1px solid var(--line); }
+.fit-col li:first-child { border-top: none; }
+.fit-col li b { color: var(--ink); font-weight: 600; }
+.compare { margin-top: 22px; border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; }
+.cmp-row { display: grid; grid-template-columns: 0.8fr 1fr 1fr 1fr 1.1fr; min-width: 640px; }
+.cmp-row > span { padding: 12px 14px; font-size: 12px; color: var(--dim); border-top: 1px solid var(--line); border-right: 1px solid var(--line); }
+.cmp-row > span:last-child { border-right: none; }
+.cmp-row:first-child > span { border-top: none; }
+.cmp-head > span { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim-2); background: rgba(12, 22, 44, 0.5); }
+.cmp-row > span:first-child { color: var(--dim-2); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; }
+.cmp-us { color: var(--accent-3) !important; background: rgba(60, 102, 217, 0.1); font-weight: 600; }
+.cmp-head .cmp-us { color: var(--accent-3) !important; }
+
+/* ---------- Evidence band ---------- */
+.evidence { margin-top: 5vh; border-top: 1px dashed var(--line); padding-top: 26px; }
+.ev-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dim-2); }
+.ev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 16px; }
+.ev-cell b { display: block; font-family: var(--font-en); font-weight: 700; font-size: clamp(26px, 3vw, 38px); color: var(--ink); }
+.ev-cell span { display: block; font-size: 12.5px; color: var(--dim); margin: 6px 0 8px; max-width: 28em; }
+.ev-cell cite { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; color: var(--accent-2); font-style: normal; }
+@media (max-width: 820px) { .ev-grid { grid-template-columns: 1fr; gap: 16px; } }
+
+/* CTA reassurance strip */
+.reassure { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; }
+.reassure span { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--dim);
+  border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; }
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
