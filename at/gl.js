@@ -155,14 +155,15 @@ function boot() {
         // scroll velocity smears the field vertically (AT feel)
         p.y += uVel * (0.6 + aRnd.y) * 1.4;
         // hero: a share of particles condenses into a luminous swirling core
+        // (pushed away from the camera so the grain reads fine, not coarse)
         float coreShare = step(0.58, aRnd.w) * (1.0 - uWorks);
         float ca = aRnd.x * 6.28318 + uTime * (0.1 + aRnd.y * 0.12);
         float ta = aRnd.y * 6.28318 + uTime * 0.32;
-        float tube = 0.3 + aRnd.z * 0.62;
+        float tube = 0.34 + aRnd.z * 0.7;
         vec3 corePos = vec3(
-          cos(ca) * (1.85 + cos(ta) * tube),
-          sin(ta) * tube * 0.7 + sin(ca * 2.0 + uTime * 0.4) * 0.18,
-          (sin(ca) * (1.85 + cos(ta) * tube)) * 0.5
+          cos(ca) * (2.5 + cos(ta) * tube),
+          sin(ta) * tube * 0.8 + sin(ca * 2.0 + uTime * 0.4) * 0.22,
+          (sin(ca) * (2.5 + cos(ta) * tube)) * 0.5 - 2.8
         );
         p = mix(p, corePos, coreShare * 0.94);
         // works mode: condense into a column envelope around the spine
@@ -564,7 +565,7 @@ function boot() {
     /* spine — rises first, fully standing by reveal 0.65 */
     const rise = Math.min(reveal / 0.65, 1);
     spineGroup.position.y = damp(spineGroup.position.y, -11 * (1 - rise), 3.6, dt);
-    spineGroup.rotation.y = t * 0.06 + PH.scroll * 0.00035;
+    spineGroup.rotation.y = t * 0.14 + PH.scroll * 0.0006;
     const sOp = Math.max(0, Math.min(1, (reveal - 0.15) / 0.6));
     spineGroup.traverse((o) => {
       if (!o.isMesh || !o.material) return;
