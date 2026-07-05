@@ -67,7 +67,17 @@
   var scrollPill = document.getElementById('scrollPill');
   var navEl = document.getElementById('nav');
   var wBar = document.getElementById('wBar');
+  var papers = Array.prototype.slice.call(document.querySelectorAll('.paper, footer.light'));
   var prevY = window.scrollY;
+
+  // is a light sheet under this viewport y?
+  function overLight(y) {
+    for (var i = 0; i < papers.length; i++) {
+      var r = papers[i].getBoundingClientRect();
+      if (r.top <= y && r.bottom >= y) return true;
+    }
+    return false;
+  }
 
   function rafLoop() {
     requestAnimationFrame(rafLoop);
@@ -82,6 +92,10 @@
       PH.worksP = total > 0 ? -top / total : -1;
       if (wBar) wBar.style.transform = 'scaleX(' + Math.max(0, Math.min(1, PH.worksP)) + ')';
     }
+
+    // fixed chrome goes solid dark while riding over a light sheet
+    document.body.classList.toggle('chrome-top-light', overLight(56));
+    document.body.classList.toggle('chrome-bot-light', overLight(window.innerHeight - 44));
 
     // velocity-deformed pills (AT signature detail)
     if (!REDUCED) {
@@ -129,6 +143,14 @@
   burger && burger.addEventListener('click', function () { menu.classList.add('open'); });
   menuClose && menuClose.addEventListener('click', closeMenu);
   menu && menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', closeMenu); });
+
+  /* ---------- paper sheets: reveal over the dark field ---------- */
+  var pio = new IntersectionObserver(function (es) {
+    es.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('on'); pio.unobserve(en.target); }
+    });
+  }, { threshold: 0.02 });
+  document.querySelectorAll('.paper').forEach(function (el) { pio.observe(el); });
 
   /* ---------- reveal on scroll ---------- */
   var rv = new IntersectionObserver(function (es) {

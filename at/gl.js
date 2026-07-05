@@ -26,7 +26,8 @@ if (renderer) boot();
 else window.dispatchEvent(new CustomEvent('ph:glprogress', { detail: { p: 1 } }));
 
 function boot() {
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  // desktop gets a 3x cap for crisper particles; mobile stays at 2x for battery
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, MOBILE ? 2 : 3));
   renderer.setSize(innerWidth, innerHeight, false);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.02;
@@ -115,7 +116,7 @@ function boot() {
   /* =========================================================
      particle field
      ========================================================= */
-  const N = MOBILE ? 3800 : 9000;
+  const N = MOBILE ? 3800 : 16000; // finer grain on desktop
   const pGeo = new THREE.BufferGeometry();
   const pos = new Float32Array(N * 3);
   const rnd = new Float32Array(N * 4);
@@ -135,12 +136,13 @@ function boot() {
       uVel: { value: 0 },
       uGlobal: { value: 1 }, // dims the field behind reading sections
       uPointer: { value: new THREE.Vector3(99, 99, 0) },
-      uDpr: { value: Math.min(window.devicePixelRatio, 2) },
+      uDpr: { value: Math.min(window.devicePixelRatio, MOBILE ? 2 : 3) },
+      uSize: { value: MOBILE ? 0.16 : 0.11 }, // smaller dots × more of them = finer field
     },
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     vertexShader: `
       attribute vec4 aRnd;
-      uniform float uTime, uWorks, uVel, uDpr, uGlobal;
+      uniform float uTime, uWorks, uVel, uDpr, uGlobal, uSize;
       uniform vec3 uPointer;
       varying float vA; varying float vTint;
       void main(){
@@ -177,7 +179,7 @@ function boot() {
         vec4 mv = modelViewMatrix * vec4(p, 1.);
         gl_Position = projectionMatrix * mv;
         float size = (0.9 + aRnd.w * 2.4) * (1.0 - uWorks * 0.35) * (1.0 - coreShare * 0.3);
-        gl_PointSize = size * uDpr * (140.0 / -mv.z) * 0.16;
+        gl_PointSize = size * uDpr * (140.0 / -mv.z) * uSize;
         vA = ((0.38 + aRnd.z * 0.5) * (1.0 - uWorks * 0.5) + coreShare * 0.35) * uGlobal;
         vTint = aRnd.y;
       }`,
