@@ -1,0 +1,51 @@
+/* Phasera — Selected Works data (shared by GL scene + DOM overlay) */
+window.PHASERA_WORKS = [
+  {
+    slug: 'auto-reply',
+    en: ['AUTO', 'REPLY'],
+    cat: 'AGENTS',
+    sub: '問い合わせ自動応答 — For 士業 · R&D 2025',
+    desc: '新規問い合わせの一次返信をAIが下書き。土日深夜の取りこぼしをゼロに。',
+    hue: 222,
+  },
+  {
+    slug: 'scout-dm',
+    en: ['SCOUT', 'DM'],
+    cat: 'AGENTS',
+    sub: 'スカウト文面生成 — 人材派遣 · R&D 2025',
+    desc: '案件と求職者プロファイルから、刺さるDM文面を自動生成。',
+    hue: 205,
+  },
+  {
+    slug: 'kpi-report',
+    en: ['KPI', 'REPORT'],
+    cat: 'KPI',
+    sub: '経営指標レポート — All · 月次 R&D 2025',
+    desc: '各SaaSの指標を集約し、AIが前月比とコメントを生成。',
+    hue: 236,
+  },
+  {
+    slug: 'doc-draft',
+    en: ['DOC', 'DRAFT'],
+    cat: 'AGENTS',
+    sub: '書類下書き — For 士業 · R&D 2025',
+    desc: '申告書類・委任状の下書きを自動生成。確認だけが人の仕事に。',
+    hue: 214,
+  },
+  {
+    slug: 'match',
+    en: ['MATCH', 'ENGINE'],
+    cat: 'MATCHING',
+    sub: '案件 × 求職者マッチング — 人材派遣 · R&D 2025',
+    desc: '意味的比較で適合度スコアと推薦理由を提示。候補出しを手放す。',
+    hue: 248,
+  },
+  {
+    slug: 'phasera-lp',
+    en: ['PHASERA', 'LP'],
+    cat: '3D',
+    sub: 'このサイト自体 — Meta · 2026',
+    desc: 'CT脊椎GLB + GPUパーティクル。Blender→Three.jsの一貫制作。',
+    hue: 228,
+  },
+];

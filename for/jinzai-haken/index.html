@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>人材派遣・紹介向け AIエージェント導入 — スカウト自動化とマッチング | Phasera</title>
+<meta name="description" content="人材派遣・人材紹介のためのAIエージェント導入。スカウトDMの自動生成、案件×求職者の意味的マッチング、面談日程調整、契約書類の下書きまで。営業の事務を減らし、候補出しを手放す。診断15-30万円から。">
+<meta name="keywords" content="人材派遣 AIエージェント,人材紹介 自動化,スカウト DM 自動生成,求職者 マッチング,派遣 業務効率化,採用KPI ダッシュボード,Phasera">
+<meta name="author" content="Hiromu Hamada">
+<meta name="theme-color" content="#04060c">
+<link rel="canonical" href="https://phasera.jp/for/jinzai-haken/">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Phasera">
+<meta property="og:title" content="人材派遣・紹介向け AIエージェント導入 — スカウト自動化とマッチング | Phasera">
+<meta property="og:description" content="スカウトDMの自動生成、案件×求職者の意味的マッチング、面談調整まで。営業の事務を減らし、候補出しを手放す。">
+<meta property="og:url" content="https://phasera.jp/for/jinzai-haken/">
+<meta property="og:image" content="https://phasera.jp/assets/og-cover.png">
+<meta property="og:locale" content="ja_JP">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Space+Mono&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@600&display=swap">
+<link rel="stylesheet" href="/at/page.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Phasera", "item": "https://phasera.jp/" },
+      { "@type": "ListItem", "position": 2, "name": "人材派遣向け", "item": "https://phasera.jp/for/jinzai-haken/" }
+    ]},
+    { "@type": "Service", "serviceType": "人材派遣・紹介向けAIエージェント導入", "provider": { "@type": "Organization", "name": "Phasera", "url": "https://phasera.jp/" }, "areaServed": "JP", "audience": { "@type": "Audience", "audienceType": "人材派遣・人材紹介事業者" } }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="pbar">
+  <a class="brand" href="/"><img src="/assets/favicon.svg" alt="Phasera"><b>PHASERA</b></a>
+  <nav>
+    <a href="/for/shigyo/">士業向け</a>
+    <a href="/cases/">事例</a>
+    <a href="/#path">料金</a>
+    <a class="cta" href="/#call">診断を申し込む</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="/">Home</a><span>/</span>For<span>/</span>人材派遣</div>
+</div>
+
+<main class="wrap">
+  <section class="phero">
+    <div class="eyebrow">For 人材派遣・紹介 · Staffing &amp; Placement</div>
+    <h1>営業の“事務”を減らし、<em>候補出しを手放す。</em></h1>
+    <p class="lede">スカウト文面、案件と求職者のマッチング、面談調整、契約書類。属人化していた作業をAIエージェントに寄せ、営業とコーディネーターの時間を「決める」ことに戻します。最終判断は人に残します。</p>
+    <div class="meta">
+      <span class="accent">診断 ¥15–30万 · 2週間</span>
+      <span>初回60分 無料</span>
+      <span>営業電話なし</span>
+      <span>HubSpot / Indeed API 連携</span>
+    </div>
+  </section>
+
+  <div class="prose">
+    <section>
+      <h2>マッチングの現場は、<em>「探す・書く・調整する」で溶ける。</em></h2>
+      <p class="lead">案件と求職者を突き合わせる目利きは人の価値です。だが実際の時間は、その手前——候補を探す、スカウト文を書く、日程を合わせる、書類を整える——に消えていきます。ここを自動化すれば、一人あたりの担当数と質を同時に上げられます。</p>
+      <ul class="bullets">
+        <li><b>スカウトDM</b>の文面作成に、営業が毎週まとまった時間を取られている</li>
+        <li>候補出しが<b>担当者のカン</b>に依存し、引き継ぎで質が落ちる</li>
+        <li><b>面談日程の調整</b>が往復メールで長引き、機会を逃す</li>
+        <li>採用KPI（応募→定着）が<b>可視化されず</b>、どこで詰まるか分からない</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>実装するユースケース</h2>
+      <div class="uc-grid">
+        <div class="uc">
+          <h4>スカウトDM 文面の自動生成</h4>
+          <p>案件と求職者プロファイルから、刺さるDM文面を自動生成。トーンは事業者ごとに調整。</p>
+          <div class="tools"><span>Claude / GPT-API</span><span>Notion AI / Make</span></div>
+          <div class="out">→ 営業の週次事務を圧縮</div>
+        </div>
+        <div class="uc">
+          <h4>案件 × 求職者 マッチング</h4>
+          <p>意味的比較で適合度スコアと推薦理由を提示。候補の初期選定を自動化。</p>
+          <div class="tools"><span>ベクトル検索</span><span>スコアリング</span></div>
+          <div class="out">→ 候補出しを手放す（判断は人）</div>
+        </div>
+        <div class="uc">
+          <h4>面談日程の自動調整</h4>
+          <p>候補者・企業・社内カレンダーを突き合わせ、調整の往復をなくす。</p>
+          <div class="tools"><span>カレンダー連携</span><span>Slack 通知</span></div>
+          <div class="out">→ 調整リードタイム短縮</div>
+        </div>
+        <div class="uc">
+          <h4>採用KPI ダッシュボード</h4>
+          <p>応募から定着までの指標を一枚に。どの段階で落ちるかを月次で把握。</p>
+          <div class="tools"><span>Looker Studio / BigQuery</span><span>Indeed API</span></div>
+          <div class="out">→ 詰まりの見える化</div>
+        </div>
+      </div>
+      <p>※ 契約書類・派遣管理表の下書き自動化にも対応。既存のCRM・媒体はそのまま「接続」して活かします。</p>
+    </section>
+
+    <section>
+      <h2>始め方（松竹梅）</h2>
+      <div class="ladder">
+        <div class="tier"><span class="t">梅 · 入口</span><h4>診断オーディット</h4><div class="price">¥15–30万</div><p>2週間で業務を棚卸し、削減幅を試算。続行の義務はありません。</p></div>
+        <div class="tier"><span class="t">竹 · 中核</span><h4>実装 / 月次伴走</h4><div class="price">¥80–140万〜</div><p>動くエージェントが2週間で現場に。月次伴走 3–8万円/月〜。</p></div>
+        <div class="tier"><span class="t">松 · 統括</span><h4>経営統括</h4><div class="price">月額 / 応相談</div><p>多拠点化・事業拡大まで見据えた中長期の伴走。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>導入事例</h2>
+      <div class="callout">実在の導入先のみを、守秘に配慮して順次掲載します（業界・指標・役職で表記）。<b>掲載準備中。</b> 実装の考え方は <a href="/cases/">ケーススタディ →</a></div>
+    </section>
+  </div>
+
+  <div class="cta-band">
+    <h2>まずは、<em>60分だけ</em>預けてみる。</h2>
+    <p>マッチングの現場で、どこから自動化できるか。無料相談でお見せします。</p>
+    <a class="btn" href="/#call">診断を申し込む →</a>
+    <div class="re"><span>初回60分 無料</span><span>1営業日以内に返信</span><span>営業しません</span></div>
+  </div>
+</main>
+
+<footer class="pfoot">
+  <div class="wrap-wide">
+    <div class="row">
+      <a class="fb" href="/"><img src="/assets/favicon.svg" alt=""><b>PHASERA</b></a>
+      <div class="links">
+        <a href="/for/shigyo/">士業向け</a>
+        <a href="/cases/">事例</a>
+        <a href="/about/">運営者情報</a>
+        <a href="/author/hamada/">著者</a>
+        <a href="/#call">診断を申し込む</a>
+      </div>
+    </div>
+    <div class="cprt">© 2026 PHASERA — Hiromu Hamada · Solo in Japan</div>
+  </div>
+</footer>
+
+</body>
+</html>
