@@ -256,9 +256,9 @@ function boot() {
      ========================================================= */
   const ring = new THREE.Group();
   scene.add(ring);
-  const R = MOBILE ? 2.0 : 2.6;
-  const CW = MOBILE ? 0.98 : 1.26, CH = MOBILE ? 1.22 : 1.58;
-  const CD = MOBILE ? 0.055 : 0.07; // slab thickness
+  const R = MOBILE ? 2.15 : 2.85;
+  const CW = MOBILE ? 1.25 : 1.62, CH = MOBILE ? 1.56 : 2.02;
+  const CD = MOBILE ? 0.07 : 0.09; // slab thickness
   const PITCH = 1.5; // helix rise per revolution
   const cardGeo = new THREE.BoxGeometry(CW, CH, CD, 26, 32, 1);
   const cards = [];

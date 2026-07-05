@@ -6,8 +6,8 @@
   --bg: #04060c;
   --bg-2: #0b1e3f;
   --ink: #eaf1fb;
-  --dim: #8fa3c0;
-  --dim-2: #4c5f80;
+  --dim: #aebfd9; /* body copy — lifted for readability on the dark field */
+  --dim-2: #6d80a3;
   --accent: #6fa8ff;
   --accent-2: #3c66d9;
   --accent-3: #9cc4ff;
@@ -36,6 +36,8 @@ img { max-width: 100%; display: block; }
 .wrap-wide { width: min(1120px, 92vw); margin: 0 auto; }
 em { font-style: normal; color: var(--accent-3); }
 strong { color: var(--ink); }
+h1, h2, h3 { word-break: auto-phrase; }
+.nb { display: inline-block; }
 
 /* ---- top bar ---- */
 .pbar {
