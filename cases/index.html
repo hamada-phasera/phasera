@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ケーススタディ — AIエージェント導入の実装解説 | Phasera</title>
-<meta name="description" content="Phaseraが手がけたAIエージェント導入の実装解説。どのツールを、どう繋いだか。士業・人材派遣のバックオフィス自動化を、設計の考え方まで公開します。">
+<title>実装の考え方 — AIエージェント導入の設計解説 | Phasera</title>
+<meta name="description" content="AIエージェント導入の設計解説。どの業務のどこにAIを差し込み、既存のSaaSとどう接続するか。士業・人材派遣のバックオフィス自動化の「設計の考え方」を公開します。">
 <meta name="keywords" content="AIエージェント 事例,バックオフィス自動化 事例,士業 DX 事例,人材派遣 自動化 事例,実装解説,Phasera">
 <meta name="author" content="Hiromu Hamada">
 <meta name="theme-color" content="#04060c">
@@ -12,8 +12,8 @@
 <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Phasera">
-<meta property="og:title" content="ケーススタディ — AIエージェント導入の実装解説 | Phasera">
-<meta property="og:description" content="どのツールを、どう繋いだか。設計の考え方まで公開する実装解説。">
+<meta property="og:title" content="実装の考え方 — AIエージェント導入の設計解説 | Phasera">
+<meta property="og:description" content="どの業務のどこにAIを差し込み、SaaSとどう接続するか。設計の考え方を公開します。">
 <meta property="og:url" content="https://phasera.jp/cases/">
 <meta property="og:image" content="https://phasera.jp/assets/og-cover.png">
 <meta property="og:locale" content="ja_JP">
@@ -27,9 +27,9 @@
   "@graph": [
     { "@type": "BreadcrumbList", "itemListElement": [
       { "@type": "ListItem", "position": 1, "name": "Phasera", "item": "https://phasera.jp/" },
-      { "@type": "ListItem", "position": 2, "name": "ケーススタディ", "item": "https://phasera.jp/cases/" }
+      { "@type": "ListItem", "position": 2, "name": "実装の考え方", "item": "https://phasera.jp/cases/" }
     ]},
-    { "@type": "CollectionPage", "name": "Phasera ケーススタディ", "url": "https://phasera.jp/cases/", "isPartOf": { "@type": "WebSite", "url": "https://phasera.jp/" } }
+    { "@type": "CollectionPage", "name": "Phasera 実装の考え方", "url": "https://phasera.jp/cases/", "isPartOf": { "@type": "WebSite", "url": "https://phasera.jp/" } }
   ]
 }
 </script>
@@ -47,33 +47,33 @@
 </header>
 
 <div class="wrap">
-  <div class="crumb"><a href="/">Home</a><span>/</span>ケーススタディ</div>
+  <div class="crumb"><a href="/">Home</a><span>/</span>実装の考え方</div>
 </div>
 
 <main class="wrap">
   <section class="phero">
-    <div class="eyebrow">Cases · 実装解説</div>
-    <h1>どのツールを、<em>どう繋いだか。</em></h1>
-    <p class="lede">結果の数字だけでなく、設計の考え方まで公開します。属人化した業務のどこにAIエージェントを差し込み、既存のSaaSとどう接続したか——「作れる人が隣に立つ」とはどういうことかを、実装で示します。</p>
+    <div class="eyebrow">Approach · 実装の考え方</div>
+    <h1>どのツールを、<em>どう繋ぐか。</em></h1>
+    <p class="lede">導入先の情報や成果の数字は、守秘のため公開しません。代わりに、属人化した業務のどこにAIエージェントを差し込み、既存のSaaSとどう接続するか——「設計の考え方」を公開します。</p>
   </section>
 
   <div class="prose">
     <section>
-      <h2>掲載中の事例</h2>
-      <div class="callout">実在の導入先のみを、守秘契約に配慮して掲載します（企業名は伏せ、業界・指標・役職で表記）。<b>順次公開予定。</b>下記は取り扱う領域の一覧です。</div>
+      <h2>取り扱う領域</h2>
+      <div class="callout"><b>方針:</b> 導入先の企業情報・成果の数字は公開していません。下記は取り扱う領域の一覧です。具体的な進め方は、無料相談で直接お見せします。</div>
       <div class="case-list">
-        <div class="ph"><span class="c-tag">士業</span><span class="c-ttl">初回問い合わせ 自動応答<small>一次返信の当日化 / 取りこぼし削減</small></span><span class="arr">準備中</span></div>
-        <div class="ph"><span class="c-tag">士業</span><span class="c-ttl">申告書類・委任状 下書き生成<small>繁忙期の一極集中を緩和</small></span><span class="arr">準備中</span></div>
-        <div class="ph"><span class="c-tag">人材派遣</span><span class="c-ttl">スカウトDM 自動生成<small>営業の週次事務を圧縮</small></span><span class="arr">準備中</span></div>
-        <div class="ph"><span class="c-tag">人材派遣</span><span class="c-ttl">案件 × 求職者 マッチング<small>候補出しの自動化（判断は人）</small></span><span class="arr">準備中</span></div>
-        <div class="ph"><span class="c-tag">全業種</span><span class="c-ttl">経営指標レポート 自動生成<small>各SaaSの指標を集約し月次コメント</small></span><span class="arr">準備中</span></div>
+        <div class="ph"><span class="c-tag">士業</span><span class="c-ttl">初回問い合わせ 自動応答<small>一次返信の当日化 / 取りこぼし削減</small></span><span class="arr">—</span></div>
+        <div class="ph"><span class="c-tag">士業</span><span class="c-ttl">申告書類・委任状 下書き生成<small>繁忙期の一極集中を緩和</small></span><span class="arr">—</span></div>
+        <div class="ph"><span class="c-tag">人材派遣</span><span class="c-ttl">スカウトDM 自動生成<small>営業の週次事務を圧縮</small></span><span class="arr">—</span></div>
+        <div class="ph"><span class="c-tag">人材派遣</span><span class="c-ttl">案件 × 求職者 マッチング<small>候補出しの自動化（判断は人）</small></span><span class="arr">—</span></div>
+        <div class="ph"><span class="c-tag">全業種</span><span class="c-ttl">経営指標レポート 自動生成<small>各SaaSの指標を集約し月次コメント</small></span><span class="arr">—</span></div>
         <a href="/"><span class="c-tag">3D / WebGL</span><span class="c-ttl">Phasera 公式サイト<small>CT脊椎GLB + GPUパーティクル。Blender→Three.jsの一貫制作</small></span><span class="arr">→</span></a>
       </div>
     </section>
 
     <section>
-      <h2>Phaseraの事例の、<em>読み方。</em></h2>
-      <p>各事例は「課題 → どこにAIを差し込んだか → 使ったツールと接続 → 結果の数字」で構成します。狙いは、あなたの現場に置き換えて考えられること。汎用の成功譚ではなく、業種特有の判断の筋道が残る設計を大切にしています。</p>
+      <h2>事例の代わりに、<em>設計の筋道を。</em></h2>
+      <p>各領域は「課題 → どこにAIを差し込むか → 使うツールと接続」の順で設計します。汎用の成功譚ではなく、あなたの業種特有の判断の筋道が残ることを大切にしています。数字で語るのは、あなたの現場で結果が出てから——それまでは約束を並べません。</p>
     </section>
   </div>
 
