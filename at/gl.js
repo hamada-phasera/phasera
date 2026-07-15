@@ -215,7 +215,7 @@ function boot() {
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
       // oversized close-up: the spine crops beyond the viewport (AT: one huge artifact)
-      const s = 7.4 / size.y;
+      const s = 9.8 / size.y;
       root.scale.setScalar(s);
       root.position.set(-center.x * s, -center.y * s, -center.z * s);
       root.traverse((o) => {

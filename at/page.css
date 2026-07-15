@@ -124,7 +124,7 @@ h1, h2, h3 { word-break: auto-phrase; }
 
 /* portrait / profile */
 .profile { display: grid; grid-template-columns: 260px 1fr; gap: 34px; align-items: start; margin: 24px 0; }
-.profile .pf-photo { width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); }
+.profile .pf-photo { width: 100%; height: auto; aspect-ratio: 1 / 1.06; object-fit: cover; object-position: 50% 28%; border-radius: 14px; border: 1px solid var(--line); }
 .profile .photo-ph { aspect-ratio: 4/5; border-radius: 14px; border: 1px solid var(--line);
   display: grid; place-items: center; text-align: center; padding: 16px;
   background: linear-gradient(160deg, #0a1730, #060c1a); color: var(--dim-2);
@@ -157,5 +157,24 @@ h1, h2, h3 { word-break: auto-phrase; }
 .pfoot .links { display: flex; flex-wrap: wrap; gap: 16px; font-size: 12px; color: var(--dim); }
 .pfoot .links a:hover { color: var(--accent-3); }
 .pfoot .cprt { font-family: var(--font-mono); font-size: 10px; color: var(--dim-2); margin-top: 18px; }
+
+/* ---------- article prose extras (build-articles.mjs の markdown 出力用) ---------- */
+.prose ol { counter-reset: li; margin: 12px 0; }
+.prose ol li { position: relative; padding: 8px 0 8px 30px; color: var(--dim); font-size: 14.5px; border-top: 1px solid var(--line); counter-increment: li; }
+.prose ol li:first-child { border-top: none; }
+.prose ol li::before { content: counter(li, decimal-leading-zero); position: absolute; left: 0; top: 9px; font-family: var(--font-mono); font-size: 10px; color: var(--accent-2); }
+.prose blockquote { border-left: 2px solid var(--accent-2); padding: 6px 0 6px 20px; margin: 20px 0; }
+.prose blockquote p { color: var(--ink); font-size: 15px; line-height: 2; margin: 0; }
+.prose pre { background: rgba(7, 12, 24, 0.72); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 16px 0; overflow-x: auto; }
+.prose pre code { font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-3); background: none; padding: 0; }
+.prose code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent-3); background: rgba(108, 156, 255, 0.08); border-radius: 4px; padding: 2px 6px; }
+.prose table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+.prose th, .prose td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; color: var(--dim); }
+.prose th { color: var(--ink); font-weight: 700; background: rgba(7, 12, 24, 0.5); }
+.prose img { max-width: 100%; border-radius: 10px; border: 1px solid var(--line); margin: 8px 0; }
+.prose a { color: var(--accent-3); text-decoration: underline; text-underline-offset: 3px; }
+.prose hr { border: none; border-top: 1px solid var(--line); margin: 28px 0; }
+.byline { font-family: var(--font-mono); font-size: 11px; color: var(--dim-2); letter-spacing: 0.08em; margin: 10px 0 40px; }
+.byline a { color: var(--accent-3); }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
