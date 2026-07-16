@@ -201,6 +201,17 @@
   window.addEventListener('ph:workchange', function (e) { renderTitle(e.detail.index); });
   renderTitle(0);
 
+  /* title tap → Cases (same destination as tapping the focused card in GL) */
+  if (wTitle) {
+    wTitle.setAttribute('role', 'link');
+    wTitle.setAttribute('tabindex', '0');
+    wTitle.setAttribute('aria-label', '実装の考え方（Cases）を見る');
+    wTitle.addEventListener('click', function () { location.href = '/cases/'; });
+    wTitle.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); location.href = '/cases/'; }
+    });
+  }
+
   var prevB = document.getElementById('wPrev');
   var nextB = document.getElementById('wNext');
   prevB && prevB.addEventListener('click', function () {

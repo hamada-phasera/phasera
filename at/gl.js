@@ -480,13 +480,20 @@ function boot() {
       dragOff -= dx * 0.0038;
       dragV = -dx * 0.0038;
     });
+    const tapRay = new THREE.Raycaster();
     const up = (e) => {
       if (!dragging) return;
       dragging = false;
       ringEl && ringEl.classList.remove('drag');
-      // tap → focus nearest card in tap direction? treat quick small-move tap as next
+      // quick small-move tap: on the focused card → open Cases; elsewhere → orbit toward tapped side
       const dt = performance.now() - downT;
       if (dt < 220 && Math.abs(e.clientX - downX) < 6) {
+        tapRay.setFromCamera(
+          new THREE.Vector2((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1),
+          camera
+        );
+        const hit = tapRay.intersectObjects(cards, false)[0];
+        if (hit && hit.object.userData.i === focusIdx) { location.href = '/cases/'; return; }
         snapOff += (e.clientX > innerWidth / 2 ? 1 : -1) * SEG;
       }
     };
