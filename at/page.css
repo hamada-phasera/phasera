@@ -124,7 +124,7 @@ h1, h2, h3 { word-break: auto-phrase; }
 
 /* portrait / profile */
 .profile { display: grid; grid-template-columns: 260px 1fr; gap: 34px; align-items: start; margin: 24px 0; }
-.profile .pf-photo { width: 100%; height: auto; aspect-ratio: 1 / 1.06; object-fit: cover; object-position: 50% 28%; border-radius: 14px; border: 1px solid var(--line); }
+.profile .pf-photo { width: 100%; height: auto; aspect-ratio: 1 / 1.06; object-fit: cover; object-position: 50% 28%; border-radius: 14px; border: 1px solid var(--line); opacity: 0.86; filter: saturate(0.55) contrast(1.06) brightness(0.92); }
 .profile .photo-ph { aspect-ratio: 4/5; border-radius: 14px; border: 1px solid var(--line);
   display: grid; place-items: center; text-align: center; padding: 16px;
   background: linear-gradient(160deg, #0a1730, #060c1a); color: var(--dim-2);

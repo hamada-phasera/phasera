@@ -265,6 +265,7 @@ function boot() {
   const PITCH = 1.5; // helix rise per revolution
   const cardGeo = new THREE.BoxGeometry(CW, CH, CD, 26, 32, 1);
   const cards = [];
+  const IMGS = new Map(); // slug → loaded work photo (composited into card art)
 
   const makeTexture = (w) => {
     const cw = 768, ch = 960;
@@ -283,6 +284,27 @@ function boot() {
     rg.addColorStop(0, `hsla(${h}, 85%, 62%, 0.5)`);
     rg.addColorStop(1, 'transparent');
     x.fillStyle = rg; x.fillRect(0, 0, cw, ch);
+    // work photo — sunken navy duotone (AT-style: rest≈faint, hue separation not brightness).
+    // glassA in the fragment shader tracks texel luminance, so the photo must stay dark
+    // or the card goes opaque and the spine stops ghosting through.
+    const ph = IMGS.get(w.slug);
+    if (ph) {
+      x.save();
+      const s = Math.max(cw / ph.width, ch / ph.height);
+      x.globalAlpha = 0.85;
+      x.drawImage(ph, (cw - ph.width * s) / 2, (ch - ph.height * s) / 2, ph.width * s, ph.height * s);
+      x.globalAlpha = 1;
+      x.globalCompositeOperation = 'color'; // duotone: keep luminance, repaint hue/sat in card blue
+      x.fillStyle = `hsl(${h}, 60%, 55%)`;
+      x.fillRect(0, 0, cw, ch);
+      x.globalCompositeOperation = 'source-over'; // navy settle — sinks the photo
+      const sink = x.createLinearGradient(0, 0, 0, ch);
+      sink.addColorStop(0, 'rgba(4, 8, 18, 0.42)');
+      sink.addColorStop(0.6, 'rgba(4, 8, 18, 0.58)');
+      sink.addColorStop(1, 'rgba(4, 8, 18, 0.78)');
+      x.fillStyle = sink; x.fillRect(0, 0, cw, ch);
+      x.restore();
+    }
     // fine grid
     x.strokeStyle = 'rgba(156, 196, 255, 0.06)'; x.lineWidth = 1;
     for (let i = 1; i < 8; i++) { x.beginPath(); x.moveTo((cw / 8) * i, 0); x.lineTo((cw / 8) * i, ch); x.stroke(); }
@@ -340,6 +362,22 @@ function boot() {
       });
     });
   }
+
+  /* preload work photos, then recomposite that card's texture (same swap pattern) */
+  WORKS.forEach((w) => {
+    if (!w.img) return;
+    const im = new Image();
+    im.onload = () => {
+      IMGS.set(w.slug, im);
+      const c = cards.find((m) => m.userData.w === w);
+      if (!c) return;
+      const old = c.material.uniforms.uMap.value;
+      c.material.uniforms.uMap.value = makeTexture(w);
+      old && old.dispose();
+    };
+    im.onerror = () => console.warn('[Phasera] work photo failed to load — card keeps procedural art:', w.img);
+    im.src = w.img;
+  });
 
   WORKS.forEach((w, i) => {
     const mat = new THREE.ShaderMaterial({

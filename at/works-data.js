@@ -2,6 +2,7 @@
 window.PHASERA_WORKS = [
   {
     slug: 'auto-reply',
+    img: 'assets/works/auto-reply.jpg',
     en: ['AUTO', 'REPLY'],
     cat: 'AGENTS',
     sub: '問い合わせ自動応答 — For 士業 · R&D 2025',
@@ -10,6 +11,7 @@ window.PHASERA_WORKS = [
   },
   {
     slug: 'scout-dm',
+    img: 'assets/works/scout-dm.jpg',
     en: ['SCOUT', 'DM'],
     cat: 'AGENTS',
     sub: 'スカウト文面生成 — 人材派遣 · R&D 2025',
@@ -18,6 +20,7 @@ window.PHASERA_WORKS = [
   },
   {
     slug: 'kpi-report',
+    img: 'assets/works/kpi-report.jpg',
     en: ['KPI', 'REPORT'],
     cat: 'KPI',
     sub: '経営指標レポート — All · 月次 R&D 2025',
@@ -26,6 +29,7 @@ window.PHASERA_WORKS = [
   },
   {
     slug: 'doc-draft',
+    img: 'assets/works/doc-draft.jpg',
     en: ['DOC', 'DRAFT'],
     cat: 'AGENTS',
     sub: '書類下書き — For 士業 · R&D 2025',
@@ -34,6 +38,7 @@ window.PHASERA_WORKS = [
   },
   {
     slug: 'match',
+    img: 'assets/works/match.jpg',
     en: ['MATCH', 'ENGINE'],
     cat: 'MATCHING',
     sub: '案件 × 求職者マッチング — 人材派遣 · R&D 2025',
@@ -42,6 +47,7 @@ window.PHASERA_WORKS = [
   },
   {
     slug: 'phasera-lp',
+    img: 'assets/works/phasera-lp.jpg',
     en: ['PHASERA', 'LP'],
     cat: '3D',
     sub: 'このサイト自体 — Meta · 2026',
