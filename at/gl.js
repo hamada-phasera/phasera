@@ -299,9 +299,9 @@ function boot() {
       x.fillRect(0, 0, cw, ch);
       x.globalCompositeOperation = 'source-over'; // navy settle — sinks the photo
       const sink = x.createLinearGradient(0, 0, 0, ch);
-      sink.addColorStop(0, 'rgba(4, 8, 18, 0.42)');
-      sink.addColorStop(0.6, 'rgba(4, 8, 18, 0.58)');
-      sink.addColorStop(1, 'rgba(4, 8, 18, 0.78)');
+      sink.addColorStop(0, 'rgba(4, 8, 18, 0.30)');
+      sink.addColorStop(0.6, 'rgba(4, 8, 18, 0.46)');
+      sink.addColorStop(1, 'rgba(4, 8, 18, 0.70)');
       x.fillStyle = sink; x.fillRect(0, 0, cw, ch);
       x.restore();
     }
