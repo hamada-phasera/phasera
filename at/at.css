@@ -272,6 +272,21 @@ h2 em, h3 em, .lede em, p em { font-style: normal; color: var(--accent-3); }
 h2 em, .quote em, .hero-sub h1 em { font-family: 'Shippori Mincho', 'Hiragino Mincho ProN', serif; font-weight: 600; }
 .lede { color: var(--dim); max-width: 44em; }
 
+/* color grade over the dark stage — teal top-left, violet bottom-left (AT-style tinted corners) */
+.tint {
+  position: fixed; inset: 0; z-index: 2; pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 60% 55% at 0% 0%, rgba(34, 110, 104, 0.2), transparent 70%),
+    radial-gradient(ellipse 55% 60% at 0% 100%, rgba(96, 52, 168, 0.26), transparent 70%),
+    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(40, 64, 150, 0.16), transparent 70%);
+}
+/* works → next sheet: a brief dip to black so the stage hands over instead of cutting */
+.stage-fade {
+  position: fixed; inset: 0; z-index: 4; pointer-events: none;
+  background: #02040a; opacity: 0;
+}
+
 /* reveal */
 .rv { opacity: 0; transform: translateY(36px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
 .rv.in { opacity: 1; transform: none; }
@@ -403,7 +418,7 @@ body.ready .hero-word .wl { opacity: 1; transform: none; }
 .w-title .idx { font-family: var(--font-mono); font-size: 11px; color: var(--accent-3); letter-spacing: 0.2em; }
 .w-title h3 {
   font-family: var(--font-en); font-weight: 700;
-  font-size: clamp(34px, 5vw, 64px); line-height: 1.02; letter-spacing: 0.01em;
+  font-size: clamp(22px, 2.6vw, 34px); line-height: 1.05; letter-spacing: 0.02em; /* the card carries the big title now */
   margin: 8px 0 6px;
 }
 .w-title h3 .wl-ln { display: block; overflow: hidden; }
@@ -761,7 +776,14 @@ footer ul a:hover { color: var(--accent-3); }
 }
 .paper.on { transform: none; }
 /* sharp diagonal edges — alternating direction per sheet */
-.paper-a { margin: 8vh 0; clip-path: polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%); }
+.paper-a {
+  /* first sheet after Works: no hard top edge — it dissolves in from the dark stage.
+     The negative margin lets the fade overlap the tail of the pinned stage. */
+  margin: -28vh 0 8vh; padding-top: 30vh;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--slant)), 0 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28vh);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 28vh);
+}
 .paper-b { margin: 2vh 0 6vh; clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 calc(100% - var(--slant))); }
 .paper-c { margin-top: 2vh; padding-bottom: 4vh; clip-path: polygon(0 var(--slant), 100% 0, 100% 100%, 0 100%); }
 footer.light {
