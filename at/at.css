@@ -776,15 +776,15 @@ footer ul a:hover { color: var(--accent-3); }
 }
 .paper.on { transform: none; }
 /* sharp diagonal edges — alternating direction per sheet */
-.paper-a {
-  /* first sheet after Works: no hard top edge — it dissolves in from the dark stage.
+.paper-a { margin: 8vh 0; clip-path: polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%); }
+.paper-b {
+  /* sheet right after Works: no hard top edge — it dissolves in from the dark stage.
      The negative margin lets the fade overlap the tail of the pinned stage. */
-  margin: -28vh 0 8vh; padding-top: 30vh;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--slant)), 0 100%);
+  margin: -28vh 0 6vh; padding-top: 30vh;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--slant)));
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 28vh);
   mask-image: linear-gradient(to bottom, transparent 0, #000 28vh);
 }
-.paper-b { margin: 2vh 0 6vh; clip-path: polygon(0 0, 100% var(--slant), 100% 100%, 0 calc(100% - var(--slant))); }
 .paper-c { margin-top: 2vh; padding-bottom: 4vh; clip-path: polygon(0 var(--slant), 100% 0, 100% 100%, 0 100%); }
 footer.light {
   background: rgba(235, 240, 249, 0.92);
