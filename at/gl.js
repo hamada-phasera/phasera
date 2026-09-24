@@ -154,7 +154,7 @@ function boot() {
       uDpr: { value: Math.min(window.devicePixelRatio, MOBILE ? 2 : 3) },
       uSize: { value: MOBILE ? 0.16 : 0.11 }, // smaller dots × more of them = finer field
       uSpinA: { value: 0 },   // spine yaw — blooms ride on the spine
-      uSpineY: { value: -10 }, // spine rise offset
+      uSpineY: { value: 0 }, // spine y offset (fixed: the spine no longer rises)
     },
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     vertexShader: `
@@ -238,7 +238,6 @@ function boot() {
      spine — toned to the site (navy metal + blue vessels)
      ========================================================= */
   const spineGroup = new THREE.Group();
-  spineGroup.position.y = -10;
   scene.add(spineGroup);
   let spineLoaded = false;
 
@@ -652,10 +651,10 @@ function boot() {
     /* scroll states from app.js */
     smVel = damp(smVel, PH.vel, 5, dt);
     const p = PH.worksP; // raw, can be <0 or >1
-    // works now follows the hero directly: the spine starts rising while the hero
-    // is still on screen (p≈-0.21 ≈ first scroll of the hero), fully up by p≈0.09
-    const revTarget = smooth01((p + (MOBILE ? 0.13 : 0.21)) / 0.3) // phones: rise a little later so hero copy stays readable * (1 - smooth01((p - 1.02) / 0.2));
-    reveal = damp(reveal, revTarget, 3.6, dt);
+    // spine + cards exist only while Works is on screen: in as the dark stage
+    // comes up from under the Problem sheet, fully gone just before the next sheet lands
+    const revTarget = smooth01((p + 0.12) / 0.14) * (1 - smooth01((p - 0.88) / 0.1));
+    reveal = damp(reveal, revTarget, 7, dt); // quick follow so nothing lingers behind the sheets
 
     /* jelly springs — underdamped, so a scroll flick overshoots and settles (the "揺れ") */
     const sdt = Math.min(dt, 1 / 30); // keep the explicit spring stable on frame hitches
@@ -684,9 +683,7 @@ function boot() {
     pMat.uniforms.uGlobal.value = damp(pMat.uniforms.uGlobal.value, gTarget, 3, dt);
     pMat.uniforms.uPointer.value.copy(worldPointer());
 
-    /* spine — rises from just below the fold, fully standing by reveal 0.4 */
-    const rise = Math.min(reveal / 0.4, 1);
-    spineGroup.position.y = damp(spineGroup.position.y, -10 * (1 - rise), 3.6, dt);
+    /* spine — already standing in place; it only materialises (opacity), no rise */
     spineGroup.rotation.y = t * 0.14 + PH.scroll * 0.0009;
     spineGroup.rotation.z = sway * 0.05;  // whole-body sway on scroll
     spineGroup.rotation.x = -sway * 0.03;
@@ -694,7 +691,8 @@ function boot() {
     spineU.uBend.value = sway;             // per-vertex bend (liquid)
     pMat.uniforms.uSpinA.value = spineGroup.rotation.y;
     pMat.uniforms.uSpineY.value = spineGroup.position.y;
-    const sOp = Math.max(0, Math.min(1, (reveal - 0.02) / 0.3));
+    const sOp = Math.max(0, Math.min(1, (reveal - 0.02) / 0.5));
+    spineGroup.visible = sOp > 0.001; // skip drawing entirely outside Works
     spineGroup.traverse((o) => {
       if (!o.isMesh || !o.material) return;
       // go opaque once fully revealed: correct depth vs cards, no self-transparency
