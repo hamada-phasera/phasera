@@ -4,7 +4,6 @@
    ============================================================ */
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const PH = (window.PH = window.PH || {
   scroll: 0, vel: 0, worksP: -1, pointer: { x: 0, y: 0 }, px: 0, py: 0,
@@ -39,8 +38,24 @@ function boot() {
   const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, 0.1, 60);
   camera.position.set(0, 0.2, 7.2);
 
+  // colored studio env: magenta / cyan / violet panels → the iridescent sheen on the spine
+  // (a neutral RoomEnvironment only gives white reflections, which read as plain metal)
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  const envScene = new THREE.Scene();
+  envScene.add(new THREE.Mesh(new THREE.SphereGeometry(10, 24, 12), new THREE.MeshBasicMaterial({ color: 0x04060d, side: THREE.BackSide })));
+  [
+    [0xff3fa4, 5, -6, 3, 2, 4, 6],   // magenta, left
+    [0x3fe8ff, 4, 6, 1, 3, 3, 7],    // cyan, right
+    [0x7b5cff, 4, 0, -6, -4, 8, 3],  // violet, floor
+    [0xe8f0ff, 2.6, 2, 7, 6, 6, 2],  // soft white key, top
+    [0x2b6bff, 3, -3, 0, -8, 6, 6],  // brand blue, back
+  ].forEach(([c, k, x, y, z, w, h]) => {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(c).multiplyScalar(k), side: THREE.DoubleSide }));
+    m.position.set(x, y, z);
+    m.lookAt(0, 0, 0);
+    envScene.add(m);
+  });
+  scene.environment = pmrem.fromScene(envScene, 0.03).texture;
 
   /* ------- lights ------- */
   scene.add(new THREE.AmbientLight(0x24365c, 0.9));
@@ -138,13 +153,15 @@ function boot() {
       uPointer: { value: new THREE.Vector3(99, 99, 0) },
       uDpr: { value: Math.min(window.devicePixelRatio, MOBILE ? 2 : 3) },
       uSize: { value: MOBILE ? 0.16 : 0.11 }, // smaller dots × more of them = finer field
+      uSpinA: { value: 0 },   // spine yaw — blooms ride on the spine
+      uSpineY: { value: -10 }, // spine rise offset
     },
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     vertexShader: `
       attribute vec4 aRnd;
-      uniform float uTime, uWorks, uVel, uDpr, uGlobal, uSize;
+      uniform float uTime, uWorks, uVel, uDpr, uGlobal, uSize, uSpinA, uSpineY;
       uniform vec3 uPointer;
-      varying float vA; varying float vTint;
+      varying float vA; varying vec3 vCol;
       void main(){
         vec3 p = position;
         float t = uTime * (0.05 + aRnd.x * 0.08);
@@ -166,13 +183,29 @@ function boot() {
           (sin(ca) * (2.5 + cos(ta) * tube)) * 0.5 - 2.8
         );
         p = mix(p, corePos, coreShare * 0.94);
-        // works mode: condense into a column envelope around the spine
+        // works mode (dust share): condense into a column envelope around the spine
+        float bloomShare = step(0.42, aRnd.z);
         float r = length(p.xz);
         float targetR = 2.2 + aRnd.x * 2.4;
         vec2 dir = r > 1e-4 ? p.xz / r : vec2(1., 0.);
         vec2 xzWorks = dir * targetR;
-        p.xz = mix(p.xz, xzWorks, uWorks * 0.85);
-        p.y = mix(p.y, p.y * 0.55, uWorks);
+        p.xz = mix(p.xz, xzWorks, uWorks * 0.85 * (1.0 - bloomShare));
+        p.y = mix(p.y, p.y * 0.55, uWorks * (1.0 - bloomShare));
+        // works mode (bloom share): dense coral-like clusters clinging to the spine,
+        // stacked along its height and turning with it
+        float k = floor(aRnd.x * 7.0);
+        float ang = k * 2.39996 + uSpinA;
+        float cr = 0.8 + fract(k * 0.618) * 0.75;
+        vec3 cc = vec3(cos(ang) * cr, -3.9 + k * 1.3 + uSpineY, sin(ang) * cr * 0.8);
+        float th = aRnd.y * 6.28318 + uTime * 0.05;
+        float ph = acos(2.0 * aRnd.w - 1.0);
+        vec3 d3b = vec3(sin(ph) * cos(th), cos(ph), sin(ph) * sin(th));
+        float lump = 0.72 + 0.28 * sin(th * 5.0 + ph * 4.0 + uTime * 0.4 + k);
+        float rr = (0.16 + 0.66 * pow(fract(aRnd.x * 7.0), 0.5)) * lump;
+        vec3 bloom = cc + d3b * rr;
+        bloom.y += uVel * (0.3 + aRnd.y) * 0.9; // scroll inertia: blooms trail the spine
+        float isBloom = bloomShare * uWorks;
+        p = mix(p, bloom, isBloom);
         // pointer repulsion
         vec3 d3 = p - uPointer;
         float dist = length(d3.xy);
@@ -181,17 +214,20 @@ function boot() {
         gl_Position = projectionMatrix * mv;
         float size = (0.9 + aRnd.w * 2.4) * (1.0 - uWorks * 0.35) * (1.0 - coreShare * 0.3);
         gl_PointSize = size * uDpr * (140.0 / -mv.z) * uSize;
-        vA = ((0.38 + aRnd.z * 0.5) * (1.0 - uWorks * 0.5) + coreShare * 0.35) * uGlobal;
-        vTint = aRnd.y;
+        vA = ((0.38 + aRnd.z * 0.5) * (1.0 - uWorks * 0.5) + coreShare * 0.35 + isBloom * 0.22) * uGlobal;
+        // hero stays brand blue; blooms shift to magenta / violet / cyan
+        vec3 heroCol = mix(vec3(0.61, 0.77, 1.0), vec3(0.24, 0.4, 0.85), aRnd.y);
+        float h = fract(k * 0.37 + aRnd.y * 0.3);
+        vec3 bloomCol = h < 0.4 ? vec3(1.0, 0.36, 0.76) : (h < 0.75 ? vec3(0.56, 0.4, 1.0) : vec3(0.3, 0.86, 1.0));
+        vCol = mix(heroCol, bloomCol, isBloom);
       }`,
     fragmentShader: `
-      varying float vA; varying float vTint;
+      varying float vA; varying vec3 vCol;
       void main(){
         vec2 c = gl_PointCoord - 0.5;
         float d = length(c);
         float a = smoothstep(0.5, 0.05, d) * vA;
-        vec3 col = mix(vec3(0.61, 0.77, 1.0), vec3(0.24, 0.4, 0.85), vTint);
-        gl_FragColor = vec4(col, a);
+        gl_FragColor = vec4(vCol, a);
       }`,
   });
   const points = new THREE.Points(pGeo, pMat);
@@ -202,9 +238,31 @@ function boot() {
      spine — toned to the site (navy metal + blue vessels)
      ========================================================= */
   const spineGroup = new THREE.Group();
-  spineGroup.position.y = -11;
+  spineGroup.position.y = -10;
   scene.add(spineGroup);
   let spineLoaded = false;
+
+  /* liquid glass: world-space wobble (idle wave + scroll-velocity bend) and an
+     iridescent fresnel rim, patched into the stock physical material */
+  const spineU = { uTime: { value: 0 }, uBend: { value: 0 }, uRim: { value: 1 } };
+  const liquidify = (mat) => {
+    mat.onBeforeCompile = (sh) => {
+      Object.assign(sh.uniforms, spineU);
+      sh.vertexShader = 'uniform float uTime, uBend;\n' + sh.vertexShader.replace('#include <project_vertex>', `
+        vec4 wpos = modelMatrix * vec4(transformed, 1.0);
+        float wy = wpos.y;
+        wpos.x += sin(wy * 0.9 + uTime * 1.1) * 0.05 + uBend * wy * wy * 0.02;
+        wpos.z += cos(wy * 0.7 + uTime * 0.8) * 0.05 - uBend * wy * 0.04;
+        vec4 mvPosition = viewMatrix * wpos;
+        gl_Position = projectionMatrix * mvPosition;`);
+      sh.fragmentShader = 'uniform float uTime, uRim;\n' + sh.fragmentShader.replace('#include <opaque_fragment>', `
+        float fr = pow(1.0 - abs(dot(normalize(normal), normalize(vViewPosition))), 2.2);
+        vec3 rimC = mix(vec3(0.25, 0.85, 1.0), vec3(1.0, 0.32, 0.78), 0.5 + 0.5 * sin(vViewPosition.y * 0.9 + uTime * 0.6));
+        outgoingLight += rimC * fr * uRim;
+        #include <opaque_fragment>`);
+    };
+    return mat;
+  };
 
   const loader = new GLTFLoader();
   loader.load(
@@ -214,30 +272,35 @@ function boot() {
       const box = new THREE.Box3().setFromObject(root);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
-      // oversized close-up: the spine crops beyond the viewport (AT: one huge artifact)
-      const s = 9.8 / size.y;
+      // oversized close-up: the spine runs off both ends of the viewport (AT: one huge artifact)
+      const s = (MOBILE ? 9.5 : 13.5) / size.y; // phones: narrower view, so a smaller spine
       root.scale.setScalar(s);
       root.position.set(-center.x * s, -center.y * s, -center.z * s);
       root.traverse((o) => {
         if (!o.isMesh) return;
         const isVessel = /artery|vein|vessel/.test(o.name);
         if (isVessel) {
+          // vessels carry the warm accent (magenta arteries / violet veins)
           const isArtery = /artery|_art_/.test(o.name);
-          o.material = new THREE.MeshStandardMaterial({
-            color: 0x2c4fb0,
-            emissive: isArtery ? 0x6fa8ff : 0x3c66d9,
-            emissiveIntensity: isArtery ? 1.15 : 0.7,
-            metalness: 0.25, roughness: 0.4,
+          o.material = liquidify(new THREE.MeshPhysicalMaterial({
+            color: isArtery ? 0xff5fb0 : 0x8b6bff,
+            emissive: isArtery ? 0xff3f9a : 0x6a4cff,
+            emissiveIntensity: isArtery ? 0.9 : 0.7,
+            metalness: 0.2, roughness: 0.3,
+            clearcoat: 1, iridescence: 0.6,
             transparent: true, opacity: 0,
-          });
+          }));
         } else {
-          o.material = new THREE.MeshStandardMaterial({
-            color: 0x8aa6d6,
-            metalness: 0.85, roughness: 0.32,
-            emissive: 0x122f57, emissiveIntensity: 0.55,
-            envMapIntensity: 1.25,
+          // bone: iridescent glass-metal, colored by the studio env + fresnel rim
+          o.material = liquidify(new THREE.MeshPhysicalMaterial({
+            color: 0x9fb2ff,
+            metalness: 0.55, roughness: 0.16,
+            iridescence: 1, iridescenceIOR: 1.45, iridescenceThicknessRange: [180, 820],
+            clearcoat: 1, clearcoatRoughness: 0.08,
+            emissive: 0x1a1450, emissiveIntensity: 0.5,
+            envMapIntensity: 1.8,
             transparent: true, opacity: 0,
-          });
+          }));
         }
       });
       spineGroup.add(root);
@@ -259,99 +322,66 @@ function boot() {
      ========================================================= */
   const ring = new THREE.Group();
   scene.add(ring);
-  const R = MOBILE ? 2.15 : 2.85;
-  const CW = MOBILE ? 1.25 : 1.62, CH = MOBILE ? 1.56 : 2.02;
-  const CD = MOBILE ? 0.07 : 0.09; // slab thickness
-  const PITCH = 1.5; // helix rise per revolution
-  const cardGeo = new THREE.BoxGeometry(CW, CH, CD, 26, 32, 1);
+  // landscape glass slabs (AT proportions); wide orbit so side cards read at ~45°
+  const R = MOBILE ? 2.05 : 3.1;
+  const CW = MOBILE ? 2.1 : 2.5, CH = MOBILE ? 1.31 : 1.56;
+  const CD = MOBILE ? 0.08 : 0.1; // slab thickness
+  const PITCH = 1.25; // helix rise per revolution
+  const cardGeo = new THREE.BoxGeometry(CW, CH, CD, 40, 26, 1);
   const cards = [];
   const IMGS = new Map(); // slug → loaded work photo (composited into card art)
 
+  /* card art: black ground + sunken photo + centered title. The ground stays dark on
+     purpose — the shader adds the animated fluid on top, so bright texels read as type. */
   const makeTexture = (w) => {
-    const cw = 768, ch = 960;
+    const cw = 1024, ch = 640;
     const cv = document.createElement('canvas');
     cv.width = cw; cv.height = ch;
     const x = cv.getContext('2d');
-    const h = w.hue;
-    // base gradient
-    const g = x.createLinearGradient(0, 0, 0, ch);
-    g.addColorStop(0, `hsl(${h}, 55%, 22%)`);
-    g.addColorStop(0.55, `hsl(${h + 8}, 50%, 12%)`);
-    g.addColorStop(1, 'hsl(222, 45%, 7%)');
-    x.fillStyle = g; x.fillRect(0, 0, cw, ch);
-    // radial glow
-    const rg = x.createRadialGradient(cw * 0.72, ch * 0.2, 0, cw * 0.72, ch * 0.2, cw * 0.9);
-    rg.addColorStop(0, `hsla(${h}, 85%, 62%, 0.5)`);
-    rg.addColorStop(1, 'transparent');
-    x.fillStyle = rg; x.fillRect(0, 0, cw, ch);
-    // work photo — sunken navy duotone (AT-style: rest≈faint, hue separation not brightness).
-    // glassA in the fragment shader tracks texel luminance, so the photo must stay dark
-    // or the card goes opaque and the spine stops ghosting through.
+    x.fillStyle = '#03050b'; x.fillRect(0, 0, cw, ch);
     const ph = IMGS.get(w.slug);
     if (ph) {
       x.save();
       const s = Math.max(cw / ph.width, ch / ph.height);
-      x.globalAlpha = 0.85;
+      x.globalAlpha = 0.6;
       x.drawImage(ph, (cw - ph.width * s) / 2, (ch - ph.height * s) / 2, ph.width * s, ph.height * s);
       x.globalAlpha = 1;
-      x.globalCompositeOperation = 'color'; // duotone: keep luminance, repaint hue/sat in card blue
-      x.fillStyle = `hsl(${h}, 60%, 55%)`;
+      x.globalCompositeOperation = 'color'; // duotone in the card hue
+      x.fillStyle = `hsl(${w.hue}, 60%, 55%)`;
       x.fillRect(0, 0, cw, ch);
-      x.globalCompositeOperation = 'source-over'; // navy settle — sinks the photo
-      const sink = x.createLinearGradient(0, 0, 0, ch);
-      sink.addColorStop(0, 'rgba(4, 8, 18, 0.30)');
-      sink.addColorStop(0.6, 'rgba(4, 8, 18, 0.46)');
-      sink.addColorStop(1, 'rgba(4, 8, 18, 0.70)');
-      x.fillStyle = sink; x.fillRect(0, 0, cw, ch);
+      x.globalCompositeOperation = 'source-over';
+      x.fillStyle = 'rgba(3, 5, 11, 0.62)'; // sink it under the fluid
+      x.fillRect(0, 0, cw, ch);
       x.restore();
     }
-    // fine grid
-    x.strokeStyle = 'rgba(156, 196, 255, 0.06)'; x.lineWidth = 1;
-    for (let i = 1; i < 8; i++) { x.beginPath(); x.moveTo((cw / 8) * i, 0); x.lineTo((cw / 8) * i, ch); x.stroke(); }
-    for (let i = 1; i < 10; i++) { x.beginPath(); x.moveTo(0, (ch / 10) * i); x.lineTo(cw, (ch / 10) * i); x.stroke(); }
-    // noise speckle
-    for (let i = 0; i < 900; i++) {
-      x.fillStyle = `rgba(200, 220, 255, ${Math.random() * 0.05})`;
-      x.fillRect(Math.random() * cw, Math.random() * ch, 1.4, 1.4);
-    }
-    // frame
-    x.strokeStyle = 'rgba(156, 196, 255, 0.35)'; x.lineWidth = 2;
-    x.strokeRect(26, 26, cw - 52, ch - 52);
     const en = "'Space Grotesk', 'Helvetica Neue', Arial, sans-serif";
     const mono = "'Space Mono', 'Courier New', monospace";
-    // index + category
-    x.fillStyle = 'rgba(156, 196, 255, 0.9)';
-    x.font = `400 30px ${mono}`;
-    x.fillText(String(WORKS.indexOf(w) + 1).padStart(2, '0'), 58, 104);
+    const n = String(WORKS.indexOf(w) + 1).padStart(2, '0');
+    // corner meta
+    x.fillStyle = 'rgba(190, 210, 255, 0.7)';
+    x.font = `400 22px ${mono}`;
+    x.fillText(n + ' / ' + String(WORKS.length).padStart(2, '0'), 48, 64);
     x.textAlign = 'right';
-    x.font = `400 24px ${mono}`;
-    x.fillText(w.cat, cw - 58, 104);
-    x.textAlign = 'left';
-    // ghost numeral watermark
-    x.strokeStyle = 'rgba(156, 196, 255, 0.09)';
-    x.lineWidth = 3;
-    x.font = `700 430px ${en}`;
-    x.textAlign = 'right';
-    x.strokeText(String(WORKS.indexOf(w) + 1).padStart(2, '0'), cw + 40, ch * 0.56);
-    x.textAlign = 'left';
-    // glyph
-    x.fillStyle = 'rgba(156, 196, 255, 0.5)';
-    x.font = `400 30px ${mono}`;
-    x.fillText('【= ◈ ⌒ ◈ =】', 58, ch * 0.5);
-    // big EN words
-    x.fillStyle = 'rgba(234, 241, 251, 0.96)';
-    x.font = `700 118px ${en}`;
-    w.en.forEach((word, i) => x.fillText(word, 54, ch - 150 - (w.en.length - 1 - i) * 118));
-    // sub
-    x.fillStyle = 'rgba(143, 163, 192, 0.95)';
-    x.font = `400 26px ${mono}`;
-    x.fillText(w.sub.split(' — ')[0], 58, ch - 74);
+    x.fillText(w.cat, cw - 48, 64);
+    // centered title block
+    x.textAlign = 'center'; x.textBaseline = 'middle';
+    if ('letterSpacing' in x) x.letterSpacing = '4px';
+    const lh = 116, y0 = ch / 2 - ((w.en.length - 1) * lh) / 2 + 10;
+    x.fillStyle = 'rgba(225, 232, 255, 0.72)';
+    x.font = `400 22px ${mono}`;
+    x.fillText('◈ ' + w.cat + ' ◈', cw / 2, y0 - 98);
+    x.fillStyle = 'rgba(244, 247, 255, 0.98)';
+    x.font = `500 110px ${en}`;
+    w.en.forEach((word, i) => x.fillText(word, cw / 2, y0 + i * lh));
+    if ('letterSpacing' in x) x.letterSpacing = '0px';
+    x.fillStyle = 'rgba(170, 190, 225, 0.85)';
+    x.font = `400 22px ${mono}`;
+    x.fillText(w.sub.split(' — ')[0], cw / 2, ch - 58);
     const tex = new THREE.CanvasTexture(cv);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = 4;
     return tex;
   };
-
   /* redraw card art once webfonts are in (canvas uses document fonts) */
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(() => {
@@ -379,7 +409,10 @@ function boot() {
     im.src = w.img;
   });
 
+  const OCT = MOBILE ? 3 : 5; // fbm octaves — cheaper fluid on phones
   WORKS.forEach((w, i) => {
+    const colA = new THREE.Color().setHSL(w.hue / 360, 0.75, 0.55);
+    const colB = new THREE.Color().setHSL(((w.hue + 95) % 360) / 360, 0.8, 0.6); // magenta/violet counter-tone
     const mat = new THREE.ShaderMaterial({
       uniforms: {
         uMap: { value: makeTexture(w) },
@@ -389,7 +422,11 @@ function boot() {
         uFocus: { value: 0 },
         uIn: { value: 0 },
         uDim: { value: 0 },
+        uGlitch: { value: 0 },
         uTrail: { value: null },
+        uRes: { value: new THREE.Vector2(1, 1) },
+        uColA: { value: colA },
+        uColB: { value: colB },
       },
       transparent: true, side: THREE.FrontSide, depthWrite: false, // glass: the spine shows through
       vertexShader: `
@@ -403,13 +440,13 @@ function boot() {
           vUv = st;
           vN = normal;
           vec3 p = position;
-          // liquid: bend by orbit velocity (page-curl style around Y)
+          // liquid: bend by orbit/scroll velocity (page-curl style around Y)
           float bend = uVel * 2.2;
           p.z -= sin(st.x * 3.14159) * bend * 0.42;
           p.x += bend * (st.y - 0.5) * 0.22;
           // idle breathing wave — the "liquid slab" life
-          p.z += sin(st.y * 5.0 + uTime * 1.3 + uSeed) * 0.03 * uIn;
-          p.z += sin(st.x * 7.0 + uTime * 0.9 + uSeed * 2.0) * 0.02 * uIn;
+          p.z += sin(st.y * 5.0 + uTime * 1.3 + uSeed) * 0.035 * uIn;
+          p.z += sin(st.x * 6.0 + uTime * 0.9 + uSeed * 2.0) * 0.025 * uIn;
           p.x += sin(st.y * 3.0 + uTime * 0.7 + uSeed) * 0.012 * uIn;
           // pointer liquid trail displacement (screen-space)
           vec4 wp = modelMatrix * vec4(p, 1.);
@@ -422,36 +459,63 @@ function boot() {
         }`,
       fragmentShader: `
         uniform sampler2D uMap, uTrail;
-        uniform float uFocus, uIn, uDim, uTime;
+        uniform float uFocus, uIn, uDim, uTime, uGlitch, uSeed;
+        uniform vec2 uRes;
+        uniform vec3 uColA, uColB;
         varying vec2 vUv; varying float vBend; varying vec3 vN;
+        const vec2 SZ = vec2(${CW.toFixed(3)}, ${CH.toFixed(3)});
+        float hash(float n){ return fract(sin(n) * 43758.5453); }
+        float noise(vec2 p){
+          vec2 i = floor(p), f = fract(p); f = f * f * (3. - 2. * f);
+          float n = i.x + i.y * 57.;
+          return mix(mix(hash(n), hash(n + 1.), f.x), mix(hash(n + 57.), hash(n + 58.), f.x), f.y);
+        }
+        float fbm(vec2 p){ float v = 0., a = .5; for (int i = 0; i < ${OCT}; i++){ v += a * noise(p); p = p * 2.03 + 17.1; a *= .5; } return v; }
         void main(){
           float a = uIn * (1.0 - uDim * 0.82);
           vec3 n = normalize(vN);
+          // rounded-rect silhouette — also trims the box's square side corners
+          float rad = ${(MOBILE ? 0.09 : 0.13).toFixed(2)};
+          vec2 q = abs((vUv - 0.5) * SZ) - (SZ * 0.5 - rad);
+          float sd = length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - rad;
+          if (sd > 0.001) discard;
           if (abs(n.z) < 0.5) {
-            // slab rim: glassy edge catching the accent light
-            float g = 0.5 + 0.5 * sin(vUv.y * 6.28318 + uTime * 0.6);
-            vec3 rim = mix(vec3(0.07, 0.14, 0.34), vec3(0.38, 0.58, 1.0), 0.25 + uFocus * 0.5 + g * 0.15);
-            gl_FragColor = vec4(rim, a * 0.85);
+            // slab thickness: glassy edge catching the colored light
+            vec3 rim = mix(uColA, vec3(0.92, 0.95, 1.0), 0.35 + uFocus * 0.4);
+            gl_FragColor = vec4(rim, a * 0.8);
             return;
           }
-          // liquid refraction: shift uv by trail gradient + bend
           vec2 uv = vUv;
           if (n.z < 0.0) uv.x = 1.0 - uv.x; // keep type readable from behind
+          float tr = texture2D(uTrail, gl_FragCoord.xy / uRes).r;
+          // animated fluid (domain-warped fbm), stirred by bend + pointer trail
+          float t = uTime * 0.06 + uSeed;
+          vec2 fp = uv * vec2(SZ.x / SZ.y, 1.0) * 1.6;
+          vec2 w = vec2(fbm(fp + t), fbm(fp + 5.2 - t));
+          float f = fbm(fp + w * 1.7 + tr * 1.2 + vBend * 0.5);
+          vec3 fluid = mix(uColA * 0.16, uColA, smoothstep(0.35, 0.78, f));
+          fluid = mix(fluid, uColB, smoothstep(0.5, 0.85, fbm(fp * 1.7 - w + t * 0.5)) * 0.85);
+          // glitch: sliced rows + rgb split, fired when the card takes focus
+          float row = floor(vUv.y * 28.0);
+          float gk = step(0.55, hash(row + floor(uTime * 24.0))) * uGlitch;
+          uv.x += (hash(row * 3.1 + floor(uTime * 30.0)) - 0.5) * 0.12 * gk;
+          uv += (w - 0.5) * 0.012 + tr * 0.02; // refraction wobble
           uv.x += vBend * 0.03 * sin(vUv.y * 3.14159);
-          vec4 c = texture2D(uMap, uv);
-          float lum = (0.62 + uFocus * 0.5) * (n.z > 0.0 ? 1.0 : 0.45);
-          vec3 col = c.rgb * lum;
-          // edge glow on focus
-          float edge = smoothstep(0.5, 0.985, max(abs(vUv.x - 0.5), abs(vUv.y - 0.5)) * 2.0);
-          col += vec3(0.32, 0.5, 1.0) * edge * uFocus * 0.35;
-          // glass: dark body stays see-through, type and glow turn solid
-          float bright = dot(c.rgb, vec3(0.35, 0.45, 0.2));
-          float glassA = 0.32 + bright * 0.85 + edge * uFocus * 0.3 + uFocus * 0.12;
+          float sp = 0.003 + 0.014 * uGlitch;
+          vec3 c = vec3(texture2D(uMap, uv + vec2(sp, 0.)).r, texture2D(uMap, uv).g, texture2D(uMap, uv - vec2(sp, 0.)).b);
+          float lum = dot(c, vec3(0.3, 0.5, 0.2));
+          float face = n.z > 0.0 ? 1.0 : 0.45;
+          vec3 col = (fluid * (0.5 + uFocus * 0.5) + c * (0.78 + uFocus * 0.35)) * face;
+          // glass bevel: bright inner rim + top sheen
+          float bevel = smoothstep(-0.05, 0.0, sd);
+          col += mix(uColA, vec3(1.0), 0.6) * bevel * (0.35 + uFocus * 0.5);
+          col += vec3(0.7, 0.8, 1.0) * pow(vUv.y, 4.0) * 0.08;
+          float glassA = 0.5 + lum * 0.6 + bevel * 0.4 + uFocus * 0.2;
           gl_FragColor = vec4(col, a * min(glassA, 1.0));
         }`,
     });
     const mesh = new THREE.Mesh(cardGeo, mat);
-    mesh.userData = { i, w };
+    mesh.userData = { i, w, lag: { x: 0, v: 0 }, glitch: 0 };
     mesh.renderOrder = 10; // draw after the spine so front cards occlude it
     ring.add(mesh);
     cards.push(mesh);
@@ -554,6 +618,8 @@ function boot() {
      ========================================================= */
   const clock = new THREE.Clock();
   let smVel = 0, reveal = 0, firstFrame = false;
+  const spineSway = { x: 0, v: 0 };
+  const resV = new THREE.Vector2();
   window.__PHGL = { renderer, scene, camera, get reveal() { return reveal; }, frames: 0 };
 
   /* frame-rate independent damping: k per second */
@@ -586,32 +652,49 @@ function boot() {
     /* scroll states from app.js */
     smVel = damp(smVel, PH.vel, 5, dt);
     const p = PH.worksP; // raw, can be <0 or >1
-    const revTarget = smooth01(p / 0.42) * (1 - smooth01((p - 1.02) / 0.2));
+    // works now follows the hero directly: the spine starts rising while the hero
+    // is still on screen (p≈-0.21 ≈ first scroll of the hero), fully up by p≈0.09
+    const revTarget = smooth01((p + (MOBILE ? 0.13 : 0.21)) / 0.3) // phones: rise a little later so hero copy stays readable * (1 - smooth01((p - 1.02) / 0.2));
     reveal = damp(reveal, revTarget, 3.6, dt);
 
-    /* camera (parallax by pointer, dolly-in on works) */
-    const camZ = (MOBILE ? 8.6 : 7.2) - reveal * 1.15;
-    const camY = 0.2 - reveal * 0.25;
+    /* jelly springs — underdamped, so a scroll flick overshoots and settles (the "揺れ") */
+    const sdt = Math.min(dt, 1 / 30); // keep the explicit spring stable on frame hitches
+    const spring = (s, target, k, c) => {
+      s.v += (k * (target - s.x) - c * s.v) * sdt;
+      s.x += s.v * sdt;
+      return s.x;
+    };
+    const sway = spring(spineSway, smVel, 38, 5.5);
+
+    /* camera (parallax by pointer, dolly-in + look up at the spine on works) */
+    const camZ = (MOBILE ? 8.8 : 7.2) - reveal * 1.4;
+    const camY = 0.2 - reveal * 0.45;
     camera.position.x = damp(camera.position.x, (PH.px - 0.5) * -0.7, 3, dt);
     camera.position.y = damp(camera.position.y, camY + (PH.py - 0.5) * 0.3, 3, dt);
     camera.position.z = damp(camera.position.z, camZ, 3, dt);
-    camera.lookAt(0, reveal * -0.1, 0);
+    camera.lookAt(0, reveal * 0.35, 0);
 
     /* particles */
     pMat.uniforms.uTime.value = t;
     pMat.uniforms.uWorks.value = reveal;
-    pMat.uniforms.uVel.value = smVel;
+    pMat.uniforms.uVel.value = sway;
     // full field in the hero and works stage, calm behind reading sections
     const heroF = 1.4 - (PH.scroll / Math.max(innerHeight, 1)) * 1.1;
     const gTarget = THREE.MathUtils.clamp(Math.max(heroF, reveal), 0.22, 1);
     pMat.uniforms.uGlobal.value = damp(pMat.uniforms.uGlobal.value, gTarget, 3, dt);
     pMat.uniforms.uPointer.value.copy(worldPointer());
 
-    /* spine — rises first, fully standing by reveal 0.65 */
-    const rise = Math.min(reveal / 0.65, 1);
-    spineGroup.position.y = damp(spineGroup.position.y, -11 * (1 - rise), 3.6, dt);
-    spineGroup.rotation.y = t * 0.14 + PH.scroll * 0.0006;
-    const sOp = Math.max(0, Math.min(1, (reveal - 0.15) / 0.6));
+    /* spine — rises from just below the fold, fully standing by reveal 0.4 */
+    const rise = Math.min(reveal / 0.4, 1);
+    spineGroup.position.y = damp(spineGroup.position.y, -10 * (1 - rise), 3.6, dt);
+    spineGroup.rotation.y = t * 0.14 + PH.scroll * 0.0009;
+    spineGroup.rotation.z = sway * 0.05;  // whole-body sway on scroll
+    spineGroup.rotation.x = -sway * 0.03;
+    spineU.uTime.value = t;
+    spineU.uBend.value = sway;             // per-vertex bend (liquid)
+    pMat.uniforms.uSpinA.value = spineGroup.rotation.y;
+    pMat.uniforms.uSpineY.value = spineGroup.position.y;
+    const sOp = Math.max(0, Math.min(1, (reveal - 0.02) / 0.3));
     spineGroup.traverse((o) => {
       if (!o.isMesh || !o.material) return;
       // go opaque once fully revealed: correct depth vs cards, no self-transparency
@@ -624,8 +707,8 @@ function boot() {
     });
     glow.intensity = sOp * 5.2;
 
-    /* orbit */
-    const scrollOrbit = Math.max(0, (Math.min(p, 1.04) - 0.45)) / 0.55 * TAU * 1.05;
+    /* orbit — starts as soon as the stage pins */
+    const scrollOrbit = Math.max(0, (Math.min(p, 1.04) - 0.08)) / 0.92 * TAU * 1.05;
     if (!dragging) {
       dragOff += dragV * (dt * 60); dragV *= Math.exp(-3.7 * dt);
       // gentle snap of combined offset to segment grid when idle
@@ -640,30 +723,39 @@ function boot() {
 
     /* cards */
     const fi = focusRaw(orbit);
+    renderer.getDrawingBufferSize(resV);
     cards.forEach((c, i) => {
       const a = i * SEG - orbit;
+      const ud = c.userData;
+      // each card has its own spring stiffness → they wobble out of phase, like jelly
+      const lag = spring(ud.lag, smVel, 26 + i * 5, 4.2);
       // helix: cards spiral upward around the spine as the orbit advances;
       // the focused card (a≈0) sits at eye level, upcoming cards wait below
       const helixY = -(a / TAU) * PITCH + Math.sin(t * 0.7 + i * 1.9) * 0.05;
-      c.position.set(Math.sin(a) * R, helixY, Math.cos(a) * R);
-      c.rotation.y = a; // face outward from the spine axis
-      c.rotation.x = Math.sin(t * 0.5 + i) * 0.02;
-      c.rotation.z = 0.07 + Math.sin(t * 0.4 + i * 2.3) * 0.015; // roll along the helix tangent
+      c.position.set(Math.sin(a) * R, helixY + lag * 0.55, Math.cos(a) * R);
+      c.rotation.y = a * 0.62; // half-turned toward the camera, so side cards still read
+      c.rotation.x = Math.sin(t * 0.5 + i) * 0.03 + lag * 0.4;
+      c.rotation.z = 0.06 + Math.sin(t * 0.4 + i * 2.3) * 0.02 - lag * 0.08;
       const u = c.material.uniforms;
       u.uTime.value = t;
-      u.uVel.value = THREE.MathUtils.clamp(angVel, -0.9, 0.9);
+      u.uVel.value = THREE.MathUtils.clamp(angVel + lag * 0.35, -0.9, 0.9);
       u.uTrail.value = rtA.texture;
+      u.uRes.value.copy(resV);
       const focusT = i === fi && reveal > 0.5 ? 1 : 0;
       u.uFocus.value = damp(u.uFocus.value, focusT, 5, dt);
-      // staggered fly-in — cards follow after the spine has risen
-      const inT = smooth01((reveal - (0.48 + i * 0.05)) / 0.3);
+      ud.glitch = Math.max(0, ud.glitch - dt * 1.8);
+      u.uGlitch.value = REDUCED ? 0 : ud.glitch;
+      // staggered fly-in — cards follow right behind the rising spine
+      const inT = smooth01((reveal - (0.3 + i * 0.06)) / 0.3);
       u.uIn.value = inT;
-      c.scale.setScalar(0.7 + inT * 0.3);
-      const dim = filter !== 'ALL' && c.userData.w.cat !== filter ? 1 : 0;
+      c.scale.setScalar((0.6 + inT * 0.25) * (0.9 + u.uFocus.value * 0.1)); // focus card ≈ 45% width, spine stays visible
+      const dim = filter !== 'ALL' && ud.w.cat !== filter ? 1 : 0;
       u.uDim.value = damp(u.uDim.value, dim, 6, dt);
     });
 
     if (fi !== focusIdx && reveal > 0.35) {
+      if (cards[fi]) cards[fi].userData.glitch = 1; // title scramble on arrival
+      if (cards[focusIdx]) cards[focusIdx].userData.glitch = 0.7;
       focusIdx = fi;
       window.dispatchEvent(new CustomEvent('ph:workchange', { detail: { index: fi } }));
     }

@@ -67,6 +67,9 @@
   var scrollPill = document.getElementById('scrollPill');
   var navEl = document.getElementById('nav');
   var wBar = document.getElementById('wBar');
+  var stageFade = document.getElementById('stageFade');
+  var worksUi = document.querySelector('.works-ui');
+  function sm01(v) { v = Math.max(0, Math.min(1, v)); return v * v * (3 - 2 * v); }
   var papers = Array.prototype.slice.call(document.querySelectorAll('.paper, footer.light'));
   var prevY = window.scrollY;
 
@@ -91,6 +94,14 @@
       var top = worksEl.getBoundingClientRect().top;
       PH.worksP = total > 0 ? -top / total : -1;
       if (wBar) wBar.style.transform = 'scaleX(' + Math.max(0, Math.min(1, PH.worksP)) + ')';
+      // stage hand-over: dip the GL field toward black as Works ends, lift once the sheet is in
+      if (stageFade) {
+        var fp = PH.worksP;
+        var dip = sm01((fp - 0.9) / 0.1) * (1 - sm01((fp - 1.15) / 0.15));
+        stageFade.style.opacity = (dip * 0.85).toFixed(3);
+        // the pinned overlay text must not ghost through the sheet's transparent top
+        if (worksUi) worksUi.style.opacity = (1 - sm01((fp - 0.9) / 0.08)).toFixed(3);
+      }
     }
 
     // fixed chrome goes solid dark while riding over a light sheet
